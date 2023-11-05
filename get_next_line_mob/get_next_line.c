@@ -6,123 +6,114 @@
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 17:29:53 by junkim2           #+#    #+#             */
-/*   Updated: 2023/11/04 22:56:50 by junkim2          ###   ########.fr       */
+/*   Updated: 2023/11/05 16:56:46 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	save_to_buff(int fd, char **save)	// 초깃값 : fd, null
+int	save_to_buff(int fd, char **buff, char **save)	// 초깃값 : fd, null, null
 {
-	int			read_size;
-	char		*buff;
+	int	read_size;
+	int	i;
 
-	buff = (char *)calloc(BUFFER_SIZE, sizeof(char));
-	if (buff == 0)
-		return (ERROR);
-	read_size = read(fd, buff, BUFFER_SIZE);
+	i = 0;
+	while ((*buff)[i])
+		(*buff)[i++] = 0;
+	read_size = read(fd, *buff, BUFFER_SIZE);
 	if (read_size < 0)
 		return (ERROR);
 	if (read_size == 0)
 		return (_EOF);
-	if (strchr(buff, '\n') != 0)	// SAVE TO BUFF!
+	*save = ft_strjoin(*save, *buff);
+	if (strchr(*buff, '\n') == 0)	// IF \N NOT FOUND
+		return (save_to_buff(fd, buff, save));
+	return (1);
+}
+
+char	*get_right(char *save)
+{
+	char	*result;
+	char	*pos;
+	int		len;
+	int		i;
+
+	if (save == NULL)
+		return (NULL);
+	pos = strchr(save, '\n');
+	if (pos == NULL)
+		return (NULL);
+	len = strlen(save) - (pos - save);
+	result = (char *)calloc(len, sizeof(char));
+	if (result == NULL)
+		return (NULL);
+	i = 0;
+	while (save[i])
 	{
-		*save = ft_strjoin(*save, buff);
-		return (1);
+		result[i] = save[i + (pos - save + 1)];
+		i++;
 	}
-	save_to_buff(fd, save);
+	return (result);
+}
+
+char	*get_left(char **save, int flag)
+{
+	char	*result;
+	char	*pos;
+	int		len;
+	int		i;
+
+	if (*save == NULL)
+		return (NULL);
+	pos = strchr(*save, '\n');
+	if (pos == NULL && flag != _EOF)
+		return (NULL);
+	if (pos == NULL && flag == _EOF)
+		return (*save);
+	len = pos - *save + 2;
+	result = (char *)calloc(len, sizeof(char));
+	if (result == NULL)
+		return (NULL);
+	i = 0;
+	while (i < len - 1)
+	{
+		result[i] = (*save)[i];
+		i++;
+	}
+	return (result);
 }
 
 char	*get_next_line(int fd)
 {
 	static char	*save;
+	char		*buff;
+	char		*result;
+	int			flag;
 
-	
-	save_to_buff(fd, &save);
-	// if (s == 0 || (s == 2 && ft_strlen(save) == 0))
-	// {
-	// 	free(save);
-	// 	save = NULL;
-	// 	return (0);
-	// }
-	// if (s == 2 && ft_strchr(save, '\n') == -1)
-	// {
-	// 	result = ft_strjoin("\0", save);
-	// 	free(save);
-	// 	save = NULL;
-	// 	return (result);
-	// }
-	// result = split_newline(&save);
-	// if (result == NULL)
-	// {
-	// 	free(save);
-	// 	save = NULL;
-	// 	return (NULL);
-	// }
-	// ltrim(&save, ft_strlen(result));
-	// return (result);
-	printf("%s", save);
-}
-
-char	*split_newline(char **save)
-{
-	char	*res;
-	int		idx;
-	int		i;
-
-	idx = ft_strchr(*save, '\n');
-	res = (char *)ft_calloc(idx + 2, sizeof(char));
-	if (res == NULL)
+	result = NULL;
+	buff = (char *)calloc(BUFFER_SIZE + 1, sizeof(char));
+	if (buff == NULL)
 		return (NULL);
-	i = 0;
-	while (i <= idx)
+	save = (char *)calloc(0, 0);
+	if (save == NULL)
 	{
-		res[i] = (*save)[i];
-		i++;
+		free(buff);
+		return (NULL);
 	}
-	return (res);
+	flag = save_to_buff(fd, &buff, &save);
+	result = get_left(&save, flag);
+	save = get_right(save);
+	free(buff);
+	return (result);
 }
-
-void	ltrim(char **save, int len)
-{
-	char	*result;
-	int		size;
-	int		i;
-
-	size = ft_strlen(*save) - len;
-	result = (char *)ft_calloc(sizeof(char), size + 1);
-	if (result == NULL)
-	{
-		free(*save);
-		*save = NULL;
-		return ;
-	}
-	i = 0;
-	while (i < size)
-	{
-		result[i] = (*save)[i + len];
-		i++;
-	}
-	free(*save);
-	*save = result;
-}
-
-
 int main()
 {
-	// char *d;
-
-	// d = calloc(10, 1);
 	
-	int fd = open("test.txt", O_RDONLY);
-	// int fd = open("../../francinette/tests/get_next_line/fsoares/giant_line.txt", O_RDONLY);
-	// printf("%s", get_next_line(fd));
-	// printf("%s", get_next_line(fd));
-	// printf("%s", get_next_line(fd));
-	// printf("\n=======\n");
-
-	// close(fd);
-	get_next_line(fd);
+	// int fd = open("test.txt", O_RDONLY);
+	int fd = open("../../francinette/tests/get_next_line/fsoares/giant_line.txt", O_RDONLY);
+	for (int i = 0; i<5; i++)
+		printf("%s", get_next_line(fd));
+	close(fd);
 
 	return 0;
 }

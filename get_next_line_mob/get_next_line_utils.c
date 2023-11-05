@@ -6,7 +6,7 @@
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 17:35:21 by junkim2           #+#    #+#             */
-/*   Updated: 2023/11/04 22:35:16 by junkim2          ###   ########.fr       */
+/*   Updated: 2023/11/05 15:26:57 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ int	ft_strchr(char *save, char c)
 	return (-1);
 }
 
-
 char	*ft_strjoin(char *str1, char *str2)
 {
 	char	*result;
@@ -70,7 +69,7 @@ char	*ft_strjoin(char *str1, char *str2)
 			result[i + str1_len] = str2[i];
 		i++;
 	}
-	free(*str1);
+	free(str1);
 	return (result);
 }
 
@@ -79,7 +78,7 @@ int	ft_strlen(char *str)
 	int	len;
 
 	len = 0;
-	while (*str++)
+	while (str[len])
 		len++;
 	return (len);
 }
