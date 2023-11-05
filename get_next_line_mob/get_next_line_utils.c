@@ -6,7 +6,7 @@
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 17:35:21 by junkim2           #+#    #+#             */
-/*   Updated: 2023/11/05 15:26:57 by junkim2          ###   ########.fr       */
+/*   Updated: 2023/11/05 22:31:45 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ void	*ft_calloc(int count, int size)
 	char	*result;
 	int		i;
 
-	if (count == 0 || size == 0)
-		return (0);
 	result = (char *)malloc(size * count);
 	if (result == 0)
 		return (0);
@@ -31,8 +29,7 @@ void	*ft_calloc(int count, int size)
 	return ((void *)result);
 }
 
-//return : idx (found) | -1 (unfound)
-int	ft_strchr(char *save, char c)
+char	*ft_strchr(char *save, char c)
 {
 	int	i;
 
@@ -40,12 +37,12 @@ int	ft_strchr(char *save, char c)
 	while (save[i])
 	{
 		if (save[i] == c)
-			return (i);
+			return (save + i);
 		i++;
 	}
 	if (c == '\0')
-		return (i);
-	return (-1);
+		return (save + i);
+	return (NULL);
 }
 
 char	*ft_strjoin(char *str1, char *str2)
@@ -73,12 +70,32 @@ char	*ft_strjoin(char *str1, char *str2)
 	return (result);
 }
 
+char	*ft_strdup(char *s1)
+{
+	char	*copy;
+	int		origin_len;
+	int		i;
+
+	origin_len = ft_strlen(s1);
+	copy = (char *)malloc((origin_len + 1) * sizeof(char));
+	if (copy == 0)
+		return (0);
+	i = 0;
+	while (s1[i] != 0)
+	{
+		copy[i] = s1[i];
+		i++;
+	}
+	copy[i] = 0;
+	return (copy);
+}
+
 int	ft_strlen(char *str)
 {
 	int	len;
 
 	len = 0;
-	while (str[len])
+	while (*str++)
 		len++;
 	return (len);
 }
