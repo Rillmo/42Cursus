@@ -4,19 +4,27 @@ OBJS = $(SRCS:.c=.o)
 
 CC = cc -Wall -Wextra -Werror
 NAME = libftprintf.a
+LIBFT_DIR = libft
+LIBFT = libft.a
 
 %.o : %.c
 	$(CC) -c $^ -o $@
 
 all : $(NAME)
 
-$(NAME) : $(OBJS)
-	ar -cr $(NAME) $^
+$(NAME) : $(LIBFT) $(OBJS)
+	ar -cr $(NAME) $(NAME) $(OBJS)
+
+$(LIBFT) :
+	make -C $(LIBFT_DIR)
+	cp $(LIBFT_DIR)/$(LIBFT) $(NAME)
 
 clean :
+	rm -f $(LIBFT_DIR)/*.o
 	rm -f *.o
 
 fclean :
+	rm -f $(LIBFT_DIR)/*.o $(LIBFT_DIR)/$(LIBFT)
 	rm -f *.o $(NAME)
 
 re :
