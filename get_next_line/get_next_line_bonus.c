@@ -6,7 +6,7 @@
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 23:35:04 by macbookpro        #+#    #+#             */
-/*   Updated: 2023/11/12 00:42:19 by junkim2          ###   ########.fr       */
+/*   Updated: 2023/11/12 02:32:23 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ char	*err_handler(t_list *lst)
 	lst->buff = NULL;
 	lst->current_size = 0;
 	lst->total_size = 0;
+	lst->flag = 0;
 	return (NULL);
 }
 
@@ -37,7 +38,7 @@ void	ft_memmove(t_list *lst, int idx)
 		lst->buff[i++] = 0;
 }
 
-char	*get_left(t_list *lst, int flag)
+char	*get_left(t_list *lst)
 {
 	char	*result;
 	char	*pos;
@@ -45,17 +46,17 @@ char	*get_left(t_list *lst, int flag)
 	int		i;
 
 	pos = ft_strchr(lst->buff, '\n');
-	if (flag == _EOF && pos == NULL)
+	if (lst->flag == 1 && pos == NULL)
 	{
 		result = ft_strdup(lst->buff);
 		if (result == NULL)
-			return (_ERROR);
+			return (err_handler(lst));
 		return (result);
 	}
 	len = pos - lst->buff + 2;
 	result = (char *)ft_calloc(len, sizeof(char));
 	if (result == NULL)
-		return (_ERROR);
+		return (err_handler(lst));
 	i = 0;
 	while (i < len - 1)
 	{
@@ -66,73 +67,51 @@ char	*get_left(t_list *lst, int flag)
 	return (result);
 }
 
-int	read_line(int fd, t_list arr[])
+char	*read_line(int fd, t_list *lst)
 {
-	int	read_size;
+	int		read_size;
+	char	*tmp;
 
-	if (arr[fd].total_size - arr[fd].current_size < BUFFER_SIZE)
+	if (lst->flag == 0 && lst->total_size - lst->current_size < BUFFER_SIZE)
 	{
-		if (arr[fd].total_size == 0)
-			arr[fd].total_size = BUFFER_SIZE;
-		else
-			arr[fd].total_size *= 2;
-		arr[fd].buff = alloc_double(arr[fd].buff, arr[fd].total_size);
-		if (arr[fd].buff == NULL)
-			return (_ERROR);
+		tmp = alloc_double(lst);
+		if (tmp == NULL)
+			return (err_handler(lst));
+		lst->buff = tmp;
 	}
 	read_size = 0;
-	while (arr[fd].total_size - arr[fd].current_size > BUFFER_SIZE && \
-ft_strchr(arr[fd].buff, '\n') == NULL)
+	while (lst->total_size - lst->current_size >= BUFFER_SIZE && \
+ft_strchr(lst->buff, '\n') == NULL && lst->flag == 0)
 	{
-		read_size = read(fd, &(arr[fd].buff[arr[fd].current_size]), BUFFER_SIZE);
+		read_size = read(fd, &(lst->buff[lst->current_size]), BUFFER_SIZE);
 		if (read_size < 0)
-			return (_ERROR);
-		arr[fd].current_size += read_size;
+			return (err_handler(lst));
+		lst->current_size += read_size;
 		if (read_size == 0)
-			return (_EOF);
+			lst->flag = 1;
 	}
-	if (ft_strchr(arr[fd].buff, '\n') == NULL)
-		return (read_line(fd, arr));
-	return (1);
+	if (lst->flag == 0 && ft_strchr(lst->buff, '\n') == NULL)
+		return (read_line(fd, lst));
+	return (lst->buff);
 }
 
-// gnl
 char	*get_next_line(int fd)
 {
-	static t_list	arr[10000];
-	int				flag;
+	static t_list	arr[FD_LIMIT];
 	char			*result;
+	char			*err_flag;
 
-	if (fd < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	flag = read_line(fd, arr);
-	if (flag == _ERROR)
+	err_flag = read_line(fd, &arr[fd]);
+	if (err_flag == NULL)
+		return (NULL);
+	if (arr[fd].flag == 1 && arr[fd].buff[0] == 0)
 		return (err_handler(&arr[fd]));
-	if (flag == _EOF && arr[fd].buff[0] == 0)
-		return (err_handler(&arr[fd]));
-	result = get_left(&arr[fd], flag);
+	result = get_left(&arr[fd]);
 	if (result == _ERROR)
-		return (err_handler(&arr[fd]));
-	if (flag == _EOF)
-	{
-		free(arr[fd].buff);
-		arr[fd].buff = NULL;
-	}
+		return (NULL);
+	if (arr[fd].flag == 1)
+		err_handler(&arr[fd]);
 	return (result);
 }
-
-// int main(void)
-// {
-// 	int fd = open("variable_nls.txt", O_RDONLY);
-// 	char *str;
-
-// 	str = "";
-// 	while (str != NULL)
-// 	{
-// 		str = get_next_line(fd);
-// 		printf("%s", str);
-// 	}
-// 	// get_next_line(fd);
-// 	// printf("%s\n", str);
-// 	close(fd);
-// }
