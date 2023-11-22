@@ -1,0 +1,10 @@
+{
+	"files.associations": {
+		"mlx.h": "c",
+		"get_next_line.h": "c",
+		"so_long.h": "c",
+		"ios": "c",
+		"ft_printf.h": "c",
+		"__locale": "c"
+	}
+}
