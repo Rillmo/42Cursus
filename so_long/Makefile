@@ -2,7 +2,8 @@ SRCS =	sources/main.c \
 		sources/map.c \
 		sources/move.c \
 		sources/image.c \
-		sources/render.c
+		sources/render.c \
+		sources/utils.c
 
 OBJS =	$(patsubst sources%, objects%, $(SRCS:.c=.o))
 
