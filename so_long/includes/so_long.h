@@ -6,7 +6,7 @@
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 22:43:56 by junkim2           #+#    #+#             */
-/*   Updated: 2023/11/22 21:59:58 by junkim2          ###   ########.fr       */
+/*   Updated: 2023/11/23 13:46:08 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@
 # define KEYCODE_LEFT 123
 # define KEYCODE_RIGHT 124
 # define KEYCODE_ESC 53
+# define BLUE 0x000000FF
+# define RED 0x00FF0000
 
 typedef struct s_location
 {
@@ -58,9 +60,9 @@ typedef struct s_mlx
 	t_imgpack	imgpack;
 	t_location	cat_loc;
 	char		**map;
-	int			move_log;
+	int			log;
+	int			tuna_count;
 }	t_mlx;
-
 
 int		error_handler(char *tofree1, char *tofree2);
 void	set_image(t_mlx *mlx);
@@ -68,5 +70,6 @@ void	render_map(t_mlx *mlx);
 int		key_event(int keycode, t_mlx *mlx);
 int		read_map(t_mlx *mlx, int fd);
 void	render_sprite(t_mlx *mlx, t_imgpack imgpack, t_location loc);
+void	eat_tuna(t_mlx *mlx, t_imgpack imgpack, int x, int y);
 
 #endif

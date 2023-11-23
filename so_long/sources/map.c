@@ -6,7 +6,7 @@
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 19:12:30 by junkim2           #+#    #+#             */
-/*   Updated: 2023/11/22 20:35:49 by junkim2          ###   ########.fr       */
+/*   Updated: 2023/11/23 13:43:44 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int	read_map(t_mlx *mlx, int fd)
 	if (buff == NULL)
 		return (_ERROR);
 	mlx->width = ft_strlen(buff) - 1;
-	mlx->height = 0;
 	line = "";
 	while (buff != NULL)
 	{
@@ -30,10 +29,5 @@ int	read_map(t_mlx *mlx, int fd)
 		buff = get_next_line(fd);
 	}
 	mlx->map = ft_split(line, '\n');
-	// printf("width:%d heigth:%d\n", mlx->width, mlx->height);
-	// for(int i=0; i<mlx->height; i++)
-	// {
-	// 	printf("[%d] | %s\n", i, mlx->map[i]);
-	// }
 	return (1);
 }

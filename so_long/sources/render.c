@@ -6,11 +6,23 @@
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 18:32:23 by junkim2           #+#    #+#             */
-/*   Updated: 2023/11/22 22:32:35 by junkim2          ###   ########.fr       */
+/*   Updated: 2023/11/23 13:50:13 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
+
+void	eat_tuna(t_mlx *mlx, t_imgpack imgpack, int x, int y)
+{
+	int	gx;
+	int	gy;
+
+	gx = x * imgpack.width;
+	gy = y * imgpack.height;
+	mlx->tuna_count--;
+	mlx->map[y][x] = '0';
+	mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, imgpack.tile, gx, gy);
+}
 
 void	render_object(t_mlx *mlx, t_imgpack imgpack, \
 						t_location loc, char object)
@@ -20,11 +32,9 @@ void	render_object(t_mlx *mlx, t_imgpack imgpack, \
 
 	x = loc.x * imgpack.width;
 	y = loc.y * imgpack.height;
-	mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, \
-	imgpack.tile, x, y);
+	mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, imgpack.tile, x, y);
 	if (object == '1')
-		mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, \
-		imgpack.wall, x, y);
+		mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, imgpack.wall, x, y);
 	else if (object == 'P')
 	{
 		mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, \
@@ -33,11 +43,14 @@ void	render_object(t_mlx *mlx, t_imgpack imgpack, \
 		mlx->cat_loc.y = loc.y;
 	}
 	else if (object == 'C')
+	{
 		mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, \
 		imgpack.tuna, x + imgpack.width / 4, y + imgpack.height / 4);
+		mlx->tuna_count++;
+	}
 	else if (object == 'E')
-		mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, \
-		imgpack.exit, x, y);
+		mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, imgpack.exit, x, y);
+	mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 10, 10, RED, ft_itoa(mlx->log));
 }
 
 void	render_map(t_mlx *mlx)

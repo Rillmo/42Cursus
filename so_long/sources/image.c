@@ -6,7 +6,7 @@
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 17:17:40 by junkim2           #+#    #+#             */
-/*   Updated: 2023/11/22 22:40:17 by junkim2          ###   ########.fr       */
+/*   Updated: 2023/11/23 12:17:06 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	set_sprite_image(t_mlx *mlx)
 		while (j < 4)
 		{
 			ft_strlcpy(tmp, filenames[i][j], 30);
-			printf("%s\n", tmp);
 			mlx->imgpack.cat[i][j++] = mlx_xpm_file_to_image(mlx->mlx_ptr, \
 			tmp, &mlx->imgpack.width, &mlx->imgpack.height);
 		}
