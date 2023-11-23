@@ -23,7 +23,7 @@ all : $(LIBFT) objects $(NAME)
 
 $(LIBFT) :
 	@echo " [ comipling libft... ] "
-	@make -s -C libft
+	@make -s -C libft bonus
 	@echo " [ libft ready ] "
 
 objects :

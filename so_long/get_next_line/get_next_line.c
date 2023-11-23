@@ -6,13 +6,13 @@
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 23:35:04 by macbookpro        #+#    #+#             */
-/*   Updated: 2023/11/21 21:49:10 by junkim2          ###   ########.fr       */
+/*   Updated: 2023/11/23 21:52:34 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*err_handler(t_lst *lst)
+char	*error_handler(t_lst *lst)
 {
 	free(lst->buff);
 	lst->buff = NULL;
@@ -50,13 +50,13 @@ char	*get_left(t_lst *lst)
 	{
 		result = my_strdup(lst->buff);
 		if (result == NULL)
-			return (err_handler(lst));
+			return (error_handler(lst));
 		return (result);
 	}
 	len = pos - lst->buff + 2;
 	result = (char *)my_calloc(len, sizeof(char));
 	if (result == NULL)
-		return (err_handler(lst));
+		return (error_handler(lst));
 	i = 0;
 	while (i < len - 1)
 	{
@@ -76,7 +76,7 @@ char	*read_line(int fd, t_lst *lst)
 	{
 		tmp = alloc_double(lst);
 		if (tmp == NULL)
-			return (err_handler(lst));
+			return (error_handler(lst));
 		lst->buff = tmp;
 	}
 	read_size = 0;
@@ -85,7 +85,7 @@ my_strchr(lst->buff, '\n') == NULL && lst->flag == 0)
 	{
 		read_size = read(fd, &(lst->buff[lst->current_size]), BUFFER_SIZE);
 		if (read_size < 0)
-			return (err_handler(lst));
+			return (error_handler(lst));
 		lst->current_size += read_size;
 		if (read_size == 0)
 			lst->flag = 1;
@@ -107,11 +107,11 @@ char	*get_next_line(int fd)
 	if (err_flag == NULL)
 		return (NULL);
 	if (arr[fd].flag == 1 && arr[fd].buff[0] == 0)
-		return (err_handler(&arr[fd]));
+		return (error_handler(&arr[fd]));
 	result = get_left(&arr[fd]);
 	if (result == _ERROR)
 		return (NULL);
 	if (arr[fd].flag == 1)
-		err_handler(&arr[fd]);
+		error_handler(&arr[fd]);
 	return (result);
 }

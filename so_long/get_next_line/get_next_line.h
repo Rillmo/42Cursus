@@ -6,7 +6,7 @@
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 23:35:56 by macbookpro        #+#    #+#             */
-/*   Updated: 2023/11/21 21:48:58 by junkim2          ###   ########.fr       */
+/*   Updated: 2023/11/23 21:52:10 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,6 @@ int		my_strlen(char *str);
 void	*my_calloc(int count, int size);
 char	*my_strchr(char *str, char c);
 char	*my_strdup(char *s1);
-char	*err_handler(t_lst *lst);
+char	*error_handler(t_lst *lst);
 
 #endif

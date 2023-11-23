@@ -28,12 +28,12 @@ bonus : $(NAME) $(BONUS_OBJS)
 
 clean :
 	@echo " [ cleaning libft... ] "
-	@rm -f $(OBJS)
+	@rm -f $(OBJS) $(BONUS_OBJS)
 	@echo " [ libft cleaned ]"
 
 fclean :
 	@echo " [ fcleaning Libft... ] "
-	@rm -f $(OBJS) $(NAME)
+	@rm -f $(OBJS) $(BONUS_OBJS) $(NAME)
 	@echo " [ libft fcleaned ] "
 
 re :

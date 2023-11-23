@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 22:43:56 by junkim2           #+#    #+#             */
-/*   Updated: 2023/11/23 14:46:56 by macbookpro       ###   ########.fr       */
+/*   Updated: 2023/11/23 21:52:04 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,9 @@
 # include "../get_next_line/get_next_line.h"
 # include "../libft/libft.h"
 # include <fcntl.h>
-
-//========
-#include <stdio.h>
-//=========
+# include <stdio.h>
+# include <string.h>
+# include <errno.h>
 
 # define _ERROR 0
 # define BUFF_SIZE 1000
@@ -53,6 +52,7 @@ typedef struct s_imgpack
 
 typedef struct s_mlx
 {
+	t_list		*heap;
 	void		*mlx_ptr;
 	void		*win_ptr;
 	int			width;
@@ -64,12 +64,13 @@ typedef struct s_mlx
 	int			tuna_count;
 }	t_mlx;
 
-int		error_handler(char *tofree1, char *tofree2);
+int		err_handler(t_mlx *mlx, char *err_message);
+int		check_err(t_mlx *mlx, void *content, char *err_message, char **tosave);
+void	reset_mlx(t_mlx *mlx);
 void	set_image(t_mlx *mlx);
 void	render_map(t_mlx *mlx);
 int		key_event(int keycode, t_mlx *mlx);
 int		read_map(t_mlx *mlx, int fd);
-void	render_sprite(t_mlx *mlx, t_imgpack imgpack, t_location loc);
 void	eat_tuna(t_mlx *mlx, t_imgpack imgpack, int x, int y);
 char	**copy_map(char **map, int height);
 
