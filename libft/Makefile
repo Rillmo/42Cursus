@@ -16,21 +16,27 @@ CC = cc -Wall -Wextra -Werror
 NAME = libft.a
 
 %.o : %.c
-	$(CC) -c $^ -o $@
+	@$(CC) -c $^ -o $@
 
 all : $(NAME)
 
 $(NAME) : $(OBJS)
-	ar -cr $(NAME) $^
+	@echo "[ compling libft... ]"
+	@ar -cr $(NAME) $^
+	@echo "[ OK ]"
 
 bonus : $(NAME) $(BONUS_OBJS)
-	ar -cr $(NAME) $^
+	@echo "[ compling libft bonus... ]"
+	@ar -cr $(NAME) $^
+	@echo "[ OK ]""
 
 clean :
-	rm -f *.o
+	@rm -f $(OBJS) $(BONUS_OBJS)
+	@echo "[ cleaned libft ]"
 
 fclean :
-	rm -f *.o $(NAME)
+	@rm -f $(OBJS) $(BONUS_OBJS) $(NAME)
+	@echo "[ fcleaned libft ]"
 
 re :
 	make fclean
