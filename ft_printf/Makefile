@@ -22,12 +22,12 @@ $(LIBFT) :
 	@cp $(LIBFT_DIR)/$(LIBFT) $(NAME)
 
 clean :
-	@echo "[ cleaning ft_printf... ]"
 	@rm -f $(OBJS)
 	@make clean -C $(LIBFT_DIR)
+	@echo "[ cleaned ft_printf ]"
 
 fclean :
-	@echo "[ fcleaning ft_printf... ]"
+	@echo "[ fcleaned ft_printf ]"
 	@rm -f $(OBJS) $(NAME)
 	@make fclean -C $(LIBFT_DIR)
 
