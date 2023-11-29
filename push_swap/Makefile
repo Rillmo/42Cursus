@@ -1,31 +1,39 @@
-SRCS = push_swap.c util.c
+SRCS = 	push_swap.c \
+		util.c
 
 OBJS = $(SRCS:.c=.o)
 
 CC = cc -Wall -Wextra -Werror
 NAME = push_swap
-PRINTF_DIR = ft_printf
-PRINTF = libftprintf.a
+PRINTF = ./ft_printf/libftprintf.a
+PRINTF_DIR = ./ft_printf
+
+LIB = -L./ft_printf -lftprintf
+INC = -I push_swap.h
 
 %.o : %.c
-	$(CC) -c $^ -o $@
+	@$(CC) -c $^ -o $@
 
-all : $(NAME)
-
-$(NAME) : $(PRINTF) $(OBJS)
-	cc -o $(NAME) $(NAME) $(OBJS)
+all : $(PRINTF) $(NAME)
 
 $(PRINTF) :
-	make -C $(PRINTF_DIR)
-	cp $(PRINTF_DIR)/$(PRINTF) $(NAME)
+	@make -C $(PRINTF_DIR)
+
+$(NAME) : $(OBJS)
+	@echo "[ compling push_swap... ]"
+	@$(CC) $^ $(LIB) $(INC) -o $@
+	@echo "[ OK ]"
+
 
 clean :
-	make clean -C $(PRINTF_DIR)
-	rm -f *.o
+	@make clean -C $(PRINTF_DIR)
+	@rm -f $(OBJS)
+	@echo "[ cleaned push_swap ]"
 
 fclean :
-	make fclean -C $(PRINTF_DIR)
-	rm -f *.o $(NAME)
+	@make fclean -C $(PRINTF_DIR)
+	@rm -f $(OBJS) $(NAME)
+	@echo "[ fcleaned push_swap ]"
 	
 re :
 	make fclean
