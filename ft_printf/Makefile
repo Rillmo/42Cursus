@@ -8,24 +8,28 @@ LIBFT_DIR = libft
 LIBFT = libft.a
 
 %.o : %.c
-	$(CC) -c $^ -o $@
+	@$(CC) -c $^ -o $@
 
 all : $(NAME)
 
 $(NAME) : $(LIBFT) $(OBJS)
-	ar -cr $(NAME) $(NAME) $(OBJS)
+	@echo "[ compling ft_printf... ]"
+	@ar -cr $(NAME) $(NAME) $(OBJS)
+	@echo "[ OK ]"
 
 $(LIBFT) :
-	make -C $(LIBFT_DIR)
-	cp $(LIBFT_DIR)/$(LIBFT) $(NAME)
+	@make -s -C $(LIBFT_DIR)
+	@cp $(LIBFT_DIR)/$(LIBFT) $(NAME)
 
 clean :
-	rm -f $(LIBFT_DIR)/*.o
-	rm -f *.o
+	@echo "[ cleaning ft_printf... ]"
+	@rm -f $(OBJS)
+	@make clean -C $(LIBFT_DIR)
 
 fclean :
-	rm -f $(LIBFT_DIR)/*.o $(LIBFT_DIR)/$(LIBFT)
-	rm -f *.o $(NAME)
+	@echo "[ fcleaning ft_printf... ]"
+	@rm -f $(OBJS) $(NAME)
+	@make fclean -C $(LIBFT_DIR)
 
 re :
 	make fclean
