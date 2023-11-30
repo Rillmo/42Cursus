@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map.c                                              :+:      :+:    :+:   */
+/*   map_bonus.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 19:12:30 by junkim2           #+#    #+#             */
-/*   Updated: 2023/11/30 13:20:52 by junkim2          ###   ########.fr       */
+/*   Updated: 2023/11/24 20:59:09 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/so_long.h"
+#include "../includes/so_long_bonus.h"
 
 // check map path : need to get all 'C' and reach to 'E'
 void	check_valid_path(char **map, t_location loc, int *result, int *count)
@@ -23,27 +23,24 @@ void	check_valid_path(char **map, t_location loc, int *result, int *count)
 	i = 0;
 	if (map[loc.y][loc.x] == '1')
 		return ;
-	if (map[loc.y][loc.x] != '0' && map[loc.y][loc.x] != '1' && \
-		map[loc.y][loc.x] != 'C' && map[loc.y][loc.x] != 'X' && \
-		map[loc.y][loc.x] != 'E' && map[loc.y][loc.x] != 'P')
-		return ;
 	while (i < 4)
 	{	
-		if (map[loc.y][loc.x] == 'E')
-			*result = 1;
 		if (map[loc.y][loc.x] == 'C')
 			(*count)--;
-		if (map[loc.y][loc.x] == '0' || map[loc.y][loc.x] == 'C')
+		if (map[loc.y][loc.x] == 'E')
+			*result = 1;
+		else
 			map[loc.y][loc.x] = '1';
 		next_loc.x = loc.x + dx[i];
 		next_loc.y = loc.y + dy[i];
 		check_valid_path(map, next_loc, result, count);
 		i++;
 	}
+	return ;
 }
 
 // check map covered by '1'
-int	check_wall(char **map, int height, int width)
+static int	check_wall(char **map, int height, int width)
 {
 	int	i;
 	int	j;
@@ -67,7 +64,7 @@ int	check_wall(char **map, int height, int width)
 
 /*	[check resources]
 	resource[3] means -> 0:E, 1:C, 2:P */
-int	check_resources(char **map, int height, int width)
+static int	check_resources(char **map, int height, int width)
 {
 	int			i;
 	int			j;
@@ -97,9 +94,9 @@ int	check_resources(char **map, int height, int width)
 
 /*	1. rectangle check 				...ok
 	2. wall check					...ok
-	3. valid path check				...ok
+	3. valid path check				...
 	4. resource check : 1E, 1C, 1P	...ok */
-void	check_map(t_mlx *mlx)
+static void	check_map(t_mlx *mlx)
 {
 	char	**cpy;
 	int		i;

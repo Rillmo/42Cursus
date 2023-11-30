@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   so_long.h                                          :+:      :+:    :+:   */
+/*   so_long_bonus.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 22:43:56 by junkim2           #+#    #+#             */
-/*   Updated: 2023/11/24 17:30:07 by junkim2          ###   ########.fr       */
+/*   Updated: 2023/11/30 15:06:19 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SO_LONG_H
-# define SO_LONG_H
+#ifndef SO_LONG_BONUS_H
+# define SO_LONG_BONUS_H
 
 # include "../mlx/mlx.h"
 # include "../get_next_line/get_next_line.h"
 # include "../libft/libft.h"
 # include <fcntl.h>
 # include <stdio.h>
-# include <stdlib.h>
+# include <math.h>
 
 # define _ERROR 0
 # define BUFF_SIZE 1000
@@ -29,8 +29,8 @@
 # define KEYCODE_LEFT 123
 # define KEYCODE_RIGHT 124
 # define KEYCODE_ESC 53
-# define BLUE 0x000000FF
 # define RED 0x00FF0000
+# define ENEMY_SPEED 5000
 
 typedef struct s_location
 {
@@ -47,6 +47,7 @@ typedef struct s_imgpack
 	void	*tuna;
 	void	*exit;
 	void	*cat[4][4];
+	void	*enemy;
 }	t_imgpack;
 
 typedef struct s_mlx
@@ -58,6 +59,7 @@ typedef struct s_mlx
 	int			height;
 	t_imgpack	imgpack;
 	t_location	cat_loc;
+	t_location	enemy_loc;
 	char		**map;
 	int			log;
 	int			tuna_count;
@@ -77,5 +79,7 @@ t_location	get_cat_loc(char **map);
 int			count_c(char **map);
 int			mouse_event(t_mlx *mlx);
 void		check_win(t_mlx *mlx, int x, int y);
+int			move_enemy(t_mlx *mlx);
+void		check_lose(t_mlx *mlx, int x, int y);
 
 #endif

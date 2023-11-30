@@ -1,31 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   render.c                                           :+:      :+:    :+:   */
+/*   render_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 18:32:23 by junkim2           #+#    #+#             */
-/*   Updated: 2023/11/30 14:58:57 by junkim2          ###   ########.fr       */
+/*   Updated: 2023/11/30 14:03:52 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/so_long.h"
-
-void	move_img(t_mlx *mlx, void *to_render, t_location now, t_location next)
-{
-	mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, to_render, \
-	next.x, next.y);
-	if (mlx->map[now.y][now.x] == '0')
-		mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->imgpack.tile, \
-		now.y, now.x);
-	if (mlx->map[now.y][now.x] == 'E')
-		mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->imgpack.exit, \
-		now.y, now.x);
-	if (mlx->map[now.y][now.x] == 'C')
-		mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->imgpack.tuna, \
-		now.y, now.x);
-}
+#include "../includes/so_long_bonus.h"
 
 void	eat_tuna(t_mlx *mlx, t_imgpack imgpack, int x, int y)
 {
@@ -39,7 +24,7 @@ void	eat_tuna(t_mlx *mlx, t_imgpack imgpack, int x, int y)
 	mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, imgpack.tile, gx, gy);
 }
 
-void	render_object(t_mlx *mlx, t_imgpack imgpack, \
+static void	render_object(t_mlx *mlx, t_imgpack imgpack, \
 						t_location loc, char object)
 {
 	int	x;
@@ -53,7 +38,7 @@ void	render_object(t_mlx *mlx, t_imgpack imgpack, \
 	else if (object == 'P')
 	{
 		mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, \
-		imgpack.cat[3][0], x, y);
+		imgpack.cat[0][0], x, y);
 		mlx->cat_loc.x = loc.x;
 		mlx->cat_loc.y = loc.y;
 	}
@@ -65,6 +50,18 @@ void	render_object(t_mlx *mlx, t_imgpack imgpack, \
 	}
 	else if (object == 'E')
 		mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, imgpack.exit, x, y);
+	mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 10, 10, RED, ft_itoa(mlx->log));
+}
+
+static void	render_enemy(t_mlx *mlx, t_imgpack imgpack, t_location loc)
+{
+	int	x;
+	int	y;
+
+	x = loc.x * imgpack.width;
+	y = loc.y * imgpack.height;
+	mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, imgpack.enemy, x, y);
+	mlx->enemy_loc = loc;
 }
 
 void	render_map(t_mlx *mlx)
@@ -80,6 +77,8 @@ void	render_map(t_mlx *mlx)
 		while (loc.x < mlx->width)
 		{
 			render_object(mlx, mlx->imgpack, loc, mlx->map[loc.y][loc.x]);
+			if (mlx->map[loc.y][loc.x] == 'X')
+				render_enemy(mlx, mlx->imgpack, loc);
 			if (mlx->map[loc.y][loc.x] != '0' && \
 				mlx->map[loc.y][loc.x] != '1' && \
 				mlx->map[loc.y][loc.x] != 'C' && \

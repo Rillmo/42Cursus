@@ -5,6 +5,17 @@
 		"so_long.h": "c",
 		"ios": "c",
 		"ft_printf.h": "c",
-		"__locale": "c"
-	}
+		"__locale": "c",
+		"istream": "c",
+		"locale": "c",
+		"so_long_bonus.h": "c",
+		"stdlib.h": "c",
+		"__bit_reference": "c",
+		"algorithm": "c",
+		"bitset": "c",
+		"chrono": "c",
+		"unordered_map": "c",
+		"iterator": "c"
+	},
+	"cmake.configureOnOpen": true
 }
