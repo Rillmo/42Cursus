@@ -1,0 +1,11 @@
+total 144
+drwxr-xr-x  10 macbookpro  staff    320 12  1 12:15 .
+drwxr-xr-x   9 macbookpro  staff    288 12  1 11:37 ..
+drwxr-xr-x   3 macbookpro  staff     96 12  1 11:37 .vscode
+-rw-r--r--   1 macbookpro  staff    625 12  1 11:37 Makefile
+-rwxr-xr-x   1 macbookpro  staff     35 12  1 11:37 file1
+-rwxr-xr-x   1 macbookpro  staff    426 12  1 12:19 file2
+drwxr-xr-x  10 macbookpro  staff    320 12  1 12:15 ft_printf
+-rw-r--r--   1 macbookpro  staff   2987 12  1 12:15 main.c
+-rwxr-xr-x   1 macbookpro  staff  50816 12  1 12:15 pipex
+-rw-r--r--   1 macbookpro  staff   1024 12  1 11:37 pipex.h
