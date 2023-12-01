@@ -1,8 +1,11 @@
-SRCS = 	main.c
+SRCS = 	main.c \
+		error.c \
+		process.c
 
 OBJS = $(SRCS:.c=.o)
 
 CC = cc -Wall -Wextra -Werror -g
+# -fsanitize=address
 NAME = pipex
 PRINTF = ./ft_printf/libftprintf.a
 PRINTF_DIR = ./ft_printf
