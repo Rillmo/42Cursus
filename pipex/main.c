@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 19:22:14 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/01 12:15:26 by macbookpro       ###   ########.fr       */
+/*   Updated: 2023/12/01 13:09:58 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	make_command(t_cmd *cmd, char *cmd_name, char **path_list)
 int	main(int argc, char **argv, char **envp)
 {
 	char	*file1;
-	t_cmd	cmd1;
+	t_cmd	cmd1, cmd2;
 	char	*file2;
 	int		i;
 	char	*path;
@@ -50,7 +50,7 @@ int	main(int argc, char **argv, char **envp)
 	int		status;
 
 	file1 = argv[1];
-	file2 = argv[3];
+	file2 = argv[4];
 
 	// printf("%d\n", access("/./pipex", X_OK));
 	(void)argc;
@@ -71,6 +71,7 @@ int	main(int argc, char **argv, char **envp)
 	path_list = ft_split(path, ':');
 	
 	make_command(&cmd1, argv[2], path_list);
+	make_command(&cmd2, argv[3], path_list);
 //==========================================================
 
 	// fd1 = open(file1, O_RDONLY);
@@ -80,20 +81,20 @@ int	main(int argc, char **argv, char **envp)
 	pid1 = fork();	// parent | child(pid=0)
 	if (pid1 == 0)	// child
 	{
-		fd2 = open(file2, O_WRONLY);
-		dup2(fd2, STDOUT_FILENO);
-		close(fd[0]);	// close gate that can write to pipe (read-end pipe)
-		dup2(fd[1], STDIN_FILENO);	// turn write-end pipe to stdin
+		fd1 = open(file1, O_RDONLY);
+		dup2(fd1, STDIN_FILENO);
+		close(fd[0]);	// close gate that can read from pipe (write-end pipe)
+		dup2(fd[1], STDOUT_FILENO);	// turn read-end pipe to stdout
 		execve(cmd1.path, cmd1.cmds, envp);
 	}
 	else			// parent
 	{
-		fd1 = open(file1, O_RDONLY);
-		dup2(fd1, STDIN_FILENO);
-		close(fd[1]);	// close gate that can read from pipe (write-end pipe)
-		dup2(fd[0], STDOUT_FILENO);	// turn read-end pipe to stdout
-		execve(cmd1.path, cmd1.cmds, envp);
 		waitpid(pid1, &status, 0);	// wait for child
+		fd2 = open(file2, O_WRONLY | O_CREAT | O_TRUNC, S_IRWXU);
+		dup2(fd2, STDOUT_FILENO);
+		close(fd[1]);	// close gate that can write to pipe (read-end pipe)
+		dup2(fd[0], STDIN_FILENO);	// turn write-end pipe to stdin
+		execve(cmd2.path, cmd2.cmds, envp);
 	}
 //==========================================================
 	/*fd2 = open(file2, O_WRONLY | O_CREAT | O_TRUNC, S_IRWXU);
