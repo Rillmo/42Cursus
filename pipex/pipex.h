@@ -6,7 +6,7 @@
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 19:22:33 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/01 21:20:47 by junkim2          ###   ########.fr       */
+/*   Updated: 2023/12/05 22:27:15 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,7 @@ void	check_err(void *content, void **tosave);
 void	exit_with_err(void);
 void	connect_pipe(t_pipepack *pipepack);
 void	make_command(t_cmd *cmd, char *cmd_name, t_pipepack *pipepack);
+void	err_command_not_found(void);
+char	**parse_awk(char *origin);
 
 #endif

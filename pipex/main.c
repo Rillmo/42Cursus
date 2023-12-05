@@ -6,7 +6,7 @@
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 19:22:14 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/01 22:12:19 by junkim2          ###   ########.fr       */
+/*   Updated: 2023/12/05 22:14:45 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	make_command(t_cmd *cmd, char *cmd_name, t_pipepack *pipepack)
 	check_err(cmd->cmds, NULL);
 	i = 0;
 	cmd->path = ft_strdup(cmd->cmds[0]);
-	if (access(cmd->cmds[0], X_OK) < 0)
+	if (access(cmd->path, X_OK) < 0)
 	{
 		check_err(ft_strjoin("/", cmd->cmds[0]), (void *)&tmp1);
 		while (pipepack->path_list[i] != 0)
@@ -54,6 +54,8 @@ void	make_command(t_cmd *cmd, char *cmd_name, t_pipepack *pipepack)
 			i++;
 		}
 	}
+	if (access(cmd->path, X_OK) < 0)
+		err_command_not_found();
 }
 
 void	set_pipepack(t_pipepack *pipepack, int argc, char **argv, char **envp)
@@ -67,9 +69,9 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_pipepack	pipepack;
 
+	if (argc < 5)
+		exit_with_err();
 	set_pipepack(&pipepack, argc, argv, envp);
 	get_path_list(&pipepack);
-	// make_command(&cmd1, argv[2], &pipepack);
-	// make_command(&cmd2, argv[3], &pipepack);
 	connect_pipe(&pipepack);
 }
