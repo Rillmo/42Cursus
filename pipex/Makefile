@@ -7,8 +7,8 @@ SRCS = 	sources/main.c \
 SRCS_BONUS =	sources_bonus/main_bonus.c \
 				sources_bonus/error_bonus.c \
 				sources_bonus/process_bonus.c \
-				sources_bonus/split_bonus.c \
 				sources_bonus/parse_bonus.c \
+				sources_bonus/split_bonus.c \
 				sources_bonus/heredoc_bonus.c
 
 OBJS = $(patsubst sources%, objects%, $(SRCS:.c=.o))
@@ -44,12 +44,12 @@ $(PRINTF) :
 
 $(NAME) : $(OBJS)
 	@echo "[ compling pipex... ]"
-	@$(CC) $^ $(LIB) $(INC) -o $@
+	@$(CC) $^ $(LIB) $(INC) -o $@ -fsanitize=address
 	@echo "[ OK ]"
 
 $(BONUS) : $(GNL_OBJS) $(OBJS_BONUS)
 	@echo "[ compling pipex_bonus... ]"
-	@$(CC) $^ $(LIB) $(INC_BONUS) -o $(BONUS)
+	@$(CC) $^ $(LIB) $(INC_BONUS) -o $(BONUS) -fsanitize=address
 	@mv $(BONUS) $(NAME)
 	@echo "[ OK ]"
 

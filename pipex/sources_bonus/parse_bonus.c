@@ -6,7 +6,7 @@
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 22:26:04 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/06 22:47:24 by junkim2          ###   ########.fr       */
+/*   Updated: 2023/12/07 19:31:34 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	**parse_special(char *str)
 	char	*cpy;
 	int		i;
 
-	result = ft_calloc(3, sizeof(char *));
+	result = (char **)ft_calloc(3, sizeof(char *));
 	if (result == NULL)
 		return (NULL);
 	i = 0;
@@ -32,12 +32,12 @@ char	**parse_special(char *str)
 	{
 		if (str[i] == '\'')
 		{
-			result[1] = ft_strtrim(cpy, "\'");
+			result[1] = ft_strtrim(cpy, " \'");
 			return (result);
 		}
 		if (str[i] == '\"')
 		{
-			result[1] = ft_strtrim(cpy, "\"");
+			result[1] = ft_strtrim(cpy, " \"");
 			return (result);
 		}
 		i++;

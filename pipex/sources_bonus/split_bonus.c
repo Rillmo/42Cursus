@@ -6,29 +6,78 @@
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 14:20:12 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/06 22:35:40 by junkim2          ###   ########.fr       */
+/*   Updated: 2023/12/07 20:36:55 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex_bonus.h"
 
-static size_t	str_to_word(char *str, char c, size_t org_len)
+static char	*backslash_deleter(char *str)
+{
+	int		i;
+	int		j;
+	int		flag;
+	char	*result;
+
+	i = -1;
+	j = 0;
+	result = (char *)ft_calloc(ft_strlen(str) + 1, sizeof(char));
+	if (result == NULL)
+		return (NULL);
+	flag = 0;
+	while (str[++i])
+	{
+		if (str[i] == '\\')
+		{
+			if (flag == 0)
+				flag = 1;
+			else
+				flag = 0;
+		}
+		if (flag == 0)
+			result[j++] = str[i];
+		flag = 0;
+	}
+	return (result);
+}
+
+static int	is_space(char c)
+{
+	if (c == '\t' || c == '\n' || c == '\v')
+		return (1);
+	if (c == '\f' || c == '\r' || c == ' ')
+		return (1);
+	return (0);
+}
+
+static size_t	str_to_word(char *str, size_t org_len)
 {
 	size_t	idx;
 	size_t	word_cnt;
+	char	flag;
 
 	idx = 0;
 	word_cnt = 0;
+	flag = 0;
 	while (idx < org_len)
 	{
-		if (str[idx] != c)
+		if (str[idx] == '\'' || str[idx] == '\"')
+		{
+			flag = str[idx];
+			word_cnt++;
+			str[idx++] = 0;
+			while (idx < org_len && str[idx] != flag)
+				idx++;
+			str[idx++] = 0;
+		}
+		else if (!is_space(str[idx]))
 		{
 			word_cnt++;
-			while (idx < org_len && str[idx] != c)
+			while (idx < org_len && !is_space(str[idx]))
 				idx++;
 		}
 		else
-		{	
+		{
 			str[idx] = 0;
 			idx++;
 		}
@@ -64,7 +113,7 @@ static char	**str_to_arr(char **result, char *str, size_t org_len)
 	{
 		if (str[idx])
 		{
-			result[word_idx] = ft_strdup(&str[idx]);
+			result[word_idx] = backslash_deleter(&str[idx]);
 			if (!result[word_idx])
 			{
 				clean(result, str, word_idx);
@@ -81,20 +130,18 @@ static char	**str_to_arr(char **result, char *str, size_t org_len)
 	return (result);
 }
 
-char	**new_split(char *s, char c)
+char	**new_split(char *s)
 {
 	size_t	words;
 	size_t	len;
 	char	*temp;
 	char	**result;
 
-	if (ft_strnstr(s, "awk", 3) != 0 || ft_strnstr(s, "sed", 3) != 0)
-		return (parse_special(s));
 	len = ft_strlen(s);
 	temp = ft_strdup(s);
 	if (!temp)
 		return (NULL);
-	words = str_to_word(temp, c, len);
+	words = str_to_word(temp, len);
 	result = (char **)ft_calloc(words + 1, sizeof(char *));
 	if (!result)
 	{
@@ -104,3 +151,18 @@ char	**new_split(char *s, char c)
 	}
 	return (str_to_arr(result, temp, len));
 }
+
+// int main(void)
+// {
+// 	char *test = "awk '{count++} END {printf \\\"count: %i\\\", count}'";
+// 	char **result;
+	
+// 	result = new_split(test);
+// 	int i = 0;
+// 	while (result[i])
+// 	{
+// 		printf("%s\n", result[i]);
+// 		printf("%s\n", backslash_deleter(result[i]));
+// 		i++;
+// 	}
+// }

@@ -6,7 +6,7 @@
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 19:22:14 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/06 22:34:10 by junkim2          ###   ########.fr       */
+/*   Updated: 2023/12/07 16:32:53 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	make_command(t_cmd *cmd, char *cmd_name, t_pipepack *pipepack)
 	char	*tmp2;
 	int		i;
 
-	cmd->cmds = new_split(cmd_name, ' ');
+	cmd->cmds = new_split(cmd_name);
 	check_err(cmd->cmds, NULL);
 	i = 0;
 	cmd->path = ft_strdup(cmd->cmds[0]);

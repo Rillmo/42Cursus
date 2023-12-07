@@ -6,7 +6,7 @@
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 18:58:07 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/06 21:24:09 by junkim2          ###   ########.fr       */
+/*   Updated: 2023/12/07 14:30:25 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,3 @@ void	here_doc(t_pipepack *pipepack)
 	// unlink("tmpfile");
 	exit(WEXITSTATUS(mystatus));
 }
-
-// int main(int argc, char **argv)
-// {
-// 	here_doc(argv);
-// 	return (0);
-// }
