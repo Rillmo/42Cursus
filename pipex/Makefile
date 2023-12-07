@@ -44,7 +44,8 @@ $(PRINTF) :
 
 $(NAME) : $(OBJS)
 	@echo "[ compling pipex... ]"
-	@$(CC) $^ $(LIB) $(INC) -o $@ -fsanitize=address
+	@$(CC) $^ $(LIB) $(INC) -o $@ 
+# -fsanitize=address
 	@echo "[ OK ]"
 
 $(BONUS) : $(GNL_OBJS) $(OBJS_BONUS)

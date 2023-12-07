@@ -6,7 +6,7 @@
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 15:47:38 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/06 18:52:18 by junkim2          ###   ########.fr       */
+/*   Updated: 2023/12/07 21:46:00 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	err_bad_fd(char *filename)
 	while (filename[i] != 0)
 		write(2, &filename[i++], 1);
 	write(2, ": ", 2);
-	write(2, "No such file or directory\n", 26);
+	write(2, "no such file or directory\n", 26);
 	exit(EXIT_FAILURE);
 }
 

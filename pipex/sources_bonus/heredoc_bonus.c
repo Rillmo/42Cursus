@@ -6,7 +6,7 @@
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 18:58:07 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/07 14:30:25 by junkim2          ###   ########.fr       */
+/*   Updated: 2023/12/07 22:45:32 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,19 @@ void	here_doc(t_pipepack *pipepack)
 	int		wpid;
 	int		mystatus;
 
-	tmp_fd = open("tmpfile", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	buff = "";
+	tmp_fd = open("tmpfile", O_RDWR | O_TRUNC | O_CREAT, 0644);
+	buff = ft_calloc(1, 1);
 	while (buff != NULL && ft_strnstr(buff, pipepack->argv[2], \
-	sizeof(pipepack->argv[2])) == 0)
+	ft_strlen(pipepack->argv[2])) == 0)
 	{
+		free(buff);
 		write(1, "pipe heredoc>", 13);
 		buff = get_next_line(STDIN_FILENO);
-		write(tmp_fd, buff, sizeof(buff));
+		write(tmp_fd, buff, ft_strlen(buff));
 	}
-	dup2(tmp_fd, STDIN_FILENO);
+	free(buff);
+	if (dup2(tmp_fd, STDIN_FILENO) < 0)
+		printf("fuck!\n");
 	// close(tmp_fd);
 	ofd = open(pipepack->argv[pipepack->argc - 1], \
 	O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -60,6 +63,7 @@ void	here_doc(t_pipepack *pipepack)
 		close(pipepack->fds[0]);
 		i++;
 	}
+	close(ofd);
 	wpid = 1;
 	while (wpid >= 0)
 	{
