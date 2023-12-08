@@ -3,6 +3,9 @@
 		"ft_printf.h": "c",
 		"string.h": "c",
 		"pipex.h": "c",
-		"pipex_bonus.h": "c"
+		"pipex_bonus.h": "c",
+		"get_next_line.h": "c",
+		"sstream": "c",
+		"__locale": "c"
 	}
 }

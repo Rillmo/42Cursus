@@ -6,7 +6,7 @@
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 15:47:38 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/07 21:46:00 by junkim2          ###   ########.fr       */
+/*   Updated: 2023/12/08 16:22:53 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,7 @@ void	err_command_not_found(char *command)
 void	check_err(void *content, void **tosave)
 {
 	if (content == 0)
-	{
-		perror(strerror(errno));
-		exit(EXIT_FAILURE);
-	}
+		exit_with_err();
 	if (tosave != NULL)
 		*tosave = content;
 }

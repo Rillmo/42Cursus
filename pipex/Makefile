@@ -2,14 +2,16 @@ SRCS = 	sources/main.c \
 		sources/error.c \
 		sources/process.c \
 		sources/split.c \
-		sources/parse.c
+		sources/parse.c \
+		sources/util.c
 
 SRCS_BONUS =	sources_bonus/main_bonus.c \
 				sources_bonus/error_bonus.c \
 				sources_bonus/process_bonus.c \
 				sources_bonus/parse_bonus.c \
 				sources_bonus/split_bonus.c \
-				sources_bonus/heredoc_bonus.c
+				sources_bonus/heredoc_bonus.c \
+				sources_bonus/util_bonus.c
 
 OBJS = $(patsubst sources%, objects%, $(SRCS:.c=.o))
 OBJS_BONUS = $(patsubst sources_bonus%, objects_bonus%, $(SRCS_BONUS:.c=.o))

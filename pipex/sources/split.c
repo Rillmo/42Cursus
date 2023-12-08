@@ -6,7 +6,7 @@
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 14:20:12 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/07 20:38:19 by junkim2          ###   ########.fr       */
+/*   Updated: 2023/12/08 19:02:13 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,48 +41,32 @@ static char	*backslash_deleter(char *str)
 	return (result);
 }
 
-static int	is_space(char c)
-{
-	if (c == '\t' || c == '\n' || c == '\v')
-		return (1);
-	if (c == '\f' || c == '\r' || c == ' ')
-		return (1);
-	return (0);
-}
-
-static size_t	str_to_word(char *str, size_t org_len)
+static void	count_word(t_split *split)
 {
 	size_t	idx;
-	size_t	word_cnt;
-	char	flag;
 
 	idx = 0;
-	word_cnt = 0;
-	flag = 0;
-	while (idx < org_len)
+	split->word_count = 0;
+	while (idx < split->org_len)
 	{
-		if (str[idx] == '\'' || str[idx] == '\"')
+		if (split->temp[idx] == '\'' || split->temp[idx] == '\"')
 		{
-			flag = str[idx];
-			word_cnt++;
-			str[idx++] = 0;
-			while (idx < org_len && str[idx] != flag)
+			split->flag = split->temp[idx];
+			split->word_count++;
+			split->temp[idx++] = 0;
+			while (idx < split->org_len && split->temp[idx] != split->flag)
 				idx++;
-			str[idx++] = 0;
+			split->temp[idx++] = 0;
 		}
-		else if (!is_space(str[idx]))
+		else if (!is_space(split->temp[idx]))
 		{
-			word_cnt++;
-			while (idx < org_len && !is_space(str[idx]))
+			split->word_count++;
+			while (idx < split->org_len && !is_space(split->temp[idx]))
 				idx++;
 		}
 		else
-		{
-			str[idx] = 0;
-			idx++;
-		}
+			split->temp[idx++] = 0;
 	}
-	return (word_cnt);
 }
 
 static char	**clean(char **str_arr, char *str, size_t size)
@@ -102,52 +86,49 @@ static char	**clean(char **str_arr, char *str, size_t size)
 	return (NULL);
 }
 
-static char	**str_to_arr(char **result, char *str, size_t org_len)
+void	str_to_arr(t_split *split, char *str)
 {
 	size_t	idx;
 	size_t	word_idx;
 
 	idx = 0;
 	word_idx = 0;
-	while (idx < org_len)
+	while (idx < split->org_len)
 	{
 		if (str[idx])
 		{
-			result[word_idx] = backslash_deleter(&str[idx]);
-			if (!result[word_idx])
+			split->result[word_idx] = backslash_deleter(&str[idx]);
+			if (!split->result[word_idx])
 			{
-				clean(result, str, word_idx);
-				return (NULL);
+				clean(split->result, str, word_idx);
+				return ;
 			}
 			word_idx++;
-			while (str[idx] && idx < org_len)
+			while (str[idx] && idx < split->org_len)
 				idx++;
 		}
 		else
 			idx++;
 	}
 	free(str);
-	return (result);
 }
 
 char	**new_split(char *s)
 {
-	size_t	words;
-	size_t	len;
-	char	*temp;
-	char	**result;
+	t_split	split;
 
-	len = ft_strlen(s);
-	temp = ft_strdup(s);
-	if (!temp)
+	split.org_len = ft_strlen(s);
+	split.temp = ft_strdup(s);
+	if (!split.temp)
 		return (NULL);
-	words = str_to_word(temp, len);
-	result = (char **)ft_calloc(words + 1, sizeof(char *));
-	if (!result)
+	count_word(&split);
+	split.result = (char **)ft_calloc(split.word_count + 1, sizeof(char *));
+	if (!split.result)
 	{
-		free(temp);
-		temp = NULL;
+		free(split.temp);
+		split.temp = NULL;
 		return (NULL);
 	}
-	return (str_to_arr(result, temp, len));
+	str_to_arr(&split, split.temp);
+	return (split.result);
 }
