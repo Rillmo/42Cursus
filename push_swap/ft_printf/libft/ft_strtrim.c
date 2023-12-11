@@ -3,17 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyeunkim <hyeunkim@student.42seoul.>       +#+  +:+       +#+        */
+/*   By: junkim2 <junkim2@student.42seoul.>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/19 15:26:59 by hyeunkim          #+#    #+#             */
-/*   Updated: 2023/10/19 16:09:03 by hyeunkim         ###   ########.fr       */
+/*   Created: 2023/10/19 15:26:59 by junkim2           #+#    #+#             */
+/*   Updated: 2023/10/19 16:09:03 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/*
-char	*ft_strltrim();
-char	*ft_strrtrim();
-*/
 
 #include "libft.h"
 

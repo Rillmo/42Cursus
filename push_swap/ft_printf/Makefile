@@ -18,7 +18,7 @@ $(NAME) : $(LIBFT) $(OBJS)
 	@echo "[ OK ]"
 
 $(LIBFT) :
-	@make -s -C $(LIBFT_DIR)
+	@make bonus -s -C $(LIBFT_DIR)
 	@cp $(LIBFT_DIR)/$(LIBFT) $(NAME)
 
 clean :
@@ -27,9 +27,9 @@ clean :
 	@echo "[ cleaned ft_printf ]"
 
 fclean :
-	@echo "[ fcleaned ft_printf ]"
 	@rm -f $(OBJS) $(NAME)
 	@make fclean -C $(LIBFT_DIR)
+	@echo "[ fcleaned ft_printf ]"
 
 re :
 	make fclean

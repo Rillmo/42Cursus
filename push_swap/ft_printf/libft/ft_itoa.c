@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-void	i_to_arr(int n, char *result, size_t digit)
+static void	i_to_arr(int n, char *result, size_t digit)
 {
 	if (!digit || result[digit - 1] == '-')
 		return ;

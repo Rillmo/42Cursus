@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-int	ft_null_checker(t_list *lst, void (*del)(void *), void *value)
+static int	ft_null_checker(t_list *lst, void (*del)(void *), void *value)
 {
 	if (value == 0)
 	{

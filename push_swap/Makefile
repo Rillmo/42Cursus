@@ -1,5 +1,10 @@
-SRCS = 	push_swap.c \
-		util.c
+SRCS = 	main.c \
+		util.c \
+		stack_func1.c \
+		stack_func2.c \
+		stack_util1.c \
+		stack_util2.c \
+		sort.c
 
 OBJS = $(SRCS:.c=.o)
 

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyeunkim <hyeunkim@student.42seoul.>       +#+  +:+       +#+        */
+/*   By: junkim2 <junkim2@student.42seoul.>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/19 14:20:12 by hyeunkim          #+#    #+#             */
+/*   Created: 2023/10/19 14:20:12 by junkim2           #+#    #+#             */
 /*   Updated: 2023/10/19 18:00:17 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	str_to_word(char *str, char c, size_t org_len)
+static size_t	str_to_word(char *str, char c, size_t org_len)
 {
 	size_t	idx;
 	size_t	word_cnt;
@@ -36,7 +36,7 @@ size_t	str_to_word(char *str, char c, size_t org_len)
 	return (word_cnt);
 }
 
-char	**clean(char **str_arr, char *str, size_t size)
+static char	**clean(char **str_arr, char *str, size_t size)
 {
 	size_t	idx;
 
@@ -53,7 +53,7 @@ char	**clean(char **str_arr, char *str, size_t size)
 	return (NULL);
 }
 
-char	**str_to_arr(char **result, char *str, size_t org_len)
+static char	**str_to_arr(char **result, char *str, size_t org_len)
 {
 	size_t	idx;
 	size_t	word_idx;

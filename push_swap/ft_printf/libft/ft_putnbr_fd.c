@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-void	print_all(char *arr, int idx, int fd)
+static void	print_all(char *arr, int idx, int fd)
 {
 	while (idx >= 0)
 	{
