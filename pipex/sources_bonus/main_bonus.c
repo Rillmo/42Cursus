@@ -6,7 +6,7 @@
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 19:22:14 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/08 19:00:04 by junkim2          ###   ########.fr       */
+/*   Updated: 2023/12/10 18:56:42 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_pipepack	pipepack;
 
-	if (argc < 5)
+	if (argc < 5 || (ft_strnstr(argv[1], "here_doc", 8) && argc < 6))
 		exit_with_err();
 	set_pipepack(&pipepack, argc, argv, envp);
 	get_path_list(&pipepack);

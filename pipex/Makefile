@@ -18,7 +18,8 @@ OBJS_BONUS = $(patsubst sources_bonus%, objects_bonus%, $(SRCS_BONUS:.c=.o))
 
 CC = cc -Wall -Wextra -Werror -g
 NAME = pipex
-BONUS = pipex_bonus
+MANDATORY = .mandatory
+BONUS = .bonus
 
 PRINTF = ./ft_printf/libftprintf.a
 PRINTF_DIR = ./ft_printf
@@ -28,10 +29,10 @@ GNL_SRCS =	get_next_line/get_next_line.c \
 GNL_OBJS = $(GNL_SRCS:.c=.o)
 
 LIB = -L./ft_printf -lftprintf
-INC = -I pipex.h
-INC_BONUS = -I pipex_bonus.h
+INC = ./includes/pipex.h
+INC_BONUS = ./includes/pipex_bonus.h
 
-all : $(PRINTF) objects $(NAME)
+all : $(PRINTF) objects $(MANDATORY)
 
 bonus : $(PRINTF) objects_bonus $(BONUS)
 
@@ -44,23 +45,27 @@ objects_bonus :
 $(PRINTF) :
 	@make -C $(PRINTF_DIR)
 
-$(NAME) : $(OBJS)
+$(MANDATORY) : $(OBJS) $(INC)
 	@echo "[ compling pipex... ]"
-	@$(CC) $^ $(LIB) $(INC) -o $@ 
-# -fsanitize=address
+	@$(CC) $(OBJS) $(LIB) -I $(INC) -o $@
+	@rm -f $(BONUS)
+	@touch $@
+	@cp $@ $(NAME)
 	@echo "[ OK ]"
 
-$(BONUS) : $(GNL_OBJS) $(OBJS_BONUS)
+$(BONUS) : $(GNL_OBJS) $(OBJS_BONUS) $(INC_BONUS)
 	@echo "[ compling pipex_bonus... ]"
-	@$(CC) $^ $(LIB) $(INC_BONUS) -o $(BONUS) -fsanitize=address
-	@mv $(BONUS) $(NAME)
+	@$(CC) $(GNL_OBJS) $(OBJS_BONUS) $(LIB) -I $(INC_BONUS) -o $(BONUS)
+	@rm -f $(MANDATORY)
+	@touch $@
+	@cp $@ $(NAME)
 	@echo "[ OK ]"
 
 objects/%.o : sources/%.c
-	@$(CC) -c $^ -o $@ $(INC)
+	@$(CC) -c $^ -o $@
 
 objects_bonus/%.o : sources_bonus/%.c
-	@$(CC) -c $^ -o $@ $(INC_BONUS)
+	@$(CC) -c $^ -o $@
 
 get_next_line/%.o : get_next_line/%.c
 	@echo "[ compling gnl... ]"
@@ -73,7 +78,7 @@ clean :
 
 fclean :
 	@make fclean -C $(PRINTF_DIR)
-	@rm -f $(OBJS) $(OBJS_BONUS) $(GNL_OBJS) $(NAME)
+	@rm -f $(OBJS) $(OBJS_BONUS) $(GNL_OBJS) $(MANDATORY) $(BONUS) $(NAME)
 	@echo "[ fcleaned pipex ]"
 	
 re :

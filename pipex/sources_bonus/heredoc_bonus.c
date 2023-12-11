@@ -6,7 +6,7 @@
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 18:58:07 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/08 17:34:40 by junkim2          ###   ########.fr       */
+/*   Updated: 2023/12/10 19:00:33 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,19 @@ static void	open_files(t_pipepack *pipepack)
 
 	pipepack->tmp_fd = open(".tmpfile", O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	buff = ft_calloc(1, 1);
-	while (buff != NULL && ft_strnstr(buff, pipepack->argv[2], \
-	ft_strlen(pipepack->argv[2])) == 0)
+	while (buff != NULL)
 	{
 		free(buff);
-		write(1, "pipe heredoc>", 13);
+		write(1, "pipe heredoc> ", 14);
 		buff = get_next_line(STDIN_FILENO);
+		if (ft_strnstr(buff, pipepack->argv[2], ft_strlen(pipepack->argv[2])))
+			break ;
 		write(pipepack->tmp_fd, buff, ft_strlen(buff));
 	}
 	free(buff);
 	close(pipepack->tmp_fd);
 	pipepack->tmp_fd = open(".tmpfile", O_RDONLY, 0644);
-	if (dup2(pipepack->tmp_fd, STDIN_FILENO) < 0)
-		printf("fuck!\n");
+	dup2(pipepack->tmp_fd, STDIN_FILENO);
 	close(pipepack->tmp_fd);
 	pipepack->ofd = open(pipepack->argv[pipepack->argc - 1], \
 	O_WRONLY | O_CREAT | O_APPEND, 0644);
