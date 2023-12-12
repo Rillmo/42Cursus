@@ -6,7 +6,7 @@
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/18 19:25:58 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/11 20:15:44 by junkim2          ###   ########.fr       */
+/*   Updated: 2023/12/12 22:31:23 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,8 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include "ft_printf/ft_printf.h"
-// ===============
-#include <stdio.h>
-// ===============
+
+# include <stdio.h>
 
 # define INT_MAX 2147483647
 
@@ -41,6 +40,9 @@ typedef struct s_info
 	t_stack	*a;
 	t_stack	*b;
 	int		max_len;
+	int		*input;
+	int		argc;
+	char	**argv;
 }	t_info;
 
 // === util ====
@@ -58,17 +60,17 @@ void	stack_addback(t_stack **stack, t_data *data);
 t_data	*stack_delfirst(t_stack **stack);
 t_data	*stack_dellast(t_stack **stack);
 // ==== stack_func ====
-void	pa(t_info *info);
-void	pb(t_info *info);
-void	sa(t_info *info);
-void	sb(t_info *info);
-void	ra(t_info *info);
-void	rb(t_info *info);
-void	rra(t_info *info);
-void	rrb(t_info *info);
+void	pa(t_info *info, int print);
+void	pb(t_info *info, int print);
+void	sa(t_info *info, int print);
+void	sb(t_info *info, int print);
+void	ra(t_info *info, int print);
+void	rb(t_info *info, int print);
+void	rra(t_info *info, int print);
+void	rrb(t_info *info, int print);
 void	print_(t_info *info);
 // ==== sort ====
-void	sort_3base(t_info *info);
-
+void	sort_3base(t_info *info, int print);
+void	move_to_a(t_info *info);
 
 #endif

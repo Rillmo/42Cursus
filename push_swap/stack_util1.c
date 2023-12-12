@@ -6,7 +6,7 @@
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/18 21:51:12 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/10 20:12:01 by junkim2          ###   ########.fr       */
+/*   Updated: 2023/12/12 23:32:38 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,18 @@ t_data	*stack_delfirst(t_stack **stack)
 	t_data	*result;
 
 	remove = *stack;
-	result = remove->data;
+	result = (t_data *)ft_calloc(1, sizeof(t_data));
+	if (result == NULL)
+		return (NULL);
+	result->base3 = ft_strdup(remove->data->base3);
+	result->idx = remove->data->idx;
+	result->num = remove->data->num;
+	result->str = ft_strdup(remove->data->str);
 	*stack = (*stack)->next;
+	// printf("remove : %p %p\n", remove->data, *(remove->data));
+	// printf("delfirst : %p %lld\n", result, result->idx);
 	free(remove);
+	remove = NULL;
 	return (result);
 }
 

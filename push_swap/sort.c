@@ -6,12 +6,31 @@
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 20:15:05 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/11 22:37:16 by junkim2          ###   ########.fr       */
+/*   Updated: 2023/12/12 23:21:04 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
+void	move_to_a(t_info *info)
+{
+	t_stack	*cur;
+
+	if (info->b == NULL)
+		return ;
+	cur = info->b;
+	while (cur)
+	{
+		pa(info, 0);
+		ra(info, 0);
+		cur = info->b;
+	}
+}
+
+/*
+	if radix value reamin only 2	-> 1 return
+ 	else							-> 0 return
+*/
 int	check_only2remain(t_stack *stack, int radix)
 {
 	t_stack	*cur;
@@ -19,7 +38,7 @@ int	check_only2remain(t_stack *stack, int radix)
 	cur = stack;
 	while (cur)
 	{
-		if (cur->data->base3[radix] != 2)
+		if (cur->data->base3[radix] != '2')
 			return (0);
 		cur = cur->next;
 	}
@@ -31,63 +50,70 @@ int	check_only2remain(t_stack *stack, int radix)
 	[1]: pb rb
 	[2]: ra
 */
-void	atob(t_info *info, int radix)
+void	atob(t_info *info, int radix, int print)
 {
 	t_stack	*cur;
+	int		i;
+	int		size;
 
+	if (info == NULL)
+		return ;
 	cur = info->a;
-	while (check_only2remain(info->a, radix))
+	i = 0;
+	size = get_stacksize(info->a);
+	while (i < size)
 	{
-		print_(info);
+		printf("count:%d\n", i);
 		if (cur->data->base3[radix] == '0')
-			pb(info);
-		else if (cur->data->base3[radix] == '1')
+			pb(info, print);
+		if (cur->data->base3[radix] == '1')
 		{
-			pb(info);
-			rb(info);
+			pb(info, print);
+			rb(info, print);
 		}
-		else
-			ra(info);
+		if (cur->data->base3[radix] == '2')
+			ra(info, print);
+		print_(info);
 		cur = info->a;
+		i++;
 	}
-	cur = info->a;
-	while (cur)
-	{
-		pb(info);
-		cur = info->a;
-	}
-	print_(info);
+	while (info->a)
+		pb(info, print);
 }
 
-void	btoa(t_info *info, int radix)
+/*
+	[0]: pa
+	[1]: pa ra
+	[2]: rb
+*/
+void	btoa(t_info *info, int radix, int print)
 {
 	t_stack	*cur;
+	int		i;
+	int		size;
 
 	cur = info->b;
-	while (check_only2remain(info->a, radix))
+	size = get_stacksize(info->b);
+	i = 0;
+	while (i < size)
 	{
-		print_(info);
 		if (cur->data->base3[radix] == '0')
-			pb(info);
-		else if (cur->data->base3[radix] == '1')
+			pa(info, print);
+		if (cur->data->base3[radix] == '1')
 		{
-			pb(info);
-			rb(info);
+			pa(info, print);
+			ra(info, print);
 		}
-		else
-			ra(info);
+		if (cur->data->base3[radix] == '2')
+			rb(info, print);
 		cur = info->b;
+		i++;
 	}
-	print_(info);
-	cur = info->b;
-	while (cur)
-	{
-		pa(info);
-		cur = info->b;
-	}
+	while (info->b)
+		pa(info, print);
 }
 
-void	sort_3base(t_info *info)
+void	sort_3base(t_info *info, int print)
 {
 	int		radix;
 
@@ -95,9 +121,9 @@ void	sort_3base(t_info *info)
 	while (radix >= 0)
 	{
 		if (info->b == NULL)
-			atob(info, radix);
+			atob(info, radix, print);
 		else
-			btoa(info, radix);
+			btoa(info, radix, print);
 		radix--;
 	}
 }

@@ -8,7 +8,7 @@ SRCS = 	main.c \
 
 OBJS = $(SRCS:.c=.o)
 
-CC = cc -Wall -Wextra -Werror
+CC = cc -Wall -Wextra -Werror -fsanitize=address
 NAME = push_swap
 PRINTF = ./ft_printf/libftprintf.a
 PRINTF_DIR = ./ft_printf
