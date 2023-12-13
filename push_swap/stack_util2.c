@@ -6,7 +6,7 @@
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/10 20:11:37 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/12 22:49:07 by junkim2          ###   ########.fr       */
+/*   Updated: 2023/12/13 19:14:53 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,22 +44,37 @@ int	get_stacksize(t_stack *stack)
 void	print_(t_info *info)
 {
 	t_stack	*cur;
+	int		i;
 
 	cur = info->a;
-	printf(" A | ");
-	while (cur)
+	i = 1;
+	printf(" A\t| ");
+	while (cur && i < info->argc)
 	{
-		printf("(%lld|%s) ", cur->data->idx, \
-		cur->data->base3);
+		printf("(%lld|%s) ", cur->data->idx, cur->data->base3);
 		cur = cur->next;
 	}
-	printf("\n B | ");
+	printf("\n B\t| ");
 	cur = info->b;
-	while (cur)
+	i = 1;
+	while (cur && i < info->argc)
 	{
-		printf("(%lld|%s) ", cur->data->idx, \
-		cur->data->base3);
+		printf("(%lld|%s) ", cur->data->idx, cur->data->base3);
 		cur = cur->next;
+	}
+	printf("\n origin\t| ");
+	i = 1;
+	while (i < info->argc)
+	{
+		printf("(%lld|%s) ", info->origin[i]->idx, info->origin[i]->base3);
+		i++;
+	}
+	printf("\n sorted\t| ");
+	i = 1;
+	while (i < info->argc)
+	{
+		printf("(%lld|%s) ", info->sorted[i]->idx, info->sorted[i]->base3);
+		i++;
 	}
 	printf("\n");
 }

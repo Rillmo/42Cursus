@@ -6,66 +6,35 @@
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/10 20:42:44 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/11 20:09:33 by junkim2          ###   ########.fr       */
+/*   Updated: 2023/12/13 16:25:19 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	indexing(t_stack **stack, int argc)
+void	conv_3base(t_info *info, t_data **arr)
 {
-	t_stack	*min_ptr;
-	t_stack	*cur;
-	int		min;
 	int		i;
-
-	min = 0;
-	i = 1;
-	if (*stack == NULL)
-		return ;
-	while (i < argc)
-	{
-		cur = *stack;
-		min = INT_MAX;
-		while (cur)
-		{
-			if (min >= cur->data->num && cur->data->idx == -1)
-			{
-				min_ptr = cur;
-				min = cur->data->num;
-			}
-			cur = cur->next;
-		}
-		min_ptr->data->idx = i;
-		i++;
-	}
-}
-
-void	conv_3base(t_stack *stack)
-{
-	int		max_len;
-	int		i;
+	int		j;
 	char	*result;
 	int		n;
-	t_stack	*cur;
 
-	max_len = get_max_len(stack);
-	cur = stack;
-	while (cur)
+	i = 1;
+	while (i < info->argc)
 	{
-		result = (char *)ft_calloc(max_len + 1, sizeof(char));
+		result = (char *)ft_calloc(info->max_len + 1, sizeof(char));
 		if (result == NULL)
-			return ;
-		n = cur->data->idx;
-		i = max_len - 1;
-		while (i >= 0)
+			exit(EXIT_FAILURE);
+		n = arr[i]->idx;
+		j = info->max_len - 1;
+		while (j >= 0)
 		{
-			result[i] = n % 3 + '0';
+			result[j] = n % 3 + '0';
 			n /= 3;
-			i--;
+			j--;
 		}
-		cur->data->base3 = result;
-		cur = cur->next;
+		arr[i]->base3 = result;
+		i++;
 	}
 }
 
@@ -87,8 +56,25 @@ t_data	*parse_data(char *str)
 	t_data	*result;
 
 	result = (t_data *)ft_calloc(1, sizeof(t_data));
-	result->str = str;
 	result->num = ft_atoi(str);
 	result->idx = -1;
 	return (result);
+}
+
+int	get_max_len(t_data **arr, int size)
+{
+	int	max;
+	int	len;
+	int	i;
+
+	max = -1;
+	i = 1;
+	while (i < size)
+	{
+		len = get_3base_len(arr[i]->idx);
+		if (len > max)
+			max = len;
+		i++;
+	}
+	return (max);
 }

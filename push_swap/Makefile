@@ -4,7 +4,8 @@ SRCS = 	main.c \
 		stack_func2.c \
 		stack_util1.c \
 		stack_util2.c \
-		sort.c
+		sort.c \
+		setting.c
 
 OBJS = $(SRCS:.c=.o)
 

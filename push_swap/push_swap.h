@@ -6,7 +6,7 @@
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/18 19:25:58 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/12 22:31:23 by junkim2          ###   ########.fr       */
+/*   Updated: 2023/12/13 19:07:37 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@
 # include "ft_printf/ft_printf.h"
 
 # include <stdio.h>
+# include <string.h>
 
 # define INT_MAX 2147483647
 
 typedef struct s_data
 {
-	char		*str;
 	int			num;
 	long long	idx;
 	char		*base3;
@@ -39,26 +39,31 @@ typedef struct s_info
 {
 	t_stack	*a;
 	t_stack	*b;
+	t_data	**origin;
+	t_data	**sorted;
 	int		max_len;
-	int		*input;
 	int		argc;
 	char	**argv;
 }	t_info;
 
+// === setting ===
+void	set_origin(t_info *info);
+void	indexing(t_data **arr, int size);
+void	save_to_sorted(t_info *info);
+
 // === util ====
 int		get_3base_len(int n);
 t_data	*parse_data(char *str);
-void	indexing(t_stack **stack, int argc);
-int		get_max_len(t_stack *stack);
-void	conv_3base(t_stack *stack);
+void	conv_3base(t_info *info, t_data **arr);
+int		get_max_len(t_data **arr, int size);
 // ==== stack_util ====
 t_stack	*get_newnode(t_data *data);
 t_stack	*get_lastnode(t_stack *stack);
 int		get_stacksize(t_stack *stack);
 void	stack_addfront(t_stack **stack, t_data *data);
-void	stack_addback(t_stack **stack, t_data *data);
+// void	stack_addback(t_stack **stack, t_data *data);
 t_data	*stack_delfirst(t_stack **stack);
-t_data	*stack_dellast(t_stack **stack);
+// t_data	*stack_dellast(t_stack **stack);
 // ==== stack_func ====
 void	pa(t_info *info, int print);
 void	pb(t_info *info, int print);

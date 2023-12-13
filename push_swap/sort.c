@@ -6,7 +6,7 @@
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 20:15:05 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/12 23:21:04 by junkim2          ###   ########.fr       */
+/*   Updated: 2023/12/13 19:02:47 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,29 +52,20 @@ int	check_only2remain(t_stack *stack, int radix)
 */
 void	atob(t_info *info, int radix, int print)
 {
-	t_stack	*cur;
-	int		i;
-	int		size;
+	int	i;
 
-	if (info == NULL)
-		return ;
-	cur = info->a;
-	i = 0;
-	size = get_stacksize(info->a);
-	while (i < size)
+	i = 1;
+	while (i < info->argc && info->a)
 	{
-		printf("count:%d\n", i);
-		if (cur->data->base3[radix] == '0')
+		if (info->a->data->base3[radix] == '0')
 			pb(info, print);
-		if (cur->data->base3[radix] == '1')
+		else if (info->a->data->base3[radix] == '1')
 		{
 			pb(info, print);
 			rb(info, print);
 		}
-		if (cur->data->base3[radix] == '2')
+		else if (info->a->data->base3[radix] == '2')
 			ra(info, print);
-		print_(info);
-		cur = info->a;
 		i++;
 	}
 	while (info->a)
@@ -88,25 +79,20 @@ void	atob(t_info *info, int radix, int print)
 */
 void	btoa(t_info *info, int radix, int print)
 {
-	t_stack	*cur;
 	int		i;
-	int		size;
 
-	cur = info->b;
-	size = get_stacksize(info->b);
-	i = 0;
-	while (i < size)
+	i = 1;
+	while (i < info->argc && info->b)
 	{
-		if (cur->data->base3[radix] == '0')
+		if (info->b->data->base3[radix] == '0')
 			pa(info, print);
-		if (cur->data->base3[radix] == '1')
+		else if (info->b->data->base3[radix] == '1')
 		{
 			pa(info, print);
 			ra(info, print);
 		}
-		if (cur->data->base3[radix] == '2')
+		else if (info->b->data->base3[radix] == '2')
 			rb(info, print);
-		cur = info->b;
 		i++;
 	}
 	while (info->b)
@@ -115,7 +101,7 @@ void	btoa(t_info *info, int radix, int print)
 
 void	sort_3base(t_info *info, int print)
 {
-	int		radix;
+	int	radix;
 
 	radix = info->max_len - 1;
 	while (radix >= 0)

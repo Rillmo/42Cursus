@@ -6,7 +6,7 @@
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/10 15:29:24 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/12 23:24:18 by junkim2          ###   ########.fr       */
+/*   Updated: 2023/12/13 14:13:24 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,6 @@ void	pb(t_info *info, int print)
 		ft_printf("pb\n");
 	if (info->a == NULL)
 		return ;
-	print_(info);
 	tmp = stack_delfirst(&(info->a));
-	printf("%p %lld\n", tmp, tmp->idx);
-	print_(info);
 	stack_addfront(&(info->b), tmp);
 }

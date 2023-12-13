@@ -1,17 +1,22 @@
 {
-	"files.associations": {
-		"array": "c",
-		"string": "c",
-		"string_view": "c",
-		"vector": "c",
-		"ratio": "c",
-		"push_swap.h": "c",
-		"libft.h": "c",
-		"__locale": "c",
-		"algorithm": "c",
-		"__hash_table": "c",
-		"chrono": "c",
-		"limits": "c",
-		"ios": "c"
-	}
+  "files.associations": {
+	"array": "c",
+	"string": "c",
+	"string_view": "c",
+	"vector": "c",
+	"ratio": "c",
+	"push_swap.h": "c",
+	"libft.h": "c",
+	"__locale": "c",
+	"algorithm": "c",
+	"__hash_table": "c",
+	"chrono": "c",
+	"limits": "c",
+	"ios": "c",
+	"__bit_reference": "c",
+	"__string": "c",
+	"unordered_map": "c"
+},
+ 
+"cmake.configureOnOpen": true
 }
