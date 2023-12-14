@@ -6,13 +6,13 @@
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 20:15:05 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/13 19:02:47 by junkim2          ###   ########.fr       */
+/*   Updated: 2023/12/14 21:29:32 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	move_to_a(t_info *info)
+void	move_to_a(t_info *info, int print)
 {
 	t_stack	*cur;
 
@@ -21,24 +21,22 @@ void	move_to_a(t_info *info)
 	cur = info->b;
 	while (cur)
 	{
-		pa(info, 0);
-		ra(info, 0);
+		pa(info, print);
+		ra(info, print);
 		cur = info->b;
 	}
 }
 
-/*
-	if radix value reamin only 2	-> 1 return
- 	else							-> 0 return
-*/
-int	check_only2remain(t_stack *stack, int radix)
+int	is_sorted(t_info *info)
 {
 	t_stack	*cur;
+	int		num;
 
-	cur = stack;
+	cur = info->a;
 	while (cur)
 	{
-		if (cur->data->base3[radix] != '2')
+		num = cur->data->num;
+		if (cur->next && num > cur->next->data->num)
 			return (0);
 		cur = cur->next;
 	}
@@ -55,7 +53,7 @@ void	atob(t_info *info, int radix, int print)
 	int	i;
 
 	i = 1;
-	while (i < info->argc && info->a)
+	while (info->a && i <= info->size)
 	{
 		if (info->a->data->base3[radix] == '0')
 			pb(info, print);
@@ -82,7 +80,7 @@ void	btoa(t_info *info, int radix, int print)
 	int		i;
 
 	i = 1;
-	while (i < info->argc && info->b)
+	while (i <= info->size && info->b)
 	{
 		if (info->b->data->base3[radix] == '0')
 			pa(info, print);

@@ -6,7 +6,7 @@
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/10 20:42:44 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/13 16:25:19 by junkim2          ###   ########.fr       */
+/*   Updated: 2023/12/14 20:20:37 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	conv_3base(t_info *info, t_data **arr)
 	int		n;
 
 	i = 1;
-	while (i < info->argc)
+	while (i <= info->size)
 	{
 		result = (char *)ft_calloc(info->max_len + 1, sizeof(char));
 		if (result == NULL)
@@ -51,16 +51,6 @@ int	get_3base_len(int n)
 	return (len);
 }
 
-t_data	*parse_data(char *str)
-{
-	t_data	*result;
-
-	result = (t_data *)ft_calloc(1, sizeof(t_data));
-	result->num = ft_atoi(str);
-	result->idx = -1;
-	return (result);
-}
-
 int	get_max_len(t_data **arr, int size)
 {
 	int	max;
@@ -77,4 +67,20 @@ int	get_max_len(t_data **arr, int size)
 		i++;
 	}
 	return (max);
+}
+
+int	is_sign(char c)
+{
+	if (c == '-' || c == '+')
+		return (1);
+	return (0);
+}
+
+int	is_space(char c)
+{
+	if (c == '\t' || c == '\n' || c == '\v')
+		return (1);
+	if (c == '\f' || c == '\r' || c == ' ')
+		return (1);
+	return (0);
 }

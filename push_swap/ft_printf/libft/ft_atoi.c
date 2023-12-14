@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junkim2 <junkim2@student.42seoul.k>        +#+  +:+       +#+        */
+/*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 12:22:54 by junkim2           #+#    #+#             */
-/*   Updated: 2023/10/16 12:39:01 by junkim2          ###   ########.fr       */
+/*   Updated: 2023/12/14 21:41:51 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ static int	ft_isspace(char c)
 		return (0);
 }
 
-int	ft_atoi(const char *str)
+long long	ft_atoi(const char *str)
 {
-	long	result;
-	int		sign;
+	long long	result;
+	int			sign;
 
 	result = 0;
 	sign = 1;
@@ -50,5 +50,5 @@ int	ft_atoi(const char *str)
 		result += *str - '0';
 		str++;
 	}
-	return ((int)result * sign);
+	return (result * sign);
 }

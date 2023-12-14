@@ -6,7 +6,7 @@
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/10 20:11:37 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/13 19:14:53 by junkim2          ###   ########.fr       */
+/*   Updated: 2023/12/14 20:50:18 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	print_(t_info *info)
 	cur = info->a;
 	i = 1;
 	printf(" A\t| ");
-	while (cur && i < info->argc)
+	while (cur && i <= info->size)
 	{
 		printf("(%lld|%s) ", cur->data->idx, cur->data->base3);
 		cur = cur->next;
@@ -57,23 +57,16 @@ void	print_(t_info *info)
 	printf("\n B\t| ");
 	cur = info->b;
 	i = 1;
-	while (cur && i < info->argc)
+	while (cur && i <= info->size)
 	{
 		printf("(%lld|%s) ", cur->data->idx, cur->data->base3);
 		cur = cur->next;
 	}
 	printf("\n origin\t| ");
 	i = 1;
-	while (i < info->argc)
+	while (i <= info->size)
 	{
 		printf("(%lld|%s) ", info->origin[i]->idx, info->origin[i]->base3);
-		i++;
-	}
-	printf("\n sorted\t| ");
-	i = 1;
-	while (i < info->argc)
-	{
-		printf("(%lld|%s) ", info->sorted[i]->idx, info->sorted[i]->base3);
 		i++;
 	}
 	printf("\n");

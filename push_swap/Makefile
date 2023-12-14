@@ -5,7 +5,10 @@ SRCS = 	main.c \
 		stack_util1.c \
 		stack_util2.c \
 		sort.c \
-		setting.c
+		setting.c \
+		parsing.c \
+		exception.c \
+		manual_sorting.c
 
 OBJS = $(SRCS:.c=.o)
 

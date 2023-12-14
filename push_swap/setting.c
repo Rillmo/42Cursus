@@ -6,7 +6,7 @@
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 14:38:46 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/13 19:31:08 by junkim2          ###   ########.fr       */
+/*   Updated: 2023/12/14 20:56:19 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	load_to_a(t_info *info, t_data **arr)
 {
 	int	i;
 
-	i = info->argc - 1;
+	i = info->size;
 	while (i >= 1)
 	{
 		stack_addfront(&(info->a), arr[i]);
@@ -33,11 +33,11 @@ void	indexing(t_data **arr, int size)
 
 	min = 0;
 	i = 1;
-	while (i < size)
+	while (i <= size)
 	{
 		min = INT_MAX;
 		j = 1;
-		while (j < size)
+		while (j <= size)
 		{
 			if (min >= arr[j]->num && arr[j]->idx == -1)
 			{
@@ -51,21 +51,23 @@ void	indexing(t_data **arr, int size)
 	}
 }
 
-void	set_origin(t_info *info)
+void	set_origin(t_info *info, int argc, char **argv)
 {
-	int		i;
+	int	i;
+	int	count;
 
-	info->origin = (t_data **)ft_calloc(info->argc, sizeof(t_data *));
-	if (info->origin == NULL)
-		exit(EXIT_FAILURE);
-	i = info->argc - 1;
-	while (i >= 1)
-	{
-		info->origin[i] = parse_data(info->argv[i]);
-		i--;
-	}
-	indexing(info->origin, info->argc);
-	info->max_len = get_max_len(info->origin, info->argc);
+	info->argc = argc;
+	info->argv = argv;
+	info->a = NULL;
+	info->b = NULL;
+	i = 1;
+	count = 0;
+	while (i < argc)
+		count += count_digit(argv[i++]);
+	info->size = count;
+	info->origin = parse_argv(info);
+	indexing(info->origin, info->size);
+	info->max_len = get_max_len(info->origin, info->size);
 	conv_3base(info, info->origin);
 	load_to_a(info, info->origin);
 }
@@ -76,7 +78,7 @@ void	save_to_sorted(t_info *info)
 	int		idx;
 	char	*base3;
 
-	info->sorted = (t_data **)ft_calloc(info->argc, sizeof(t_data *));
+	info->sorted = (t_data **)ft_calloc(info->size + 2, sizeof(t_data *));
 	if (info->sorted == NULL)
 		exit(EXIT_FAILURE);
 	i = 1;
@@ -86,7 +88,7 @@ void	save_to_sorted(t_info *info)
 		i++;
 	}
 	i = 1;
-	while (i < info->argc)
+	while (i <= info->size)
 	{
 		idx = info->sorted[info->origin[i]->idx]->idx;
 		base3 = info->sorted[info->origin[i]->idx]->base3;
