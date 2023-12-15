@@ -11,20 +11,28 @@ SRCS = 	sources/main.c \
 		sources/manual_sorting.c \
 		sources/manual_sorting_5.c
 
-SRCS_BONUS =	sources_bonus/main.c
+SRCS_BONUS =	sources_bonus/main_bonus.c \
+				sources_bonus/parsing_bonus.c \
+				sources_bonus/util_bonus.c \
+				sources_bonus/exception_bonus.c \
+				sources_bonus/setting_bonus.c
 
 OBJS = $(patsubst sources%, objects%, $(SRCS:.c=.o))
 OBJS_BONUS = $(patsubst sources%, objects%, $(SRCS_BONUS:.c=.o))
 
 CC = cc -Wall -Wextra -Werror
-# -fsanitize=address -g
 NAME = push_swap
 PRINTF = ./ft_printf/libftprintf.a
 PRINTF_DIR = ./ft_printf
 BONUS = checker
 
+GNL_SRCS =	get_next_line/get_next_line.c \
+			get_next_line/get_next_line_utils.c
+GNL_OBJS = $(GNL_SRCS:.c=.o)
+
 LIB = -L./ft_printf -lftprintf
-INC = -I push_swap.h
+INC = ./includes/push_swap.h
+INC_BONUS = ./includes/checker.h
 
 objects/%.o : sources/%.c
 	@$(CC) -c $^ -o $@
@@ -32,27 +40,27 @@ objects/%.o : sources/%.c
 objects_bonus/%.o : sources_bonus/%.c
 	@$(CC) -c $^ -o $@
 
-objects :
-	mkdir -p objects
-
-objects_bonus :
-	mkdir -p objects_bonus
-
 all : $(PRINTF) objects $(NAME)
 
 bonus : $(PRINTF) objects_bonus $(BONUS)
 
-$(BONUS) : $(OBJS_BONUS)
+objects :
+	@mkdir -p objects
+
+objects_bonus :
+	@mkdir -p objects_bonus
+
+$(BONUS) : $(GNL_OBJS) $(OBJS_BONUS) $(INC_BONUS)
 	@echo "[ compling push_swap_bonus... ]"
-	@$(CC) $^ $(LIB) $(INC) -o $@
+	@$(CC) $(GNL_OBJS) $(OBJS_BONUS) $(LIB) -I $(INC) -o $@
 	@echo "[ OK ]"
 
 $(PRINTF) :
 	@make -C $(PRINTF_DIR)
 
-$(NAME) : $(OBJS)
+$(NAME) : $(OBJS) $(INC)
 	@echo "[ compling push_swap... ]"
-	@$(CC) $^ $(LIB) $(INC) -o $@
+	@$(CC) $(OBJS) $(LIB) -I $(INC) -o $@
 	@echo "[ OK ]"
 
 clean :

@@ -6,7 +6,7 @@
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/10 20:11:37 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/15 19:50:25 by junkim2          ###   ########.fr       */
+/*   Updated: 2023/12/15 21:34:05 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int	get_stacksize(t_stack *stack)
 	return (count);
 }
 
+/*
 void	print_(t_info *info)
 {
 	t_stack	*cur;
@@ -78,4 +79,4 @@ void	print_(t_info *info)
 		i++;
 	}
 	printf("\n");
-}
+}*/

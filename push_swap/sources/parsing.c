@@ -6,7 +6,7 @@
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 15:44:52 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/15 13:23:52 by junkim2          ###   ########.fr       */
+/*   Updated: 2023/12/15 21:38:34 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,33 +69,32 @@ t_data	*new_data(long long num, long long idx)
 	return (new);
 }
 
+// iter[3] : i, j, k, idx
 t_data	**parse_argv(t_info *info)
 {
 	t_data	**result;
-	int		i;
-	int		j;
-	int		idx;
+	int		iter[4];
 	int		count;
-	int		k;
 
 	result = (t_data **)ft_calloc(info->size + 2, sizeof(t_data *));
 	if (result == NULL)
 		exit(EXIT_FAILURE);
-	i = 1;
-	k = 1;
-	while (k < info->argc)
+	iter[0] = 1;
+	iter[2] = 1;
+	while (iter[2] < info->argc)
 	{
-		count = count_digit(info->argv[k]);
-		j = 0;
-		idx = 0;
-		while (j < count)
+		count = count_digit(info->argv[iter[2]]);
+		iter[1] = 0;
+		iter[3] = 0;
+		while (iter[1] < count)
 		{
-			result[i + j] = new_data(ft_atoi(info->argv[k] + idx), -1);
-			idx = get_digit_idx(info->argv[k], idx);
-			j++;
+			result[iter[0] + iter[1]] = \
+			new_data(ft_atoi(info->argv[iter[2]] + iter[3]), -1);
+			iter[3] = get_digit_idx(info->argv[iter[2]], iter[3]);
+			iter[1]++;
 		}
-		k++;
-		i += j;
+		iter[2]++;
+		iter[0] += iter[1];
 	}
 	return (result);
 }

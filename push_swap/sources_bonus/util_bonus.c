@@ -1,27 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   util_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/14 23:21:56 by macbookpro        #+#    #+#             */
-/*   Updated: 2023/12/15 21:27:56 by junkim2          ###   ########.fr       */
+/*   Created: 2023/12/10 20:42:44 by junkim2           #+#    #+#             */
+/*   Updated: 2023/12/15 22:19:37 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/checker.h"
 
-void    exit_with_err(void)
+int	is_sign(char c)
 {
-    write(2, "Error\n", 6);
-    exit(EXIT_FAILURE);
+	if (c == '-' || c == '+')
+		return (1);
+	return (0);
 }
 
-int main(int argc, char **argv)
+int	is_space(char c)
 {
-	argc = 1;
-	argv = NULL;
-    printf("this is checker!");
-    return (0);
+	if (c == '\t' || c == '\n' || c == '\v')
+		return (1);
+	if (c == '\f' || c == '\r' || c == ' ')
+		return (1);
+	return (0);
 }

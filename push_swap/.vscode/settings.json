@@ -16,7 +16,9 @@
 	"__bit_reference": "c",
 	"__string": "c",
 	"unordered_map": "c",
-	"ft_printf.h": "c"
+	"ft_printf.h": "c",
+	"bitset": "c",
+	"stdio.h": "c"
 },
  
 "cmake.configureOnOpen": true
