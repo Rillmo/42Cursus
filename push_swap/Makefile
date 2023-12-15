@@ -1,16 +1,18 @@
-SRCS = 	main.c \
-		util.c \
-		stack_func1.c \
-		stack_func2.c \
-		stack_util1.c \
-		stack_util2.c \
-		sort.c \
-		setting.c \
-		parsing.c \
-		exception.c \
-		manual_sorting.c
+SRCS = 	sources/main.c \
+		sources/util.c \
+		sources/stack_func1.c \
+		sources/stack_func2.c \
+		sources/stack_util1.c \
+		sources/stack_util2.c \
+		sources/sort.c \
+		sources/setting.c \
+		sources/parsing.c \
+		sources/exception.c \
+		sources/manual_sorting.c
 
-OBJS = $(SRCS:.c=.o)
+SRCS_BONUS =	sources/bonus/main.c
+
+OBJS = $(patsubst sources%, objects%, $(SRCS:.c=.o))
 
 CC = cc -Wall -Wextra -Werror -fsanitize=address
 NAME = push_swap
@@ -23,7 +25,10 @@ INC = -I push_swap.h
 %.o : %.c
 	@$(CC) -c $^ -o $@
 
-all : $(PRINTF) $(NAME)
+objects :
+	mkdir -p objects
+
+all : $(PRINTF) objects $(NAME)
 
 $(PRINTF) :
 	@make -C $(PRINTF_DIR)
@@ -32,7 +37,6 @@ $(NAME) : $(OBJS)
 	@echo "[ compling push_swap... ]"
 	@$(CC) $^ $(LIB) $(INC) -o $@
 	@echo "[ OK ]"
-
 
 clean :
 	@make clean -C $(PRINTF_DIR)
