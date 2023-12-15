@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   stack_util2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/10 20:11:37 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/14 23:23:51 by macbookpro       ###   ########.fr       */
+/*   Updated: 2023/12/15 19:50:25 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "/includes/push_swap.h"
+#include "../includes/push_swap.h"
 
 t_stack	*get_lastnode(t_stack *stack)
 {
@@ -51,7 +51,7 @@ void	print_(t_info *info)
 	printf(" A\t| ");
 	while (cur && i <= info->size)
 	{
-		printf("(%lld|%s) ", cur->data->idx, cur->data->base3);
+		printf("(%lld|%s)(%p) ", cur->data->idx, cur->data->base3, cur->data);
 		cur = cur->next;
 	}
 	printf("\n B\t| ");
@@ -66,7 +66,15 @@ void	print_(t_info *info)
 	i = 1;
 	while (i <= info->size)
 	{
-		printf("(%lld|%s) ", info->origin[i]->idx, info->origin[i]->base3);
+		printf("(%lld|%s)(%p) ", info->origin[i]->idx, info->origin[i]->base3, info->origin[i]);
+		i++;
+	}
+	printf("\n sorted\t| ");
+	i = 1;
+	while (info->sorted && i <= info->size)
+	{
+		if (info->sorted[i])
+			printf("(%lld|%s)(%p) ", info->sorted[i]->idx, info->sorted[i]->base3, info->sorted[i]);
 		i++;
 	}
 	printf("\n");

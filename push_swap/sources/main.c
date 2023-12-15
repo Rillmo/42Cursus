@@ -3,14 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/18 19:30:13 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/14 23:23:16 by macbookpro       ###   ########.fr       */
+/*   Updated: 2023/12/15 21:19:28 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "/includes/push_swap.h"
+#include "../includes/push_swap.h"
+
+void	check_leak(void)
+{
+	system("leaks push_swap");
+}
 
 int	main(int argc, char **argv)
 {
@@ -30,5 +35,6 @@ int	main(int argc, char **argv)
 	save_to_sorted(&info);
 	sort_3base(&info, 1);
 	move_to_a(&info, 1);
-	return (0);
+	// atexit(check_leak);
+	exit(0);
 }

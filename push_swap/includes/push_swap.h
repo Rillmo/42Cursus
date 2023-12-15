@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/18 19:25:58 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/14 23:22:38 by macbookpro       ###   ########.fr       */
+/*   Updated: 2023/12/15 15:11:04 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct s_info
 
 // === manual_sorting ===
 void	man_sorting(t_info *info);
+void	sort5(t_info *info);
 // === execption ===
 void	check_input_err(int argc, char **argv);
 void	check_dup_err(t_info *info);

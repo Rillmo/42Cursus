@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   stack_func2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/10 19:41:09 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/14 23:23:39 by macbookpro       ###   ########.fr       */
+/*   Updated: 2023/12/15 13:23:52 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "/includes/push_swap.h"
+#include "../includes/push_swap.h"
 
 void	ra(t_info *info, int print)
 {

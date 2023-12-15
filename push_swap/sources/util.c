@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   util.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/10 20:42:44 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/14 23:23:50 by macbookpro       ###   ########.fr       */
+/*   Updated: 2023/12/15 13:23:52 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "/includes/push_swap.h"
+#include "../includes/push_swap.h"
 
 void	conv_3base(t_info *info, t_data **arr)
 {

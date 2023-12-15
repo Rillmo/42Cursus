@@ -15,7 +15,8 @@
 	"ios": "c",
 	"__bit_reference": "c",
 	"__string": "c",
-	"unordered_map": "c"
+	"unordered_map": "c",
+	"ft_printf.h": "c"
 },
  
 "cmake.configureOnOpen": true

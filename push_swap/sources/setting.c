@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   setting.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 14:38:46 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/14 23:23:13 by macbookpro       ###   ########.fr       */
+/*   Updated: 2023/12/15 21:12:58 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "/includes/push_swap.h"
+#include "../includes/push_swap.h"
 
 void	load_to_a(t_info *info, t_data **arr)
 {
@@ -72,11 +72,23 @@ void	set_origin(t_info *info, int argc, char **argv)
 	load_to_a(info, info->origin);
 }
 
+t_data	*copy_data(t_data *data)
+{
+	t_data	*copy;
+
+	copy = (t_data *)ft_calloc(1, sizeof(t_data));
+	if (copy == NULL)
+		exit(EXIT_FAILURE);
+	copy->idx = data->idx;
+	copy->num = data->num;
+	copy->base3 = ft_strdup(data->base3);
+	return (copy);
+}
+
 void	save_to_sorted(t_info *info)
 {
 	int		i;
-	int		idx;
-	char	*base3;
+	t_data	*tmp;
 
 	info->sorted = (t_data **)ft_calloc(info->size + 2, sizeof(t_data *));
 	if (info->sorted == NULL)
@@ -84,15 +96,16 @@ void	save_to_sorted(t_info *info)
 	i = 1;
 	while (info->a)
 	{
-		info->sorted[i] = stack_delfirst(&(info->a));
+		tmp = stack_delfirst(&(info->a));
+		info->sorted[i] = copy_data(tmp);
 		i++;
 	}
 	i = 1;
 	while (i <= info->size)
 	{
-		idx = info->sorted[info->origin[i]->idx]->idx;
-		base3 = info->sorted[info->origin[i]->idx]->base3;
-		info->origin[i]->base3 = info->sorted[info->origin[i]->idx]->base3;
+		free(info->origin[i]->base3);
+		info->origin[i]->base3 = \
+		ft_strdup(info->sorted[info->origin[i]->idx]->base3);
 		i++;
 	}
 	load_to_a(info, info->origin);

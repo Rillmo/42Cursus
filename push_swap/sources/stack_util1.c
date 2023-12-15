@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   stack_util1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/18 21:51:12 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/14 23:23:42 by macbookpro       ###   ########.fr       */
+/*   Updated: 2023/12/15 16:11:36 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "/includes/push_swap.h"
+#include "../includes/push_swap.h"
 
 t_stack	*get_newnode(t_data *data)
 {
@@ -44,10 +44,7 @@ t_data	*stack_delfirst(t_stack **stack)
 	t_data	*result;
 
 	remove = *stack;
-	result = (t_data *)ft_calloc(1, sizeof(t_data));
-	if (result == NULL)
-		return (NULL);
-	ft_memcpy(result, (*stack)->data, sizeof(t_data));
+	result = remove->data;
 	*stack = remove->next;
 	free(remove);
 	remove = NULL;

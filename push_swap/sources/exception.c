@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exception.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 21:33:08 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/14 23:22:50 by macbookpro       ###   ########.fr       */
+/*   Updated: 2023/12/15 13:23:49 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "/includes/push_swap.h"
+#include "../includes/push_swap.h"
 
 void	check_input_err(int argc, char **argv)
 {

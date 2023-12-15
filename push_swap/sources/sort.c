@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   sort.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 20:15:05 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/14 23:23:12 by macbookpro       ###   ########.fr       */
+/*   Updated: 2023/12/15 13:48:23 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "/includes/push_swap.h"
+#include "../includes/push_swap.h"
 
 void	move_to_a(t_info *info, int print)
 {
@@ -32,6 +32,8 @@ int	is_sorted(t_info *info)
 	t_stack	*cur;
 	int		num;
 
+	if (info->b != NULL)
+		return (0);
 	cur = info->a;
 	while (cur)
 	{

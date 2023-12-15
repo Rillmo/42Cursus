@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 23:21:56 by macbookpro        #+#    #+#             */
-/*   Updated: 2023/12/14 23:30:03 by macbookpro       ###   ########.fr       */
+/*   Updated: 2023/12/15 21:27:56 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void    exit_with_err(void)
 
 int main(int argc, char **argv)
 {
-    ft_printf("this is checker!");
+	argc = 1;
+	argv = NULL;
+    printf("this is checker!");
     return (0);
 }
