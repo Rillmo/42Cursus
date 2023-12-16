@@ -3,14 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
+/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/18 19:30:13 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/15 21:33:37 by junkim2          ###   ########.fr       */
+/*   Updated: 2023/12/16 21:50:29 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
+
+void	free_all(t_info *info)
+{
+	t_stack	*cur;
+	t_stack	*next;
+	int		i;
+
+	cur = info->a;
+	while (cur)
+	{
+		next = cur->next;
+		free(cur->data->base3);
+		free(cur->data);
+		free(cur);
+		cur = next;
+	}
+	i = 1;
+	while (i <= info->size)
+	{
+		free(info->sorted[i]->base3);
+		free(info->sorted[i]);
+		i++;
+	}
+	free(info->sorted);
+	free(info->origin);
+}
+
+void	check_leak(void)
+{
+	system("leaks push_swap");
+}
 
 int	main(int argc, char **argv)
 {
@@ -30,5 +61,7 @@ int	main(int argc, char **argv)
 	save_to_sorted(&info);
 	sort_3base(&info, 1);
 	move_to_a(&info, 1);
-	exit(0);
+	free_all(&info);
+	atexit(check_leak);
+	return (0);
 }
