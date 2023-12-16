@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checker.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
+/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 23:22:19 by macbookpro        #+#    #+#             */
-/*   Updated: 2023/12/15 23:15:33 by junkim2          ###   ########.fr       */
+/*   Updated: 2023/12/16 15:06:31 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,16 @@
 # define INT_MAX 2147483647
 # define INT_MIN -2147483648
 
+typedef struct s_stack
+{
+	int				data;
+	struct s_stack	*next;
+}	t_stack;
+
 typedef struct s_info
 {
+	t_stack	*a;
+	t_stack	*b;
 	int		argc;
 	char	**argv;
 	int		size;
@@ -44,5 +52,14 @@ void	check_valid_action(char *str);
 // === setting ===
 void	set_info(t_info *info, int argc, char **argv);
 void	set_action(t_info *info);
+// === stack_util ===
+void	stack_addfront(t_stack **stack, int num);
+t_stack	*get_lastnode(t_stack *stack);
+int		get_stacksize(t_stack *stack);
+// === stack_func ===
+void	sa(t_info *info, int print);
+void	sb(t_info *info, int print);
+void	pa(t_info *info, int print);
+void	pb(t_info *info, int print);
 
 #endif

@@ -18,7 +18,8 @@
 	"unordered_map": "c",
 	"ft_printf.h": "c",
 	"bitset": "c",
-	"stdio.h": "c"
+	"stdio.h": "c",
+	"_types.h": "c"
 },
  
 "cmake.configureOnOpen": true

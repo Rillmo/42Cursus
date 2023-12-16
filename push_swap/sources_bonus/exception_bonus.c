@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exception_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
+/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 21:33:08 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/15 23:18:00 by junkim2          ###   ########.fr       */
+/*   Updated: 2023/12/16 15:10:19 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,13 +78,20 @@ void	check_valid_action(char *str)
 		i++;
 	}
 	i = 0;
-	while (i < 12)
+	while (i < 8)
 	{
-		if (!ft_strncmp(str, action_list1[i], 2) || \
-		!ft_strncmp(str, action_list2[i], 3))
-			exit_with_err();
+		if (ft_strncmp(str, action_list1[i], 2))
+			return ;
 		i++;
 	}
+	i = 0;
+	while (i < 3)
+	{
+		if (!ft_strncmp(str, action_list2[i], 3))
+			return ;
+		i++;
+	}
+	exit_with_err();
 }
 
 void	exit_with_err(void)

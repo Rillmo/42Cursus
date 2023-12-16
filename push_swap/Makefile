@@ -15,7 +15,11 @@ SRCS_BONUS =	sources_bonus/main_bonus.c \
 				sources_bonus/parsing_bonus.c \
 				sources_bonus/util_bonus.c \
 				sources_bonus/exception_bonus.c \
-				sources_bonus/setting_bonus.c
+				sources_bonus/setting_bonus.c \
+				sources_bonus/stack_util1_bonus.c \
+				sources_bonus/stack_util2_bonus.c \
+				sources_bonus/stack_func1_bonus.c
+
 
 OBJS = $(patsubst sources%, objects%, $(SRCS:.c=.o))
 OBJS_BONUS = $(patsubst sources%, objects%, $(SRCS_BONUS:.c=.o))
@@ -65,7 +69,7 @@ $(NAME) : $(OBJS) $(INC)
 
 clean :
 	@make clean -C $(PRINTF_DIR)
-	@rm -f $(OBJS) $(OBJS_BONUS)
+	@rm -f $(OBJS) $(OBJS_BONUS) $(GNL_OBJS)
 	@echo "[ cleaned push_swap ]"
 
 fclean : clean
