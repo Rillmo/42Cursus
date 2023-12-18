@@ -9,7 +9,8 @@ SRCS = 	sources/main.c \
 		sources/parsing.c \
 		sources/exception.c \
 		sources/manual_sorting.c \
-		sources/manual_sorting_5.c
+		sources/manual_sorting_5.c \
+		sources/base4.c
 
 SRCS_BONUS =	sources_bonus/main_bonus.c \
 				sources_bonus/parsing_bonus.c \

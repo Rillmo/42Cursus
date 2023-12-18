@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   util.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
+/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/10 20:42:44 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/15 13:23:52 by junkim2          ###   ########.fr       */
+/*   Updated: 2023/12/18 15:26:09 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	get_max_len(t_data **arr, int size)
 
 	max = -1;
 	i = 1;
-	while (i < size)
+	while (i <= size)
 	{
 		len = get_3base_len(arr[i]->idx);
 		if (len > max)

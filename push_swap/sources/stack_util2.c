@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   stack_util2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
+/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/10 20:11:37 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/15 21:34:05 by junkim2          ###   ########.fr       */
+/*   Updated: 2023/12/16 22:22:15 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ int	get_stacksize(t_stack *stack)
 	return (count);
 }
 
-/*
 void	print_(t_info *info)
 {
 	t_stack	*cur;
@@ -52,7 +51,7 @@ void	print_(t_info *info)
 	printf(" A\t| ");
 	while (cur && i <= info->size)
 	{
-		printf("(%lld|%s)(%p) ", cur->data->idx, cur->data->base3, cur->data);
+		printf("(%lld|%s) ", cur->data->idx, cur->data->base3);
 		cur = cur->next;
 	}
 	printf("\n B\t| ");
@@ -67,7 +66,7 @@ void	print_(t_info *info)
 	i = 1;
 	while (i <= info->size)
 	{
-		printf("(%lld|%s)(%p) ", info->origin[i]->idx, info->origin[i]->base3, info->origin[i]);
+		printf("(%lld|%s) ", info->origin[i]->idx, info->origin[i]->base3);
 		i++;
 	}
 	printf("\n sorted\t| ");
@@ -75,8 +74,8 @@ void	print_(t_info *info)
 	while (info->sorted && i <= info->size)
 	{
 		if (info->sorted[i])
-			printf("(%lld|%s)(%p) ", info->sorted[i]->idx, info->sorted[i]->base3, info->sorted[i]);
+			printf("(%lld|%s) ", info->sorted[i]->idx, info->sorted[i]->base3);
 		i++;
 	}
 	printf("\n");
-}*/
+}

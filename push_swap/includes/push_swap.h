@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
+/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/18 19:25:58 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/15 15:11:04 by junkim2          ###   ########.fr       */
+/*   Updated: 2023/12/18 15:10:01 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,8 @@ void	print_(t_info *info);
 void	sort_3base(t_info *info, int print);
 void	move_to_a(t_info *info, int print);
 int		is_sorted(t_info *info);
+// ==== base4 ====
+int		ft_pow(int x, int y);
+void	sort_4base(t_info *info, int print);
 
 #endif

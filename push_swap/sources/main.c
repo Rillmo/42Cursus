@@ -6,7 +6,7 @@
 /*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/18 19:30:13 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/16 21:50:29 by macbookpro       ###   ########.fr       */
+/*   Updated: 2023/12/18 16:16:46 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,6 @@ void	free_all(t_info *info)
 	free(info->origin);
 }
 
-void	check_leak(void)
-{
-	system("leaks push_swap");
-}
-
 int	main(int argc, char **argv)
 {
 	t_info	info;
@@ -61,7 +56,5 @@ int	main(int argc, char **argv)
 	save_to_sorted(&info);
 	sort_3base(&info, 1);
 	move_to_a(&info, 1);
-	free_all(&info);
-	atexit(check_leak);
 	return (0);
 }
