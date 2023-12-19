@@ -3,43 +3,66 @@
 /*                                                        :::      ::::::::   */
 /*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 23:21:56 by macbookpro        #+#    #+#             */
-/*   Updated: 2023/12/16 15:07:14 by macbookpro       ###   ########.fr       */
+/*   Updated: 2023/12/19 15:39:02 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/checker.h"
 
-void	print_(t_info *info)
+void	free_all(t_info *info)
 {
-	int	i;
 	t_stack	*cur;
 
-	i = 1;
-	ft_printf(" input\t| ");
-	while (i <= info->size)
-		ft_printf("%d ", info->input[i++]);
-	ft_printf("\n");
 	cur = info->a;
-	ft_printf(" A\t| ");
 	while (cur)
 	{
-		ft_printf("%d ", cur->data);
+		free(cur);
 		cur = cur->next;
 	}
-	ft_printf("\n");
+	cur = info->b;
+	while (cur)
+	{
+		free(cur);
+		cur = cur->next;
+	}
+	free(info->input);
+}
+
+int	is_sorted(t_info *info)
+{
+	t_stack	*cur;
+	int		num;
+
+	if (info->b != NULL)
+		return (0);
+	cur = info->a;
+	while (cur)
+	{
+		num = cur->data;
+		if (cur->next && num > cur->next->data)
+			return (0);
+		cur = cur->next;
+	}
+	return (1);
 }
 
 int	main(int argc, char **argv)
 {
 	t_info	info;
 
+	if (argc == 1)
+		return (0);
 	check_input_err(argc, argv);
 	set_info(&info, argc, argv);
 	check_dup_err(&info);
-	print_(&info);
 	set_action(&info);
+	if (is_sorted(&info))
+		ft_printf("OK\n");
+	else
+		ft_printf("KO\n");
+	free_all(&info);
 	return (0);
 }

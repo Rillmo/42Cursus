@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exception_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 21:33:08 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/16 15:10:19 by macbookpro       ###   ########.fr       */
+/*   Updated: 2023/12/19 15:32:57 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,17 +42,17 @@ void	check_dup_err(t_info *info)
 	int	i;
 	int	j;
 	int	*arr;
-	int	pivot;
+	int	key;
 
 	arr = info->input;
 	i = 1;
-	while (i <= info->size)
+	while (i < info->size)
 	{
-		pivot = arr[i];
+		key = arr[i];
 		j = i + 1;
 		while (j <= info->size)
 		{
-			if (pivot == arr[j])
+			if (key == arr[j])
 			{
 				write(2, "Error\n", 6);
 				exit(EXIT_FAILURE);
@@ -61,37 +61,6 @@ void	check_dup_err(t_info *info)
 		}
 		i++;
 	}
-}
-
-void	check_valid_action(char *str)
-{
-	int			i;
-	const char	action_list1[8][3] = {"pa", "pb", "ra", "rb", \
-	"rr", "sa", "sb", "ss"};
-	const char	action_list2[3][4] = {"rra", "rrb", "rrr"};
-
-	i = 0;
-	while (str[i])
-	{
-		if (!ft_isalpha(str[i]))
-			exit_with_err();
-		i++;
-	}
-	i = 0;
-	while (i < 8)
-	{
-		if (ft_strncmp(str, action_list1[i], 2))
-			return ;
-		i++;
-	}
-	i = 0;
-	while (i < 3)
-	{
-		if (!ft_strncmp(str, action_list2[i], 3))
-			return ;
-		i++;
-	}
-	exit_with_err();
 }
 
 void	exit_with_err(void)
