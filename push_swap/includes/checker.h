@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checker.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 23:22:19 by macbookpro        #+#    #+#             */
-/*   Updated: 2023/12/16 15:06:31 by macbookpro       ###   ########.fr       */
+/*   Updated: 2023/12/19 16:55:01 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,6 @@
 
 # include "../ft_printf/ft_printf.h"
 # include "../get_next_line/get_next_line.h"
-# include <stdlib.h>
-
-# include <stdio.h>
 
 # define INT_MAX 2147483647
 # define INT_MIN -2147483648
@@ -61,5 +58,9 @@ void	sa(t_info *info, int print);
 void	sb(t_info *info, int print);
 void	pa(t_info *info, int print);
 void	pb(t_info *info, int print);
+void	ra(t_info *info, int print);
+void	rb(t_info *info, int print);
+void	rra(t_info *info, int print);
+void	rrb(t_info *info, int print);
 
 #endif

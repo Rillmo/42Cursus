@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sort.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 20:15:05 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/18 16:06:20 by macbookpro       ###   ########.fr       */
+/*   Updated: 2023/12/19 13:54:43 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	btoa(t_info *info, int radix, int print)
 	int	i;
 
 	i = 1;
-	while (info->b && i<= info->size)
+	while (info->b && i <= info->size)
 	{
 		if (info->b->data->base3[radix] == '0')
 			pa(info, print);

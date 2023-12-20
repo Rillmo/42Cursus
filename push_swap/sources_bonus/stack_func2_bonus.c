@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   stack_func2.c                                      :+:      :+:    :+:   */
+/*   stack_func2_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/10 19:41:09 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/15 13:23:52 by junkim2          ###   ########.fr       */
+/*   Updated: 2023/12/16 16:17:37 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ void	rra(t_info *info, int print)
 
 	if (print)
 		ft_printf("rra\n");
+	if (get_stacksize(info->a) <= 1)
+		return ;
 	first = info->a;
 	last = get_lastnode(info->a);
 	cur = first;
@@ -70,6 +72,8 @@ void	rrb(t_info *info, int print)
 
 	if (print)
 		ft_printf("rrb\n");
+	if (get_stacksize(info->b) <= 1)
+		return ;
 	first = info->b;
 	last = get_lastnode(info->b);
 	cur = first;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   base4.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 14:57:02 by macbookpro        #+#    #+#             */
-/*   Updated: 2023/12/18 16:14:48 by macbookpro       ###   ########.fr       */
+/*   Updated: 2023/12/19 13:55:38 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,22 @@ int	ft_pow(int x, int y)
 		i++;
 	}
 	return (result);
+}
+
+void	sort_4base_23(t_info *info, int print, int base4)
+{
+	while (info->b)
+	{
+		base4 = ((info->b->data->base3[0] - '0') * 3 + \
+			(info->b->data->base3[1] - '0')) % 4;
+		if (base4 == 2)
+			pa(info, print);
+		else if (base4 == 3)
+		{
+			pa(info, print);
+			ra(info, print);
+		}
+	}
 }
 
 void	sort_4base(t_info *info, int print)
@@ -50,16 +66,5 @@ void	sort_4base(t_info *info, int print)
 			rb(info, print);
 		i++;
 	}
-	while (info->b)
-	{
-		base4 = ((info->b->data->base3[0] - '0') * 3 + \
-			(info->b->data->base3[1] - '0')) % 4;
-		if (base4 == 2)
-			pa(info, print);
-		else if (base4 == 3)
-		{
-			pa(info, print);
-			ra(info, print);
-		}
-	}
+	sort_4base_23(info, print, base4);
 }

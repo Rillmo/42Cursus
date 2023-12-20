@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_util.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 00:55:38 by macbookpro        #+#    #+#             */
-/*   Updated: 2023/11/11 01:35:12 by macbookpro       ###   ########.fr       */
+/*   Updated: 2023/12/19 13:56:47 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,7 @@ char	*ft_strjoin(char *str1, char *str2)
 	}
 	j = 0;
 	while (j < str2_len && i < str1_len * 2 + str2_len)
-	{
-		result[i] = str2[j];
-		i++;
-		j++;
-	}
+		result[i++] = str2[j++];
 	free(str1);
 	return (result);
 }

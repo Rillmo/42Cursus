@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   stack_func1_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/10 15:29:24 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/16 15:04:17 by macbookpro       ###   ########.fr       */
+/*   Updated: 2023/12/16 16:10:45 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	sb(t_info *info, int print)
 	if (get_stacksize(info->b) <= 1)
 		return ;
 	first = info->b;
-	second = info->b;
+	second = info->b->next;
 	tmp = first->data;
 	first->data = second->data;
 	second->data = tmp;

@@ -19,13 +19,14 @@ SRCS_BONUS =	sources_bonus/main_bonus.c \
 				sources_bonus/setting_bonus.c \
 				sources_bonus/stack_util1_bonus.c \
 				sources_bonus/stack_util2_bonus.c \
-				sources_bonus/stack_func1_bonus.c
+				sources_bonus/stack_func1_bonus.c \
+				sources_bonus/stack_func2_bonus.c
 
 
 OBJS = $(patsubst sources%, objects%, $(SRCS:.c=.o))
 OBJS_BONUS = $(patsubst sources%, objects%, $(SRCS_BONUS:.c=.o))
 
-CC = cc -Wall -Wextra -Werror
+CC = cc -Wall -Wextra -Werror -g
 NAME = push_swap
 PRINTF = ./ft_printf/libftprintf.a
 PRINTF_DIR = ./ft_printf

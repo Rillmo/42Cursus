@@ -3,22 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/18 19:25:58 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/18 15:10:01 by macbookpro       ###   ########.fr       */
+/*   Updated: 2023/12/19 16:55:06 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 
-# include <unistd.h>
-# include <stdlib.h>
 # include "../ft_printf/ft_printf.h"
-
-# include <stdio.h>
-# include <string.h>
 
 # define INT_MAX 2147483647
 # define INT_MIN -2147483648

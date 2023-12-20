@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/18 19:30:13 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/18 16:16:46 by macbookpro       ###   ########.fr       */
+/*   Updated: 2023/12/19 17:00:09 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,6 @@ int	main(int argc, char **argv)
 	save_to_sorted(&info);
 	sort_3base(&info, 1);
 	move_to_a(&info, 1);
+	free_all(&info);
 	return (0);
 }
