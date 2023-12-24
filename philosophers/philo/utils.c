@@ -1,28 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/22 19:06:05 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/24 23:18:01 by macbookpro       ###   ########.fr       */
+/*   Created: 2023/12/24 23:31:58 by macbookpro        #+#    #+#             */
+/*   Updated: 2023/12/24 23:37:15 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	main(int argc, char **argv)
-{
-	t_philo	*philos;
-	t_info	info;
+// long long	gettime_now(void)
+// {
+// 	struct timeval	now;
+// 	long long		result;
 
-	if (argc < 5 || argc > 6)
-		return (1);
-	if (set_info(&info, argc, argv) == _ERROR)
-		return (_ERROR);
-	if (set_philo(&philos, &info) == _ERROR)
-		return (_ERROR);
-	// philo_eat()
-	return (0);
-}
+// 	if (gettimeofday(&now, NULL) < 0)
+// 		return (-1);
+// 	result = now.
+
+// }

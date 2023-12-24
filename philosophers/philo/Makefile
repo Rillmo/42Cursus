@@ -22,7 +22,7 @@ $(NAME) : $(OBJS) $(INC)
 	@echo "[ OK ]"
 
 clean :
-	@rm -f $(OBJS)
+	@rm -rf $(OBJS) objects
 	@echo "[ cleaned philo ]"
 
 fclean : clean

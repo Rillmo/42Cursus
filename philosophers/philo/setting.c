@@ -3,16 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   setting.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
+/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 15:54:00 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/23 16:07:13 by junkim2          ###   ########.fr       */
+/*   Updated: 2023/12/24 23:17:41 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	set_info(t_info *info, int argc, char **argv)
+int	set_mutex(t_info *info)
+{
+	int	i;
+
+	info->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * info->num_of_philo);
+	if (info->forks == NULL)
+		return (_ERROR);
+	i = 0;
+	while (i < info->num_of_philo)
+		pthread_mutex_init(&(info->forks[i++]), NULL);
+	return (0);
+}
+
+int	set_info(t_info *info, int argc, char **argv)
 {
 	info->num_of_philo = ft_atoi(argv[1]);
 	info->time_to_die = ft_atoi(argv[2]);
@@ -20,19 +33,25 @@ void	set_info(t_info *info, int argc, char **argv)
 	info->time_to_sleep = ft_atoi(argv[4]);
 	if (argc > 5)
 		info->num_of_eat = ft_atoi(argv[5]);
+	if (set_mutex(info) == _ERROR)
+		return (_ERROR);
+	return (0);
 }
 
-void	set_philo(t_info *info)
+int	set_philo(t_philo **philos, t_info *info)
 {
-	int	i;
+	int		i;
 
-	info->philos = (t_philo *)malloc(sizeof(t_philo) * info->num_of_philo);
-	if (info->philos == NULL)
-		return ;
+	*philos = (t_philo *)malloc(sizeof(t_philo) * info->num_of_philo);
+	if (*philos == NULL)
+		return (_ERROR);
 	i = 0;
 	while (i < info->num_of_philo)
 	{
-		info->philos[i].num = i + 1;
+		(*philos)[i].num = i;
+		(*philos)[i].left = i;
+		(*philos)[i].right = (i + 1) % info->num_of_philo;
 		i++;
 	}
+	return (0);
 }
