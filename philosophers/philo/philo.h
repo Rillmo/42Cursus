@@ -6,7 +6,7 @@
 /*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:42:12 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/24 23:42:38 by macbookpro       ###   ########.fr       */
+/*   Updated: 2023/12/25 12:44:59 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/time.h>
+# include <unistd.h>
 
 # define _ERROR 1
 
@@ -45,4 +46,5 @@ typedef struct s_philo
 int		ft_atoi(const char *str);
 int		set_info(t_info *info, int argc, char **argv);
 int		set_philo(t_philo **philos, t_info *info);
+int 	philo_thread(t_philo *philos);
 #endif

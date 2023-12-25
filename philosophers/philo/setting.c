@@ -6,7 +6,7 @@
 /*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 15:54:00 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/24 23:17:41 by macbookpro       ###   ########.fr       */
+/*   Updated: 2023/12/25 12:27:20 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int	set_philo(t_philo **philos, t_info *info)
 		(*philos)[i].num = i;
 		(*philos)[i].left = i;
 		(*philos)[i].right = (i + 1) % info->num_of_philo;
+		(*philos)[i].info = info;
 		i++;
 	}
 	return (0);

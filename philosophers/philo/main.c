@@ -6,7 +6,7 @@
 /*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 19:06:05 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/24 23:18:01 by macbookpro       ###   ########.fr       */
+/*   Updated: 2023/12/25 12:45:06 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,6 @@ int	main(int argc, char **argv)
 		return (_ERROR);
 	if (set_philo(&philos, &info) == _ERROR)
 		return (_ERROR);
-	// philo_eat()
+	philo_thread(philos);
 	return (0);
 }
