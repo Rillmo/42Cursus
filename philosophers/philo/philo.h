@@ -6,7 +6,7 @@
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:42:12 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/26 18:51:55 by junkim2          ###   ########.fr       */
+/*   Updated: 2023/12/26 20:29:53 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ typedef struct s_philo
 	int			left;
 	int			right;
 	long long	start_time;
-	long long	last_eat_time;
+	long long	last_eat;
+	int			starve;
 }	t_philo;
 
 int			ft_atoi(const char *str);
