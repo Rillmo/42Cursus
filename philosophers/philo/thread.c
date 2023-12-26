@@ -6,7 +6,7 @@
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 19:20:15 by macbookpro        #+#    #+#             */
-/*   Updated: 2023/12/26 22:03:45 by junkim2          ###   ########.fr       */
+/*   Updated: 2023/12/26 22:52:52 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,18 +38,24 @@ void	monitoring(t_philo *philos, t_info *info)
 
 void	philo_eat(t_philo *philo, t_info *info)
 {
-	if (get_timenow() - philo->last_eat > info->time_to_die)
-	{
-		philo_print(philo, info, 5);
-		exit(1);
-	}
+	// int i;
+
 	pthread_mutex_lock(&info->forks[philo->left]);
 	philo_print(philo, info, 1);
 	pthread_mutex_lock(&info->forks[philo->right]);
 	philo_print(philo, info, 1);
 	philo_print(philo, info, 2);
-	usleep((info->time_to_eat) * 1000);
 	philo->last_eat = get_timenow();
+	// usleep(1000 * info->time_to_eat);
+	while (get_timenow() - philo->last_eat < info->time_to_eat)
+	{
+		usleep(100);
+		if (get_timenow() - philo->last_eat > info->time_to_die)
+		{
+			philo_print(philo, info, 5);
+			exit(1);
+		}
+	}
 	pthread_mutex_unlock(&info->forks[philo->right]);
 	pthread_mutex_unlock(&info->forks[philo->left]);
 }
@@ -58,6 +64,7 @@ void	*philo_func(void *arg)
 {
 	t_philo	*philo;
 	t_info	*info;
+	long long	start;
 
 	philo = (t_philo *)arg;
 	info = philo->info;
@@ -72,7 +79,16 @@ void	*philo_func(void *arg)
 	{
 		philo_eat(philo, info);
 		philo_print(philo, info, 3);
-		usleep((info->time_to_sleep) * 1000);
+		start = get_timenow();
+		while (get_timenow() - start < info->time_to_sleep)
+		{
+			usleep(100);
+			if (get_timenow() - philo->last_eat > info->time_to_die)
+			{
+				philo_print(philo, info, 5);
+				exit(1);
+			}
+		}
 	}
 	return (0);
 }
