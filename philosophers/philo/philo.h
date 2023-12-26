@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:42:12 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/25 12:44:59 by macbookpro       ###   ########.fr       */
+/*   Updated: 2023/12/26 17:01:05 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct s_info
 	int				time_to_sleep;
 	int				num_of_eat;
 	pthread_mutex_t	*forks;
+	pthread_mutex_t	printer;
 }	t_info;
 
 typedef struct s_philo
@@ -40,7 +41,8 @@ typedef struct s_philo
 	int			num;
 	int			left;
 	int			right;
-	t_timeval	start_time;
+	long long	start_time;
+	int			turn_end;
 }	t_philo;
 
 int		ft_atoi(const char *str);
