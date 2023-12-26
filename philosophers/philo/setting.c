@@ -6,7 +6,7 @@
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 15:54:00 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/26 17:00:23 by junkim2          ###   ########.fr       */
+/*   Updated: 2023/12/26 18:51:37 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ int	set_philo(t_philo **philos, t_info *info)
 		(*philos)[i].left = i;
 		(*philos)[i].right = (i + 1) % info->num_of_philo;
 		(*philos)[i].info = info;
-		(*philos)[i].turn_end = 0;
+		(*philos)[i].start_time = 0;
+		(*philos)[i].last_eat_time = 0;
 		i++;
 	}
 	return (0);

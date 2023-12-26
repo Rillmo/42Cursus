@@ -1,7 +1,8 @@
 SRCS = 	main.c \
 		ft_atoi.c \
 		setting.c \
-		thread.c
+		thread.c \
+		utils.c
 
 OBJS =	$(addprefix objects/, $(SRCS:.c=.o))
 
