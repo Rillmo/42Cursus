@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:42:12 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/27 15:26:33 by macbookpro       ###   ########.fr       */
+/*   Updated: 2023/12/27 20:18:56 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct s_info
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				num_of_eat;
+	int				simulation_end;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	printer;
 }	t_info;
@@ -53,7 +54,7 @@ int			set_philo(t_philo **philos, t_info *info);
 int			philo_thread(t_philo *philos);
 long long	get_timenow(void);
 void		philo_print(t_philo *philo, t_info *info, int message);
-void		check_die(t_philo *philo, t_info *info);
+int			check_die(t_philo *philo, t_info *info);
 void		move_time(t_philo *philo, t_info *info, int time);
 
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setting.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 15:54:00 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/27 15:26:53 by macbookpro       ###   ########.fr       */
+/*   Updated: 2023/12/27 20:19:29 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	set_info(t_info *info, int argc, char **argv)
 		info->num_of_eat = ft_atoi(argv[5]);
 	else
 		info->num_of_eat = -1;
+	info->simulation_end = 0;
 	if (set_mutex(info) == _ERROR)
 		return (_ERROR);
 	return (0);
