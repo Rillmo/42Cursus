@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setting.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
+/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 15:54:00 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/26 21:54:16 by junkim2          ###   ########.fr       */
+/*   Updated: 2023/12/27 15:26:53 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int	set_info(t_info *info, int argc, char **argv)
 	info->time_to_sleep = ft_atoi(argv[4]);
 	if (argc > 5)
 		info->num_of_eat = ft_atoi(argv[5]);
+	else
+		info->num_of_eat = -1;
 	if (set_mutex(info) == _ERROR)
 		return (_ERROR);
 	return (0);
@@ -55,6 +57,8 @@ int	set_philo(t_philo **philos, t_info *info)
 		(*philos)[i].info = info;
 		(*philos)[i].start_time = 0;
 		(*philos)[i].last_eat = 0;
+		(*philos)[i].count = 0;
+		(*philos)[i].eat_end = 0;
 		i++;
 	}
 	return (0);

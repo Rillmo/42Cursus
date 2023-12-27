@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
+/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 23:31:58 by macbookpro        #+#    #+#             */
-/*   Updated: 2023/12/26 22:43:13 by junkim2          ###   ########.fr       */
+/*   Updated: 2023/12/27 15:36:51 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,29 @@ long long	get_timenow(void)
 		return (-1);
 	result = now.tv_sec * 1000 + now.tv_usec / 1000;
 	return (result);
+}
+
+void	check_die(t_philo *philo, t_info *info)
+{
+	if (get_timenow() - philo->last_eat > info->time_to_die)
+	{
+		philo_print(philo, info, 5);
+		exit (1);
+	}
+}
+
+void	move_time(t_philo *philo, t_info *info, int time)
+{
+	long long	start;
+
+	(void)philo;
+	(void)info;
+	start = get_timenow();
+	while (get_timenow() - start < time)
+	{
+		usleep(100);
+		check_die(philo, info);
+	}
 }
 
 // <message>	1)fork  2)eat  3)sleep  4)think  5)die
@@ -39,6 +62,8 @@ void	philo_print(t_philo *philo, t_info *info, int message)
 		printf("%lld %d is sleeping\n", now - philo->start_time, philo->num);
 	else if (message == 4)
 		printf("%lld %d is thinking\n", now - philo->start_time, philo->num);
+	else if (message == 6)
+		printf("simulation end\n");
 	else
 		printf("%lld %d died\n", now - philo->start_time, philo->num);
 	pthread_mutex_unlock(&info->printer);

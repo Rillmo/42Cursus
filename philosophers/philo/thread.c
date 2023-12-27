@@ -6,7 +6,7 @@
 /*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 19:20:15 by macbookpro        #+#    #+#             */
-/*   Updated: 2023/12/27 14:56:49 by macbookpro       ###   ########.fr       */
+/*   Updated: 2023/12/27 15:38:36 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,10 @@ void	philo_eat(t_philo *philo, t_info *info)
 	philo_print(philo, info, 1);
 	philo_print(philo, info, 2);
 	philo->last_eat = get_timenow();
-	while (get_timenow() - philo->last_eat < info->time_to_eat)
-	{
-		usleep(100);
-		if (get_timenow() - philo->last_eat > info->time_to_die)
-		{
-			philo_print(philo, info, 5);
-			exit(1);
-		}
-	}
-
+	philo->count++;
+	if (philo->count == info->num_of_eat)
+		philo->eat_end = 1;
+	move_time(philo, info, info->time_to_eat);
 	pthread_mutex_unlock(&info->forks[philo->right]);
 	pthread_mutex_unlock(&info->forks[philo->left]);
 }
@@ -39,7 +33,6 @@ void	*philo_func(void *arg)
 {
 	t_philo	*philo;
 	t_info	*info;
-	long long	start;
 
 	philo = (t_philo *)arg;
 	info = philo->info;
@@ -52,16 +45,7 @@ void	*philo_func(void *arg)
 	{
 		philo_eat(philo, info);
 		philo_print(philo, info, 3);
-		start = get_timenow();
-		while (get_timenow() - start < info->time_to_sleep)
-		{
-			usleep(100);
-			if (get_timenow() - philo->last_eat > info->time_to_die)
-			{
-				philo_print(philo, info, 5);
-				exit(1);
-			}
-		}
+		move_time(philo, info, info->time_to_sleep);
 	}
 	return (0);
 }
@@ -69,18 +53,24 @@ void	*philo_func(void *arg)
 void	monitoring(t_philo *philos, t_info *info)
 {
 	int	i;
+	int	count;
 
 	while (1)
 	{
 		i = 0;
+		count = 0;
 		while (i < info->num_of_philo)
 		{
-			if (get_timenow() - philos[i].last_eat > info->time_to_die)
-			{
-				philo_print(&philos[i], info , 5);
-				exit(1);
-			}
+			check_die(&philos[i], info);
+			if (philos[i].eat_end == 1)
+				count++;
 			i++;
+		}
+		if (count == info->num_of_philo)
+		{
+			usleep(100);
+			philo_print(&philos[0], info, 6);
+			exit(0);
 		}
 	}
 }
