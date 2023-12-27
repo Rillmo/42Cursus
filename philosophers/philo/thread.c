@@ -6,7 +6,7 @@
 /*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 19:20:15 by macbookpro        #+#    #+#             */
-/*   Updated: 2023/12/26 23:49:32 by macbookpro       ###   ########.fr       */
+/*   Updated: 2023/12/27 14:56:49 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,15 +70,18 @@ void	monitoring(t_philo *philos, t_info *info)
 {
 	int	i;
 
-	i = 0;
-	while (i < info->num_of_philo)
+	while (1)
 	{
-		if (get_timenow() - philos[i].last_eat > info->time_to_die)
+		i = 0;
+		while (i < info->num_of_philo)
 		{
-			philo_print(&philos[i], info , 5);
-			exit(1);
+			if (get_timenow() - philos[i].last_eat > info->time_to_die)
+			{
+				philo_print(&philos[i], info , 5);
+				exit(1);
+			}
+			i++;
 		}
-		i++;
 	}
 }
 
