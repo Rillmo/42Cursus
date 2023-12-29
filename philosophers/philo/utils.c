@@ -6,7 +6,7 @@
 /*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 23:31:58 by macbookpro        #+#    #+#             */
-/*   Updated: 2023/12/28 15:42:47 by macbookpro       ###   ########.fr       */
+/*   Updated: 2023/12/29 19:40:42 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,11 @@ void	philo_print(t_philo *philo, t_info *info, int message)
 
 	pthread_mutex_lock(&info->printer);
 	now = get_timenow();
+	if (info->simulation_end == 1)
+	{
+		pthread_mutex_unlock(&info->printer);
+		return ;
+	}
 	if (message == 1)
 		printf("%lld %d has taken a fork\n", \
 		now - info->start_time, philo->num + 1);

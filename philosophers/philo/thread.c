@@ -6,7 +6,7 @@
 /*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 19:20:15 by macbookpro        #+#    #+#             */
-/*   Updated: 2023/12/28 15:41:10 by macbookpro       ###   ########.fr       */
+/*   Updated: 2023/12/29 20:12:08 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ void	philo_eat(t_philo *philo, t_info *info)
 	pthread_mutex_unlock(&info->time);
 	move_time(philo, info, info->time_to_eat);
 	philo->count++;
-	// if (philo->count >= info->num_of_eat && philo->eat_end == 0)
-	// 	philo->eat_end = 1;
 	pthread_mutex_unlock(&info->forks[philo->right]);
 	pthread_mutex_unlock(&info->forks[philo->left]);
 	// philo_print(philo, info, 3);
@@ -56,7 +54,6 @@ void	*philo_func(void *arg)
 		}
 		philo_print(philo, info, 3);
 		move_time(philo, info, info->time_to_sleep);
-		// philo_print(philo, info, 4);
 	}
 	return (0);
 }
