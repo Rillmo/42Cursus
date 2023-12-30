@@ -7,6 +7,11 @@ NAME = libftprintf.a
 LIBFT_DIR = libft
 LIBFT = libft.a
 
+COLOR_GREEN=\033[0;32m
+COLOR_RED=\033[0;31m
+COLOR_BLUE=\033[0;34m
+COLOR_END=\033[0m
+
 %.o : %.c
 	@$(CC) -c $^ -o $@
 
@@ -15,7 +20,7 @@ all : $(NAME)
 $(NAME) : $(LIBFT) $(OBJS)
 	@echo "[ compling ft_printf... ]"
 	@ar -cr $(NAME) $(NAME) $(OBJS)
-	@echo "[ OK ]"
+	@echo "[ $(COLOR_GREEN)OK$(COLOR_END) ]"
 
 $(LIBFT) :
 	@make -s -C $(LIBFT_DIR)
@@ -24,7 +29,7 @@ $(LIBFT) :
 clean :
 	@rm -f $(OBJS)
 	@make clean -C $(LIBFT_DIR)
-	@echo "[ cleaned ft_printf ]"
+	@echo "[ $(COLOR_BLUE)cleaned ft_printf$(COLOR_BLUE) ]"
 
 fclean :
 	@echo "[ fcleaned ft_printf ]"
