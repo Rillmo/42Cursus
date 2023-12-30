@@ -15,6 +15,11 @@ BONUS_OBJS = $(BONUS_SRCS:.c=.o)
 CC = cc -Wall -Wextra -Werror
 NAME = libft.a
 
+COLOR_GREEN=\033[0;32m
+COLOR_RED=\033[0;31m
+COLOR_BLUE=\033[0;34m
+COLOR_END=\033[0m
+
 %.o : %.c
 	@$(CC) -c $^ -o $@
 
@@ -23,20 +28,20 @@ all : $(NAME)
 $(NAME) : $(OBJS)
 	@echo "[ compling libft... ]"
 	@ar -cr $(NAME) $^
-	@echo "[ OK ]"
+	@echo "[ $(COLOR_GREEN)OK$(COLOR_END) ]"
 
 bonus : $(NAME) $(BONUS_OBJS)
 	@echo "[ compling libft bonus... ]"
-	@ar -cr $(NAME) $^
-	@echo "[ OK ]""
+	@ar -cr $(NAME) $(BONUS_OBJS)
+	@echo "[ $(COLOR_GREEN)OK$(COLOR_END) ]"
 
 clean :
 	@rm -f $(OBJS) $(BONUS_OBJS)
-	@echo "[ cleaned libft ]"
+	@echo "[ $(COLOR_BLUE)cleaned libft$(COLOR_END) ]"
 
 fclean :
 	@rm -f $(OBJS) $(BONUS_OBJS) $(NAME)
-	@echo "[ fcleaned libft ]"
+	@echo "[ $(COLOR_BLUE)fcleaned libft$(COLOR_END) ]"
 
 re :
 	make fclean
