@@ -6,7 +6,7 @@
 /*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 23:31:58 by macbookpro        #+#    #+#             */
-/*   Updated: 2023/12/29 19:40:42 by macbookpro       ###   ########.fr       */
+/*   Updated: 2023/12/30 01:54:57 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	check_die(t_philo *philo, t_info *info)
 {
 	if (get_timenow() - philo->last_eat >= info->time_to_die)
 	{
+		info->simulation_end = 1;
 		philo_print(philo, info, 5);
 		return (1);
 	}
@@ -54,6 +55,8 @@ void	philo_print(t_philo *philo, t_info *info, int message)
 
 	pthread_mutex_lock(&info->printer);
 	now = get_timenow();
+	if (message == 5)
+		printf("%lld %d died\n", now - info->start_time, philo->num + 1);
 	if (info->simulation_end == 1)
 	{
 		pthread_mutex_unlock(&info->printer);
@@ -68,10 +71,5 @@ void	philo_print(t_philo *philo, t_info *info, int message)
 		printf("%lld %d is sleeping\n", now - info->start_time, philo->num + 1);
 	if (message == 4)
 		printf("%lld %d is thinking\n", now - info->start_time, philo->num + 1);
-	if (message == 5)
-	{
-		printf("%lld %d died\n", now - info->start_time, philo->num + 1);
-		return ;
-	}
 	pthread_mutex_unlock(&info->printer);
 }

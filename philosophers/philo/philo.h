@@ -6,7 +6,7 @@
 /*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:42:12 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/28 15:42:24 by macbookpro       ###   ########.fr       */
+/*   Updated: 2023/12/30 01:39:10 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ typedef struct s_info
 	long long		start_time;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	printer;
-	pthread_mutex_t	time;
 }	t_info;
 
 typedef struct s_philo

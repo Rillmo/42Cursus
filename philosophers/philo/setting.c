@@ -6,7 +6,7 @@
 /*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 15:54:00 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/28 15:42:35 by macbookpro       ###   ########.fr       */
+/*   Updated: 2023/12/30 01:39:17 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ int	set_mutex(t_info *info)
 	while (i < info->num_of_philo)
 		pthread_mutex_init(&(info->forks[i++]), NULL);
 	pthread_mutex_init(&(info->printer), NULL);
-	pthread_mutex_init(&(info->time), NULL);
 	return (0);
 }
 
