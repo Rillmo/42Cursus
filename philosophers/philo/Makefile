@@ -10,6 +10,11 @@ CC = 	cc -Wall -Wextra -Werror
 NAME =	philo
 INC =	philo.h
 
+COLOR_GREEN=\033[0;32m
+COLOR_RED=\033[0;31m
+COLOR_BLUE=\033[0;34m
+COLOUR_END=\033[0m
+
 objects/%.o : %.c
 	@$(CC) -c $^ -o $@
 
@@ -21,15 +26,15 @@ objects :
 $(NAME) : $(OBJS) $(INC)
 	@echo "[ compling philo... ]"
 	@$(CC) $(OBJS) -I $(INC) -o $@
-	@echo "[ OK ]"
+	@echo "[ $(COLOR_GREEN)OK$(COLOUR_END) ]"
 
 clean :
 	@rm -rf $(OBJS) objects
-	@echo "[ cleaned philo ]"
+	@echo "[ $(COLOR_BLUE)cleaned philo$(COLOUR_END) ]"
 
 fclean : clean
 	@rm -f $(NAME)
-	@echo "[ fcleaned philo ]"
+	@echo "[ $(COLOR_BLUE)fcleaned philo$(COLOUR_END) ]"
 	
 re :
 	make fclean
