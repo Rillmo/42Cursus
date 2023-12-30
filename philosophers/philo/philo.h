@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:42:12 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/30 01:39:10 by macbookpro       ###   ########.fr       */
+/*   Updated: 2023/12/30 14:42:03 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@
 # include <unistd.h>
 
 # define _ERROR 1
-
-typedef struct timeval t_timeval;
 
 typedef struct s_info
 {
@@ -55,7 +53,7 @@ int			philo_thread(t_philo *philos);
 long long	get_timenow(void);
 void		philo_print(t_philo *philo, t_info *info, int message);
 int			check_die(t_philo *philo, t_info *info);
-void		move_time(t_philo *philo, t_info *info, int time);
-
+int			move_time(t_info *info, int time);
+void		destroy_all(t_philo *philos, t_info *info);
 
 #endif

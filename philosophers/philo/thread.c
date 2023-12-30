@@ -3,28 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   thread.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 19:20:15 by macbookpro        #+#    #+#             */
-/*   Updated: 2023/12/30 02:05:33 by macbookpro       ###   ########.fr       */
+/*   Updated: 2023/12/30 14:36:14 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	philo_eat(t_philo *philo, t_info *info)
+int	philo_eat(t_philo *philo, t_info *info)
 {
-	// philo_print(philo, info, 4);
 	pthread_mutex_lock(&info->forks[philo->left]);
 	philo_print(philo, info, 1);
+	if (info->num_of_philo == 1)
+	{
+		pthread_mutex_unlock(&info->forks[philo->left]);
+		return (0);
+	}
 	pthread_mutex_lock(&info->forks[philo->right]);
 	philo_print(philo, info, 1);
 	philo_print(philo, info, 2);
 	philo->last_eat = get_timenow();
-	move_time(philo, info, info->time_to_eat);
+	if (philo->last_eat == _ERROR)
+		return (_ERROR);
+	if (move_time(info, info->time_to_eat) == _ERROR)
+		return (_ERROR);
 	philo->count++;
 	pthread_mutex_unlock(&info->forks[philo->right]);
 	pthread_mutex_unlock(&info->forks[philo->left]);
+	return (0);
 }
 
 void	*philo_func(void *arg)
@@ -36,8 +44,9 @@ void	*philo_func(void *arg)
 	info = philo->info;
 	if (philo->num % 2 == 0)
 		usleep(100);
-	info->start_time = get_timenow();
 	philo->last_eat = get_timenow();
+	if (philo->last_eat == _ERROR)
+		return (NULL);
 	philo_print(philo, info, 4);
 	while (info->simulation_end != 1)
 	{
@@ -48,7 +57,8 @@ void	*philo_func(void *arg)
 			return (0);
 		}
 		philo_print(philo, info, 3);
-		move_time(philo, info, info->time_to_sleep);
+		if (move_time(info, info->time_to_sleep) == _ERROR)
+			return (NULL);
 		philo_print(philo, info, 4);
 	}
 	return (0);
@@ -57,21 +67,23 @@ void	*philo_func(void *arg)
 int	monitoring(t_philo *philos, t_info *info)
 {
 	int	i;
-	int	count;
+	int	check;
 
 	while (info->simulation_end == 0)
 	{
 		i = 0;
-		count = 0;
-		if (info->num_of_eat != -1 && count == info->num_of_philo)
+		if (info->num_of_eat != -1 && info->eat_end == info->num_of_philo)
 		{
 			info->simulation_end = 1;
 			return (0);
 		}
 		while (i < info->num_of_philo)
 		{
-			if (check_die(&philos[i], info) == 1)
+			check = check_die(&philos[i], info);
+			if (check == 1)
 				return (1);
+			else if (check == _ERROR)
+				return (_ERROR);
 			i++;
 		}
 	}
@@ -89,6 +101,8 @@ int	philo_thread(t_philo *philos)
 	while (i < info->num_of_philo)
 	{
 		philos[i].last_eat = get_timenow();
+		if (philos[i].last_eat == _ERROR)
+			return (_ERROR);
 		pthread_create(&philos[i].thread, NULL, philo_func, &philos[i]);
 		i++;
 	}

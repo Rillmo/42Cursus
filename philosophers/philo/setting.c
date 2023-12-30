@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setting.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 15:54:00 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/30 01:39:17 by macbookpro       ###   ########.fr       */
+/*   Updated: 2023/12/30 14:46:12 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,18 @@ int	set_mutex(t_info *info)
 {
 	int	i;
 
-	info->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * info->num_of_philo);
+	info->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) \
+	* info->num_of_philo);
 	if (info->forks == NULL)
 		return (_ERROR);
 	i = 0;
 	while (i < info->num_of_philo)
-		pthread_mutex_init(&(info->forks[i++]), NULL);
-	pthread_mutex_init(&(info->printer), NULL);
+	{
+		if (pthread_mutex_init(&(info->forks[i++]), NULL) != 0)
+			return (_ERROR);
+	}
+	if (pthread_mutex_init(&(info->printer), NULL) != 0)
+		return (_ERROR);
 	return (0);
 }
 
@@ -40,7 +45,10 @@ int	set_info(t_info *info, int argc, char **argv)
 	info->eat_end = 0;
 	info->start_time = get_timenow();
 	if (set_mutex(info) == _ERROR)
+	{
+		destroy_all(NULL, info);
 		return (_ERROR);
+	}
 	return (0);
 }
 
