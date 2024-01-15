@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:42:12 by junkim2           #+#    #+#             */
-/*   Updated: 2023/12/30 22:27:07 by macbookpro       ###   ########.fr       */
+/*   Updated: 2024/01/15 16:15:13 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ typedef struct s_info
 	long long		start_time;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	printer;
-	pthread_mutex_t time;
+	pthread_mutex_t	time;
 }	t_info;
 
 typedef struct s_philo
@@ -56,5 +56,7 @@ void		philo_print(t_philo *philo, t_info *info, int message);
 int			check_die(t_philo *philo, t_info *info);
 int			move_time(t_info *info, int time);
 void		destroy_all(t_philo *philos, t_info *info);
+void		sleep_until_even_eat(t_info *arg);
+void		sleep_while_even_eat(t_info *info);
 
 #endif

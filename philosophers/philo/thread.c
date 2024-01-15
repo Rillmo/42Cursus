@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   thread.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 19:20:15 by macbookpro        #+#    #+#             */
-/*   Updated: 2023/12/30 22:29:48 by macbookpro       ###   ########.fr       */
+/*   Updated: 2024/01/15 19:51:14 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,7 @@ int	philo_eat(t_philo *philo, t_info *info)
 	philo_print(philo, info, 1);
 	philo_print(philo, info, 2);
 	philo->last_eat = get_timenow();
-	if (philo->last_eat == _ERROR)
-		return (_ERROR);
-	if (move_time(info, info->time_to_eat) == _ERROR)
-		return (_ERROR);
+	move_time(info, info->time_to_eat);
 	philo->count++;
 	pthread_mutex_unlock(&info->forks[philo->right]);
 	pthread_mutex_unlock(&info->forks[philo->left]);
@@ -42,12 +39,10 @@ void	*philo_func(void *arg)
 
 	philo = (t_philo *)arg;
 	info = philo->info;
-	if (philo->num % 2 == 0)
-		usleep(100);
-	philo->last_eat = get_timenow();
-	if (philo->last_eat == _ERROR)
-		return (NULL);
 	philo_print(philo, info, 4);
+	if (philo->num % 2 == 0)
+		move_time(info, info->time_to_eat);
+	philo->last_eat = get_timenow();
 	while (info->simulation_end != 1)
 	{
 		philo_eat(philo, info);
@@ -56,9 +51,10 @@ void	*philo_func(void *arg)
 			info->eat_end++;
 			return (0);
 		}
+		if (philo->num == info->num_of_philo - 1 && philo->count == 0)
+			usleep(10);
 		philo_print(philo, info, 3);
-		if (move_time(info, info->time_to_sleep) == _ERROR)
-			return (NULL);
+		move_time(info, info->time_to_sleep);
 		philo_print(philo, info, 4);
 	}
 	return (0);

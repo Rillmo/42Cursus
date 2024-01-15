@@ -6,7 +6,7 @@
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 23:31:58 by macbookpro        #+#    #+#             */
-/*   Updated: 2023/12/30 14:42:48 by junkim2          ###   ########.fr       */
+/*   Updated: 2024/01/15 19:51:17 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,7 @@ long long	get_timenow(void)
 	struct timeval	now;
 	long long		result;
 
-	if (gettimeofday(&now, NULL) == -1)
-		return (_ERROR);
+	gettimeofday(&now, NULL);
 	result = now.tv_sec * 1000 + now.tv_usec / 1000;
 	return (result);
 }
@@ -55,19 +54,18 @@ int	check_die(t_philo *philo, t_info *info)
 
 int	move_time(t_info *info, int time)
 {
-	long long	start;
-	long long	now;
+	struct timeval	now;
+	struct timeval	start;
+	long long		time_spend;
 
-	start = get_timenow();
-	if (start == _ERROR)
-		return (_ERROR);
-	now = start;
-	while (now - start < time)
+	gettimeofday(&start, NULL);
+	usleep(100);
+	while (1)
 	{
-		now = get_timenow();
-		if (now == _ERROR)
-			return (_ERROR);
-		if (info->simulation_end == 1)
+		gettimeofday(&now, NULL);
+		time_spend = now.tv_usec - start.tv_usec + \
+			(now.tv_sec - start.tv_sec) * 1000 * 1000;
+		if (info->simulation_end == 1 || time_spend >= time * 1000)
 			return (0);
 		usleep(100);
 	}
