@@ -6,7 +6,7 @@
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 19:20:15 by macbookpro        #+#    #+#             */
-/*   Updated: 2024/01/15 20:42:07 by junkim2          ###   ########.fr       */
+/*   Updated: 2024/01/15 22:27:15 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,7 @@ void	*philo_func(void *arg)
 	{
 		philo_eat(philo, info);
 		if (philo->count == info->num_of_eat)
-		{
 			info->eat_end++;
-			return (0);
-		}
 		if (philo->num == info->num_of_philo - 1 && philo->count == 0)
 			usleep(10);
 		philo_print(philo, info, 3);
@@ -74,7 +71,7 @@ int	monitoring(t_philo *philos, t_info *info)
 			info->simulation_end = 1;
 			return (0);
 		}
-		while (i < info->num_of_philo)
+		while (info->simulation_end != 1 && i < info->num_of_philo)
 		{
 			check = check_die(&philos[i], info);
 			if (check == 1)
