@@ -6,7 +6,7 @@
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 19:20:15 by macbookpro        #+#    #+#             */
-/*   Updated: 2024/01/15 19:51:14 by junkim2          ###   ########.fr       */
+/*   Updated: 2024/01/15 20:42:07 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ int	philo_eat(t_philo *philo, t_info *info)
 	philo_print(philo, info, 2);
 	philo->last_eat = get_timenow();
 	move_time(info, info->time_to_eat);
-	philo->count++;
 	pthread_mutex_unlock(&info->forks[philo->right]);
 	pthread_mutex_unlock(&info->forks[philo->left]);
+	philo->count++;
 	return (0);
 }
 
@@ -70,6 +70,7 @@ int	monitoring(t_philo *philos, t_info *info)
 		i = 0;
 		if (info->num_of_eat != -1 && info->eat_end == info->num_of_philo)
 		{
+			printf("%lld eat_end:%d\n", get_timenow() - info->start_time, info->eat_end);
 			info->simulation_end = 1;
 			return (0);
 		}
@@ -97,8 +98,6 @@ int	philo_thread(t_philo *philos)
 	while (i < info->num_of_philo)
 	{
 		philos[i].last_eat = get_timenow();
-		if (philos[i].last_eat == _ERROR)
-			return (_ERROR);
 		pthread_create(&philos[i].thread, NULL, philo_func, &philos[i]);
 		i++;
 	}

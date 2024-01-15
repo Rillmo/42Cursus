@@ -6,7 +6,7 @@
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:42:12 by junkim2           #+#    #+#             */
-/*   Updated: 2024/01/15 16:15:13 by junkim2          ###   ########.fr       */
+/*   Updated: 2024/01/15 20:23:57 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ typedef struct s_info
 	long long		start_time;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	printer;
-	pthread_mutex_t	time;
 }	t_info;
 
 typedef struct s_philo

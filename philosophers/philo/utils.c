@@ -6,7 +6,7 @@
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 23:31:58 by macbookpro        #+#    #+#             */
-/*   Updated: 2024/01/15 19:51:17 by junkim2          ###   ########.fr       */
+/*   Updated: 2024/01/15 20:36:07 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int	check_die(t_philo *philo, t_info *info)
 	{
 		info->simulation_end = 1;
 		philo_print(philo, info, 5);
+		pthread_mutex_unlock(&(info->printer));
 		return (1);
 	}
 	return (0);
