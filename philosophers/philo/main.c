@@ -6,16 +6,11 @@
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 19:06:05 by junkim2           #+#    #+#             */
-/*   Updated: 2024/01/17 13:38:35 by junkim2          ###   ########.fr       */
+/*   Updated: 2024/01/17 16:59:59 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-void	f()
-{
-	system("leaks philo");
-}
 
 int	err_handler(t_philo *philos, t_info *info)
 {
@@ -28,7 +23,6 @@ int	main(int argc, char **argv)
 	t_philo	*philos;
 	t_info	info;
 
-	// atexit(f);
 	if (argc < 5 || argc > 6)
 		return (_ERROR);
 	if (set_info(&info, argc, argv) == _ERROR)

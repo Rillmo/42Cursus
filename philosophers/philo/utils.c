@@ -6,7 +6,7 @@
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 23:31:58 by macbookpro        #+#    #+#             */
-/*   Updated: 2024/01/17 16:46:56 by junkim2          ###   ########.fr       */
+/*   Updated: 2024/01/17 17:00:32 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ int	check_die(t_philo *philo, t_info *info)
 	if (get_timenow() - recent_eat >= info->time_to_die)
 	{
 		set_end(info, 1);
-		// info->simulation_end = 1;
 		philo_print(philo, info, 5);
 		return (1);
 	}
@@ -69,7 +68,6 @@ int	move_time(t_info *info, int time)
 		gettimeofday(&now, NULL);
 		time_spend = now.tv_usec - start.tv_usec + \
 			(now.tv_sec - start.tv_sec) * 1000 * 1000;
-		//info->simulation_end == 1
 		if (time_spend >= time * 1000)
 			return (0);
 		usleep(100);
