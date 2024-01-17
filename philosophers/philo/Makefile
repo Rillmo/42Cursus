@@ -2,11 +2,12 @@ SRCS = 	main.c \
 		ft_atoi.c \
 		setting.c \
 		thread.c \
-		utils.c
+		utils.c \
+		utils2.c
 
 OBJS =	$(addprefix objects/, $(SRCS:.c=.o))
 
-CC = 	cc -Wall -Wextra -Werror
+CC = 	cc -Wall -Wextra -Werror -fsanitize=thread -g
 NAME =	philo
 INC =	philo.h
 

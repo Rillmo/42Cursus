@@ -6,7 +6,7 @@
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 19:20:15 by macbookpro        #+#    #+#             */
-/*   Updated: 2024/01/17 12:39:38 by junkim2          ###   ########.fr       */
+/*   Updated: 2024/01/17 16:45:25 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,10 @@ int	philo_eat(t_philo *philo, t_info *info)
 {
 	pthread_mutex_lock(&info->forks[philo->left]);
 	philo_print(philo, info, 1);
-	if (info->num_of_philo == 1)
-	{
-		pthread_mutex_unlock(&info->forks[philo->left]);
-		return (0);
-	}
 	pthread_mutex_lock(&info->forks[philo->right]);
 	philo_print(philo, info, 1);
 	philo_print(philo, info, 2);
-	philo->last_eat = get_timenow();
+	set_lasteat(philo, info, get_timenow());
 	move_time(info, info->time_to_eat);
 	pthread_mutex_unlock(&info->forks[philo->right]);
 	pthread_mutex_unlock(&info->forks[philo->left]);
@@ -42,8 +37,8 @@ void	*philo_func(void *arg)
 	philo_print(philo, info, 4);
 	if (philo->num % 2 == 0)
 		move_time(info, info->time_to_eat);
-	philo->last_eat = get_timenow();
-	while (info->simulation_end != 1)
+	set_lasteat(philo, info, get_timenow());
+	while (get_end(info) != 1)
 	{
 		philo_eat(philo, info);
 		if (philo->count == info->num_of_eat)
@@ -62,15 +57,15 @@ int	monitoring(t_philo *philos, t_info *info)
 	int	i;
 	int	check;
 
-	while (info->simulation_end == 0)
+	while (get_end(info) == 0)
 	{
 		i = 0;
 		if (info->num_of_eat != -1 && info->eat_end == info->num_of_philo)
 		{
-			info->simulation_end = 1;
+			set_end(info, 1);
 			return (0);
 		}
-		while (info->simulation_end != 1 && i < info->num_of_philo)
+		while (get_end(info) != 1 && i < info->num_of_philo)
 		{
 			check = check_die(&philos[i], info);
 			if (check == 1)
