@@ -6,7 +6,7 @@
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 19:20:15 by macbookpro        #+#    #+#             */
-/*   Updated: 2024/01/15 22:27:15 by junkim2          ###   ########.fr       */
+/*   Updated: 2024/01/17 12:39:38 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ int	monitoring(t_philo *philos, t_info *info)
 		i = 0;
 		if (info->num_of_eat != -1 && info->eat_end == info->num_of_philo)
 		{
-			printf("%lld eat_end:%d\n", get_timenow() - info->start_time, info->eat_end);
 			info->simulation_end = 1;
 			return (0);
 		}
