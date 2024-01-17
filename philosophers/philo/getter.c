@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils2.c                                           :+:      :+:    :+:   */
+/*   getter.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 16:39:51 by junkim2           #+#    #+#             */
-/*   Updated: 2024/01/17 16:50:49 by junkim2          ###   ########.fr       */
+/*   Updated: 2024/01/17 17:43:17 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,14 @@ long long	get_lasteat(t_philo *philo, t_info *info)
 	return (result);
 }
 
-void	set_lasteat(t_philo *philo, t_info *info, long long time)
+int	get_eatend(t_info *info)
 {
-	pthread_mutex_lock(&(info->lasteat[philo->num]));
-	philo->last_eat = time;
-	pthread_mutex_unlock(&(info->lasteat[philo->num]));
+	int	result;
+
+	pthread_mutex_lock(&info->eatend);
+	result = info->eat_end;
+	pthread_mutex_unlock(&info->eatend);
+	return (result);
 }
 
 int	get_end(t_info *info)
@@ -37,11 +40,4 @@ int	get_end(t_info *info)
 	result = info->simulation_end;
 	pthread_mutex_unlock(&info->end);
 	return (result);
-}
-
-void	set_end(t_info *info, int flag)
-{
-	pthread_mutex_lock(&info->end);
-	info->simulation_end = flag;
-	pthread_mutex_unlock(&info->end);
 }

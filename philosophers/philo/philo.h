@@ -6,7 +6,7 @@
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:42:12 by junkim2           #+#    #+#             */
-/*   Updated: 2024/01/17 16:46:20 by junkim2          ###   ########.fr       */
+/*   Updated: 2024/01/17 17:40:39 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct s_info
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	printer;
 	pthread_mutex_t	end;
+	pthread_mutex_t	eatend;
 	pthread_mutex_t	*lasteat;
 }	t_info;
 
@@ -61,5 +62,7 @@ long long	get_lasteat(t_philo *philo, t_info *info);
 void		set_lasteat(t_philo *philo, t_info *info, long long time);
 int			get_end(t_info *info);
 void		set_end(t_info *info, int flag);
+int			get_eatend(t_info *info);
+void		set_eatend(t_info *info, int n);
 
 #endif

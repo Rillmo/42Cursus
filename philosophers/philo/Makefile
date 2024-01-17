@@ -3,11 +3,13 @@ SRCS = 	main.c \
 		setting.c \
 		thread.c \
 		utils.c \
-		utils2.c
+		getter.c \
+		setter.c
 
 OBJS =	$(addprefix objects/, $(SRCS:.c=.o))
 
-CC = 	cc -Wall -Wextra -Werror -fsanitize=thread -g
+CC = 	cc -Wall -Wextra -Werror 
+#-fsanitize=thread -g
 NAME =	philo
 INC =	philo.h
 

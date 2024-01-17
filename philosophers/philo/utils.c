@@ -6,7 +6,7 @@
 /*   By: junkim2 <junkim2@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 23:31:58 by macbookpro        #+#    #+#             */
-/*   Updated: 2024/01/17 17:00:32 by junkim2          ###   ########.fr       */
+/*   Updated: 2024/01/17 17:27:28 by junkim2          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,14 @@ void	destroy_all(t_philo *philos, t_info *info)
 	while (i < info->num_of_philo)
 	{
 		pthread_mutex_destroy(&info->forks[i]);
+		pthread_mutex_destroy(&info->lasteat[i]);
 		i++;
 	}
+	pthread_mutex_destroy(&info->printer);
+	pthread_mutex_destroy(&info->end);
 	free(philos);
 	free(info->forks);
+	free(info->lasteat);
 }
 
 long long	get_timenow(void)
@@ -60,7 +64,7 @@ int	move_time(t_info *info, int time)
 	struct timeval	start;
 	long long		time_spend;
 
-	(void)info;
+	info = NULL;
 	gettimeofday(&start, NULL);
 	usleep(100);
 	while (1)
@@ -84,7 +88,7 @@ void	philo_print(t_philo *philo, t_info *info, int message)
 	now = get_timenow();
 	if (message == 5)
 		printf("%lld %d died\n", now - info->start_time, philo->num + 1);
-	if (info->simulation_end == 1)
+	if (get_end(info) == 1)
 	{
 		pthread_mutex_unlock(&info->printer);
 		return ;
