@@ -2,7 +2,7 @@ SRCS = 	megaphone.cpp
 
 OBJS =	$(addprefix objects/, $(SRCS:.cpp=.o))
 
-CPPFLAG = c++ -Wall -Wextra -Werror 
+CPPFLAG = c++ -Wall -Wextra -Werror -std=c++98
 NAME =	megaphone
 
 COLOR_GREEN=\033[0;32m
