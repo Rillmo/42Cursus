@@ -1,9 +1,11 @@
-SRCS = 	megaphone.cpp
+SRCS = 	Contact.cpp \
+		PhoneBook.cpp \
+		main.cpp \
 
 OBJS =	$(addprefix objects/, $(SRCS:.cpp=.o))
 
-CPPFLAG = c++ -Wall -Wextra -Werror 
-NAME =	megaphone
+CPPFLAG = c++ -Wall -Wextra -Werror -fsanitize=address -g
+NAME =	phonebook
 
 COLOR_GREEN=\033[0;32m
 COLOR_RED=\033[0;31m
@@ -19,17 +21,17 @@ objects :
 	@mkdir -p objects
 
 $(NAME) : $(OBJS)
-	@echo "[ compling philo... ]"
+	@echo "[ compling ... ]"
 	@$(CPPFLAG) $(OBJS) -o $@
 	@echo "[ $(COLOR_GREEN)OK$(COLOUR_END) ]"
 
 clean :
 	@rm -rf $(OBJS) objects
-	@echo "[ $(COLOR_BLUE)cleaned megaphone$(COLOUR_END) ]"
+	@echo "[ $(COLOR_BLUE)cleaned$(COLOUR_END) ]"
 
 fclean : clean
 	@rm -f $(NAME)
-	@echo "[ $(COLOR_BLUE)fcleaned megaphone$(COLOUR_END) ]"
+	@echo "[ $(COLOR_BLUE)fcleaned$(COLOUR_END) ]"
 	
 re :
 	make fclean
