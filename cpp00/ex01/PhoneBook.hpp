@@ -7,7 +7,8 @@ class PhoneBook {
 	private:
 		Contact conatctList[8];
 	public:
-		void add(int count);
+		int add(int count);
+		void printContactList();
 };
 
 #endif

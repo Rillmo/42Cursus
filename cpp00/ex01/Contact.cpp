@@ -1,7 +1,12 @@
 #include "Contact.hpp"
 
+int Contact::isEmpty() {
+    return this->empty;
+}
+
 void Contact::setFirstName(std::string firstName) {
     this->firstName = firstName;
+    this->emtpy = 0;
 }
 
 void Contact::setLastName(std::string lastName) {

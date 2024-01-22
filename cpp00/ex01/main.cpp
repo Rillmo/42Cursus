@@ -11,8 +11,11 @@ int main() {
 	while (1) {
 		std::cout << "> ";
 		std::cin >> line;
-		if (line.compare("ADD") == 0)
-			phoneBook.add(count % 9);
-		count++;
+		if (line.compare("ADD") == 0) {
+			if (phoneBook.add(count % 8) == 0)
+				count++;
+		} else if (line.compare("SEARCH") == 0) {
+			phoneBook.printContactList();
+		}
 	}
 }
