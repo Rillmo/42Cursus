@@ -1,5 +1,4 @@
 #include <iostream>
-#include <cctype>
 #include <string>
 
 std::string	strToUpper(std::string str) {

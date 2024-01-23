@@ -1,14 +1,13 @@
 #include "PhoneBook.hpp"
 
 int PhoneBook::add(int count) {
-	Contact now;
 	std::string firstName;
 	std::string lastName;
 	std::string nickName;
 	std::string phoneNumber;
 	std::string darkestSecret;
 	
-	now = this->conatctList[count];
+	std::cout << count << std::endl;
 	std::cout << " first name : ";
 	std::cin >> firstName;
 	std::cout << " last name : ";
@@ -20,12 +19,10 @@ int PhoneBook::add(int count) {
 	std::cout << " darkest secret : ";
 	std::cin >> darkestSecret;
 
-	now.setFirstName(firstName);
-	now.setLastName(lastName);
-	now.setNickName(nickName);
-	now.setPhoneNumber(phoneNumber);
-	now.setDarkestSecret(darkestSecret);
-
+	this->conatctList[count].firstName = firstName;
+	this->conatctList[count].lastName = lastName;
+	this->conatctList[count].nickName = nickName;
+	this->conatctList[count].phoneNumber = phoneNumber;
 	return (0);
 };
 
@@ -38,10 +35,9 @@ void PhoneBook::printContactList() {
 	std::cout << "|" << std::setw(10) << "nickName" << "|" << std::endl;
 	for (int i=0; i<8; i++) {
 		contact = this->conatctList[i];
-		std::cout << std::setw(10) << contact.getFirstName();
-		std::cout << std::setw(10) << contact.getLastName();
-		std::cout << std::setw(10) << contact.getNickName();
-		std::cout << std::setw(10) << contact.getPhoneNumber();
-		std::cout << std::setw(10) << contact.getDarkestSecret() << std::endl;
+		std::cout << "|" << std::setw(10) << i + 1;
+		std::cout << "|" << std::setw(10) << contact.firstName;
+		std::cout << "|" << std::setw(10) << contact.lastName;
+		std::cout << "|" << std::setw(10) << contact.nickName << "|" << std::endl;
 	}
 }
