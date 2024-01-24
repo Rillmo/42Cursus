@@ -29,10 +29,12 @@ int PhoneBook::add(int count) {
 void PhoneBook::printContactList() {
 	Contact contact;
 
+	std::cout << "=============================================" << std::endl;
 	std::cout << "|" << std::setw(10) << "index";
 	std::cout << "|" << std::setw(10) << "firstName";
 	std::cout << "|" << std::setw(10) << "lastName";
 	std::cout << "|" << std::setw(10) << "nickName" << "|" << std::endl;
+	std::cout << "---------------------------------------------" << std::endl;
 	for (int i=0; i<8; i++) {
 		contact = this->conatctList[i];
 		std::cout << "|" << std::setw(10) << i + 1;
@@ -40,4 +42,5 @@ void PhoneBook::printContactList() {
 		std::cout << "|" << std::setw(10) << contact.lastName;
 		std::cout << "|" << std::setw(10) << contact.nickName << "|" << std::endl;
 	}
+	std::cout << "=============================================" << std::endl;
 }
