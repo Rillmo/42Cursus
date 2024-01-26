@@ -1,4 +1,5 @@
 #include "PhoneBook.hpp"
+#include <sstream>
 
 int PhoneBook::add(int count) {
 	std::string firstName;
@@ -35,9 +36,18 @@ std::string PhoneBook::truncateString(std::string str) {
 	return (str);
 }
 
+int isNumStr(std::string str) {
+	for (unsigned long i=0; i< str.size(); i++) {
+		if (!isnumber(str[i]))
+			return (1);
+	}
+	return (0);
+}
+
 void PhoneBook::printContactList() {
 	Contact contact;
 	std::string input;
+	std::stringstream ss;
 	int		idx;
 
 	std::cout << "=============================================" << std::endl;
@@ -58,17 +68,15 @@ void PhoneBook::printContactList() {
 
 	std::cout << "INDEX > ";
 	std::cin >> input;
-	try {
-		idx = std::stoi(input);
-	}catch (...) {
+	while (isNumStr(input) == 1) {
 		std::cout << "[ERR] NOT A NUMBER" << std::endl;
-		std::cout << "INDEX > ";
-		std::cin >> input;
+		return ;
 	}
-	if (idx < 1 || idx > 8) {
+	ss << input;
+	ss >> idx;
+	while (idx < 1 || idx > 8) {
 		std::cout << "[ERR] OUT OF RANGE" << std::endl;
-		std::cout << "INDEX > ";
-		std::cin >> input;
+		return ;
 	}
 	std::cout << "FIRSTNAME : " + this->conatctList[idx - 1].getFirstName() << std::endl;
 	std::cout << "LASTNAME : " + this->conatctList[idx - 1].getLastName() << std::endl;
