@@ -4,10 +4,12 @@
 #include "Contact.hpp"
 
 class PhoneBook {
+	private:
 		Contact conatctList[8];
 	public:
 		int add(int count);
 		void printContactList();
+		static std::string truncateString(std::string);
 };
 
 #endif

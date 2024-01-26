@@ -16,6 +16,10 @@ int main() {
 				count++;
 		} else if (line.compare("SEARCH") == 0) {
 			phoneBook.printContactList();
+		} else if (line.compare("EXIT") == 0) {
+			exit(EXIT_SUCCESS); 
+		} else {
+			std::cout << "NO SUCH COMMAND" << std::endl;
 		}
 	}
 }

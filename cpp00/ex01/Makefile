@@ -4,7 +4,7 @@ SRCS = 	Contact.cpp \
 
 OBJS =	$(addprefix objects/, $(SRCS:.cpp=.o))
 
-CPPFLAG = c++ -Wall -Wextra -Werror -fsanitize=address -g
+CPPFLAG = c++ -Wall -Wextra -Werror #-fsanitize=address -g
 NAME =	phonebook
 
 COLOR_GREEN=\033[0;32m
