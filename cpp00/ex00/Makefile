@@ -19,17 +19,17 @@ objects :
 	@mkdir -p objects
 
 $(NAME) : $(OBJS)
-	@echo "[ compling philo... ]"
+	@echo "[ compling... ]"
 	@$(CPPFLAG) $(OBJS) -o $@
 	@echo "[ $(COLOR_GREEN)OK$(COLOUR_END) ]"
 
 clean :
 	@rm -rf $(OBJS) objects
-	@echo "[ $(COLOR_BLUE)cleaned megaphone$(COLOUR_END) ]"
+	@echo "[ $(COLOR_BLUE)cleaned$(COLOUR_END) ]"
 
 fclean : clean
 	@rm -f $(NAME)
-	@echo "[ $(COLOR_BLUE)fcleaned megaphone$(COLOUR_END) ]"
+	@echo "[ $(COLOR_BLUE)fcleaned$(COLOUR_END) ]"
 	
 re :
 	make fclean
