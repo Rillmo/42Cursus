@@ -11,6 +11,7 @@ int main() {
 	while (1) {
 		std::cout << "> ";
 		std::cin >> line;
+		if (std::cin.eof()) break;
 		if (line.compare("ADD") == 0) {
 			if (phoneBook.add(count % 8) == 0)
 				count++;
