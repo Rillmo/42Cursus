@@ -5,8 +5,8 @@ std::string	strToUpper(std::string str) {
 	int	len = str.length();
 
 	for (int i=0; i<len; i++) {
-		if ('a' <= str[i] && str[i] <= 'z')
-			str[i] -= 32;
+		if (std::isalpha(str[i]))
+			str[i] = std::toupper(str[i]);
 	}
 	return (str);
 }
