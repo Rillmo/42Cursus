@@ -38,7 +38,7 @@ std::string PhoneBook::truncateString(std::string str) {
 
 int isNumStr(std::string str) {
 	for (unsigned long i=0; i< str.size(); i++) {
-		if (!isnumber(str[i]))
+		if (!isdigit(str[i]))
 			return (1);
 	}
 	return (0);
