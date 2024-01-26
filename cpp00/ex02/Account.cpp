@@ -60,13 +60,41 @@ Account::Account( int initial_deposit )
 }
 
 Account::~Account() {
-	
+	_displayTimestamp();
+	std::cout << " index:" << _accountIndex << ";";
+	std::cout << "amount:" << _amount << ";";
+	std::cout << "closed" << std::endl;
 }
 
 void	Account::makeDeposit( int deposit ) {
-	this->_amount += deposit;
-	_totalAmount += this->_amount;
+	_displayTimestamp();
+	std::cout << " index:" << _accountIndex << ";";
+	std::cout << "p_amount:" << _amount << ";";
+	std::cout << "deposit:" << deposit << ";";
+	_amount += deposit;
+	_totalAmount += _amount;
+	_nbDeposits++;
 	_totalNbDeposits++;
+	std::cout << "amount:" << _amount << ";";
+	std::cout << "nb_deposits:" << _nbDeposits << std::endl;
+}
+
+bool	Account::makeWithdrawal( int withdrawal ) {
+	_displayTimestamp();
+	std::cout << " index:" << _accountIndex << ";";
+	std::cout << "p_amount:" << _amount << ";";
+	std::cout << "withdrawal:" << withdrawal << ";";
+	if (_amount - withdrawal < 0) {
+		std::cout << "refused" << std::endl;
+		return (false);
+	}
+	_amount -= withdrawal;
+	_totalAmount -= _amount;
+	_nbWithdrawals++;
+	_totalNbWithdrawals++;
+	std::cout << "amount:" << _amount << ";";
+	std::cout << "nb_withdrawals:" << _nbWithdrawals << std::endl;
+	return (true);
 }
 
 void	Account::displayStatus( void ) const{
@@ -75,27 +103,5 @@ void	Account::displayStatus( void ) const{
 	std::cout << "amount:" << _amount << ";";
 	std::cout << "deposits:" << _nbDeposits << ";";
 	std::cout << "withdrawals:" << _nbWithdrawals << std::endl;
-}
-
-int main(void) {
-	typedef std::vector<Account::t>							  accounts_t;
-	typedef std::vector<int>								  ints_t;
-	typedef std::pair<accounts_t::iterator, ints_t::iterator> acc_int_t;
-
-	int	const				amounts[]	= { 42, 54, 957, 432, 1234, 0, 754, 16576 };
-	size_t const			amounts_size( sizeof(amounts) / sizeof(int) );
-	accounts_t				accounts( amounts, amounts + amounts_size );
-	accounts_t::iterator	acc_begin	= accounts.begin();
-	accounts_t::iterator	acc_end		= accounts.end();
-
-	Account::displayAccountsInfos();
-	std::for_each( acc_begin, acc_end, std::mem_fun_ref( &Account::displayStatus ) );
-
-	for ( acc_int_t it( acc_begin, dep_begin );
-		  it.first != acc_end && it.second != dep_end;
-		  ++(it.first), ++(it.second) ) {
-
-		(*(it.first)).makeDeposit( *(it.second) );
-	}
 }
 
