@@ -20,7 +20,7 @@ void Harl::error(void) {
 }
 
 void Harl::complain(std::string level) {
-	std::string list[4] = {"debug", "info", "warning", "error"};
+	std::string list[4] = {"DEBUG", "INFO", "WARNING", "ERROR"};
 	void (Harl::*func[4])(void) = {
 		&Harl::debug,
 		&Harl::info,
