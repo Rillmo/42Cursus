@@ -2,7 +2,7 @@ SRCS = 	main.cpp
 
 OBJS =	$(addprefix objects/, $(SRCS:.cpp=.o))
 
-CPPFLAG = c++ -Wall -Wextra -Werror -std=c++98 x
+CPPFLAG = c++ -Wall -Wextra -Werror -std=c++98
 NAME =	new-sed
 
 COLOR_GREEN=\033[0;32m

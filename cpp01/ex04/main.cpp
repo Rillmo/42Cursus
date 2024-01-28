@@ -18,10 +18,7 @@ std::string findAndReplace(std::string line, std::string str1, std::string str2)
 	return result;
 }
 
-void	f() {system("leaks new-sed");}
-
 int main(int argc, char *argv[]) {
-	atexit(f);
 
 	if (argc != 4) {
 		std::cout << "[ARGUMENT ERROR]" << std::endl;
