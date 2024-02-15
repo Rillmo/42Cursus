@@ -5,12 +5,15 @@
 
 class Fixed {
 	private:
-		int numOfFixedPoint;
-		static const int numOfFractional = 8;
+		int _value;
+		static const int _fract = 8;
 	public:
 		Fixed();
 		Fixed(const Fixed &f);
+		Fixed& operator=(const Fixed &f);
 		~Fixed();
+		int	getRawBits() const;
+		void setRawBits(int const raw);
 };
 
 #endif
