@@ -69,6 +69,11 @@ void ClapTrap::takeDamage(unsigned int amount) {
 }
 
 void ClapTrap::beRepaired(unsigned int amount) {
+	if (_energyPoints == 0 || _hitPoints == 0) {
+		std::cout << "🛠 ClapTrap " << _name << " failed to reapair" << std::endl;
+		printStatus();
+		return ;
+	}
 	std::cout << "🛠 ClapTrap " << _name << " repaired itself " << amount << std::endl;
 	_hitPoints+=amount;
 	_energyPoints--;
