@@ -103,7 +103,21 @@ Fixed& Fixed::operator++() {
 Fixed Fixed::operator++(int n) {
 	Fixed old(*this);
 
+	n = 0;
 	_value += 1;
+	return old;
+}
+
+Fixed& Fixed::operator--() {
+	_value -= 1;
+	return *this;
+}
+
+Fixed Fixed::operator--(int n) {
+	Fixed old(*this);
+
+	n = 0;
+	_value -= 1;
 	return old;
 }
 
