@@ -3,9 +3,9 @@
 ScavTrap::ScavTrap()
 {
 	std::cout << "ScavTrap Default constructor called" << std::endl;
-	this->_hitPoints = 100;
+	// this->_hitPoints = 100;
 	this->_energyPoints = 50;
-	this->_attackDamage = 20;
+	// this->_attackDamage = 20;
 }
 
 ScavTrap::ScavTrap(std::string name)

@@ -1,6 +1,7 @@
 SRCS = 	ClapTrap.cpp \
 		ScavTrap.cpp \
 		FragTrap.cpp \
+		DiamondTrap.cpp \
 		main.cpp
 
 OBJS =	$(addprefix objects/, $(SRCS:.cpp=.o))
