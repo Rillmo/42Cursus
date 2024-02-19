@@ -11,8 +11,9 @@ Point::Point(const Point &p)
 
 Point& Point::operator=(const Point &p)
 {
-	const_cast<Fixed&>(_x) = p._x;
-	const_cast<Fixed&>(_y) = p._y;
+	void(p._x);
+	// const_cast<Fixed&>(_x) = p._x;
+	// const_cast<Fixed&>(_y) = p._y;
 	return *this;
 }
 

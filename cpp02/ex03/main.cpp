@@ -15,17 +15,17 @@ int main() {
 		std::cout << "false";
 	std::cout << std::endl;
 
-	p = Point(0.0f, 0.0f);
-	result = bsp(a, b, c, p);
-	if (bsp(a, b, c, p) == true)
+	Point p1 = Point(0.0f, 0.0f);
+	result = bsp(a, b, c, p1);
+	if (bsp(a, b, c, p1) == true)
 		std::cout << "true";
 	else
 		std::cout << "false";
 	std::cout << std::endl;
 
-	p = Point(1.0f, 1.0f);
-	result = bsp(a, b, c, p);
-	if (bsp(a, b, c, p) == true)
+	Point p2 = Point(1.0f, 1.0f);
+	result = bsp(a, b, c, p2);
+	if (bsp(a, b, c, p2) == true)
 		std::cout << "true";
 	else
 		std::cout << "false";
