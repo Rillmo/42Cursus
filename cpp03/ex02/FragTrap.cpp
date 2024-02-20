@@ -11,7 +11,7 @@ FragTrap::FragTrap()
 
 FragTrap::FragTrap(std::string name)
 {
-	std::cout << "FragTrap Naming constructor called" << std::endl;
+	std::cout << "FragTrap' Naming constructor called" << std::endl;
 	this->_name = name;
 	this->_hitPoints = 100;
 	this->_energyPoints = 50;
@@ -38,18 +38,6 @@ FragTrap& FragTrap::operator=(const FragTrap& obj) {
 
 FragTrap::~FragTrap() {
 	std::cout << "FragTrap Destructor called" << std::endl;
-}
-
-void FragTrap::attack(const std::string& target) {
-	if (_energyPoints == 0 || _hitPoints == 0) {
-		std::cout << "💢 FragTrap " << _name << " failed to attck " << target << std::endl;
-		printStatus();
-		return ;
-	}
-	_energyPoints--;
-	std::cout << "💢 FragTrap " << _name << " attacks " << target;
-	std::cout << ", causing " << _attackDamage << " points of damage!" << std::endl;
-	printStatus();
 }
 
 void FragTrap::highFivesGuys(void) {
