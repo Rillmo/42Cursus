@@ -1,8 +1,11 @@
 #include "FragTrap.hpp"
 
 int main () {
-	FragTrap test;
+	FragTrap frag("frag");
 
-	test.attack("imac");
-	test.highFivesGuys();
+	frag.printStatus();
+	frag.attack("frag22");
+	frag.beRepaired(10);
+	frag.takeDamage(20);
+	frag.highFivesGuys();
 }
