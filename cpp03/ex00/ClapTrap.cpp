@@ -1,38 +1,39 @@
 #include "ClapTrap.hpp"
 
 ClapTrap::ClapTrap()
-	: _name(0), _hitPoints(10), _energyPoints(10), _attackDamage(0) 
+	: _name(""), _hitPoints(10), _energyPoints(10), _attackDamage(0) 
 {
-	std::cout << "Default constructor called" << std::endl;
+	std::cout << "Default constructor of " << _name <<  " called" << std::endl;
 }
 
 ClapTrap::ClapTrap(std::string name)
 	:_name(name), _hitPoints(10), _energyPoints(10), _attackDamage(0)
 {
-	std::cout << "Naming constructor called" << std::endl;
+	std::cout << "Naming constructor of " << _name << " called" << std::endl;
 }
 
 ClapTrap::ClapTrap(const ClapTrap& obj)
-	: _name(obj._name), _hitPoints(obj._hitPoints), 
+	: _name(obj._name), _hitPoints(obj._hitPoints),
 	_energyPoints(obj._energyPoints), _attackDamage(obj._attackDamage)
 {
-	std::cout << "Copy constructor called" << std::endl;
+	std::cout << "Copy constructor of " << _name << " called" << std::endl;
 }
 
 ClapTrap& ClapTrap::operator=(const ClapTrap& obj) {
-	std::cout << "Copy assignment operator called" << std::endl;
 	_name = obj._name;
 	_hitPoints = obj._hitPoints;
 	_energyPoints = obj._energyPoints;
 	_attackDamage = obj._attackDamage;
+	std::cout << "Copy assignment operator of " << _name << " called" << std::endl;
 	return *this;
 }
 
 ClapTrap::~ClapTrap() {
-	std::cout << "Distructor called" << std::endl;
+	std::cout << "Distructor of " << _name << " called" << std::endl;
 }
 
 void ClapTrap::printStatus() {
+	std::cout << "[STATUS]" << std::endl;
 	std::cout << "=============================================" << std::endl;
 	std::cout << "|" << std::setw(10) << "NAME";
 	std::cout << "|" << std::setw(10) << "HIT";
@@ -60,7 +61,7 @@ void ClapTrap::attack(const std::string& target) {
 }
 
 void ClapTrap::takeDamage(unsigned int amount) {
-	if (_hitPoints - amount < 0)
+	if (_hitPoints <= amount)
 		_hitPoints = 0;
 	else
 		_hitPoints -= amount;
@@ -75,7 +76,7 @@ void ClapTrap::beRepaired(unsigned int amount) {
 		return ;
 	}
 	std::cout << "🛠 ClapTrap " << _name << " repaired itself " << amount << std::endl;
-	_hitPoints+=amount;
+	_hitPoints += amount;
 	_energyPoints--;
 	printStatus();
 }
