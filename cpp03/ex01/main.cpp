@@ -1,9 +1,16 @@
 #include "ScavTrap.hpp"
 #include "ClapTrap.hpp"
+#include <unistd.h>
 
 int main () {
-	ScavTrap test;
+	ClapTrap t("clap1");
+	ScavTrap s("scav1");
 
-	test.attack("imac");
-	test.guardGate();
+	t.attack("scav1");
+	s.attack("clap1");
+
+	t.beRepaired(10);
+	s.beRepaired(10);
+	
+	s.guardGate();
 }

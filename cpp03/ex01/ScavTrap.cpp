@@ -2,7 +2,7 @@
 
 ScavTrap::ScavTrap()
 {
-	std::cout << "ScavTrap Default constructor called" << std::endl;
+	std::cout << "Default constructor of ScavTrap " << _name << " called" << std::endl;
 	this->_hitPoints = 100;
 	this->_energyPoints = 50;
 	this->_attackDamage = 20;
@@ -10,7 +10,7 @@ ScavTrap::ScavTrap()
 
 ScavTrap::ScavTrap(std::string name)
 {
-	std::cout << "ScavTrap Naming constructor called" << std::endl;
+	std::cout << "Naming constructor of ScavTrap " << _name << " called" << std::endl;
 	this->_name = name;
 	this->_hitPoints = 100;
 	this->_energyPoints = 50;
@@ -19,7 +19,7 @@ ScavTrap::ScavTrap(std::string name)
 
 ScavTrap::ScavTrap(const ScavTrap& obj)
 {
-	std::cout << "ScavTrap Copy constructor called" << std::endl;
+	std::cout << "Copy constructor of ScavTrap " << _name << " called" << std::endl;
 	this->_name = obj._name;
 	this->_hitPoints = obj._hitPoints;
 	this->_energyPoints = obj._energyPoints;
@@ -27,7 +27,7 @@ ScavTrap::ScavTrap(const ScavTrap& obj)
 }
 
 ScavTrap& ScavTrap::operator=(const ScavTrap& obj) {
-	std::cout << "ScavTrap Copy assignment operator called" << std::endl;
+	std::cout << "Copy assignment operator of ScavTrap " << _name << " called" << std::endl;
 	_name = obj._name;
 	_hitPoints = obj._hitPoints;
 	_energyPoints = obj._energyPoints;
@@ -36,7 +36,7 @@ ScavTrap& ScavTrap::operator=(const ScavTrap& obj) {
 }
 
 ScavTrap::~ScavTrap() {
-	std::cout << "ScavTrap Destructor called" << std::endl;
+	std::cout << "Destructor of ScavTrap " << _name << " called" << std::endl;
 }
 
 void ScavTrap::attack(const std::string& target) {
