@@ -1,7 +1,11 @@
 #include "DiamondTrap.hpp"
 
 int main() {
-	DiamondTrap dia;
+	DiamondTrap d("dia1");
 
-	std::cout << dia.printAll() << std::endl;
+	d.attack("dia1");
+	d.takeDamage(30);
+	d.beRepaired(30);
+
+	d.whoAmI();
 }

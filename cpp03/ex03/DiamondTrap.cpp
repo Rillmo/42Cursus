@@ -1,22 +1,29 @@
 #include "DiamondTrap.hpp"
 
-DiamondTrap::DiamondTrap() :ClapTrap("DEFAULT_clap_name") {
-	std::cout << "DiamondTrap Default Constructor called" <<std::endl;
-	this->_name = "DEFAULT";
+DiamondTrap::DiamondTrap() : ClapTrap("")
+{
+	this->_name = "default_clap_name";
+	this->_hitPoints = FragTrap::_hitPoints;
+	this->_energyPoints = ScavTrap::_energyPoints;
+	this->_attackDamage = FragTrap::_attackDamage;
+	std::cout << "Default Constructor of DiamondTrap " << _name << " called" <<std::endl;
 }
 
-DiamondTrap::DiamondTrap(std::string name) : ClapTrap(name + "_clap_name") {
-	std::cout << "DiamondTrap Naming Constructor called" <<std::endl;
-	this->_name = name;
+DiamondTrap::DiamondTrap(std::string name) : ClapTrap(name) {
+	this->_name = name + "_clap_name";
+	this->_hitPoints = FragTrap::_hitPoints;
+	this->_energyPoints = ScavTrap::_energyPoints;
+	this->_attackDamage = FragTrap::_attackDamage;
+	std::cout << "Naming Constructor of DiamondTrap " << _name << " called" <<std::endl;
 }
 
 DiamondTrap::DiamondTrap(const DiamondTrap& obj) {
-	std::cout << "DiamondTrap Copy Constructor called" << std::endl;
+	std::cout << "Copy Constructor of DiamondTrap " << _name << " called" << std::endl;
 	*this = obj;
 }
 
 DiamondTrap& DiamondTrap::operator=(const DiamondTrap& obj) {
-	std::cout << "DiamondTrap Copy assignment operator called" << std::endl;
+	std::cout << "Copy assignment operator of DiamondTrap " << _name << " called" << std::endl;
 	this->_name = obj._name;
 	this->_hitPoints = obj._hitPoints;
 	this->_energyPoints = obj._energyPoints;
@@ -25,13 +32,17 @@ DiamondTrap& DiamondTrap::operator=(const DiamondTrap& obj) {
 }
 
 DiamondTrap::~DiamondTrap() {
-	std::cout << "DiamondTrap Destructor called" <<std::endl;
+	std::cout << "Destructor of DiamondTrap " << _name << " called" <<std::endl;
 }
 
-std::string& DiamondTrap::printAll() {
-	std::cout << "name: " << _name << std::endl;
-	std::cout << "clapTrapName: " << ClapTrap::_name << std::endl;
-	std::cout << "hitPoints: " << _hitPoints << std::endl;
-	std::cout << "energyPoints: " << _energyPoints << std::endl;
-	std::cout << "attackDamage: " << _attackDamage << std::endl;
+void DiamondTrap::whoAmI() {
+	std::cout << "[WHO AM I]" << std::endl;
+	std::cout << "===========================================" << std::endl;
+	std::cout << "|" << std::setw(20) << "NAME";
+	std::cout << "|" << std::setw(20) << "CLAPTRAP_NAME" << "|" << std::endl;
+	std::cout << "-------------------------------------------" << std::endl;
+
+	std::cout << "|" << std::setw(20) << _name;
+	std::cout << "|" << std::setw(20) << ClapTrap::_name << "|" << std::endl;
+	std::cout << "===========================================" << std::endl;
 }
