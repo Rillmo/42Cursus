@@ -7,6 +7,8 @@ SRCS = 	ClapTrap.cpp \
 OBJS =	$(addprefix objects/, $(SRCS:.cpp=.o))
 
 CPPFLAG = c++ -Wall -Wextra -Werror -std=c++98 -fsanitize=address -g
+#-Wno-shadow
+#-Wshadow
 NAME =	diamondTrap
 
 COLOR_GREEN=\033[0;32m
