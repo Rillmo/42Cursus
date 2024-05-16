@@ -9,8 +9,10 @@ int main () {
 	t.attack("scav1");
 	s.attack("clap1");
 
-	t.beRepaired(10);
-	s.beRepaired(10);
+	t.takeDamage(20);
+
+	t.beRepaired(20);
+	s.beRepaired(20);
 	
 	s.guardGate();
 }

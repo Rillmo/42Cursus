@@ -10,8 +10,8 @@ ScavTrap::ScavTrap()
 
 ScavTrap::ScavTrap(std::string name)
 {
-	std::cout << "Naming constructor of ScavTrap " << _name << " called" << std::endl;
 	this->_name = name;
+	std::cout << "Naming constructor of ScavTrap " << _name << " called" << std::endl;
 	this->_hitPoints = 100;
 	this->_energyPoints = 50;
 	this->_attackDamage = 20;
