@@ -5,13 +5,13 @@ Dog::Dog() {
 	std::cout << "CREATED <Dog>" << std::endl;
 }
 
-Dog::Dog(const Dog& obj) : Animal(obj) {
-	this->_type = "Dog";
+Dog::Dog(const Dog& obj) {
+	this->_type = obj.getType();
 	std::cout << "CREATED COPY <Dog>" << std::endl;
 }
 
 Dog& Dog::operator=(const Dog& obj) {
-	_type = obj._type;
+	_type = obj.getType();
 	std::cout << "COPY ASSIGNMENT OPERATOR <Dog>" << std::endl;
 	return *this;
 }
