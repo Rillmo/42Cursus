@@ -11,11 +11,18 @@ int main()
 {
 	atexit(check_leak);
 	IMateriaSource* src = new MateriaSource();
-	src->learnMateria(new Ice());
-	src->learnMateria(new Cure());
-	src->learnMateria(new Cure());
-	src->learnMateria(new Cure());
-	src->learnMateria(new Cure());
+	AMateria *tmp1;
+	tmp1 = new Ice();
+	src->learnMateria(tmp1);
+	tmp1 = new Cure();
+	src->learnMateria(tmp1);
+	tmp1 = new Cure();
+	src->learnMateria(tmp1);
+	tmp1 = new Cure();
+	src->learnMateria(tmp1);
+	tmp1 = new Cure();
+	src->learnMateria(tmp1);
+	delete tmp1;
 
 	ICharacter* me = new Character("me");
 	
@@ -30,6 +37,7 @@ int main()
 	me->equip(tmp);
 	tmp = src->createMateria("cure");
 	me->equip(tmp);
+	delete tmp;
 
 	me->unequip(0);
 	delete me->pickTrash();

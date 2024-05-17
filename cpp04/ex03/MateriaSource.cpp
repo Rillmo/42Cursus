@@ -40,6 +40,8 @@ void MateriaSource::learnMateria(AMateria* m) {
 		std::cout << "⚠️ All slots are full!" << std::endl;
 		return;
 	}
+	if (_sources[i])
+		delete _sources[i];
 	_sources[i] = m;
 	std::cout << m->getType() << " learned in " << i << std::endl;
 }

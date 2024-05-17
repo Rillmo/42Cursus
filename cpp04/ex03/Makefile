@@ -7,7 +7,7 @@ SRCS = 	AMateria.cpp \
 
 OBJS =	$(addprefix objects/, $(SRCS:.cpp=.o))
 
-CPPFLAG = c++ -Wall -Wextra -Werror -std=c++98 -fsanitize=address
+CPPFLAG = c++ -Wall -Wextra -Werror -std=c++98 #-fsanitize=address
 NAME =	ex03
 
 COLOR_GREEN=\033[0;32m
