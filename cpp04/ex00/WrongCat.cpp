@@ -7,12 +7,12 @@ WrongCat::WrongCat() {
 
 WrongCat::WrongCat(const WrongCat& obj) : WrongAnimal(obj) {
 	this->_type = "WrongCat";
-	std::cout << "Copy constructor of " << _type << " called" << std::endl;
+	std::cout << "CREATED COPY <WrongCat>" << std::endl;
 }
 
 WrongCat& WrongCat::operator=(const WrongCat& obj) {
 	_type = obj._type;
-	std::cout << "Copy assignment operator of " << _type << " called" << std::endl;
+	std::cout << "COPY ASSIGNMENT OPERATOR <WrongCat>" << std::endl;
 	return *this;
 }
 

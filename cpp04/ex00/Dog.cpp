@@ -7,12 +7,12 @@ Dog::Dog() {
 
 Dog::Dog(const Dog& obj) : Animal(obj) {
 	this->_type = "Dog";
-	std::cout << "Copy constructor of " << _type << " called" << std::endl;
+	std::cout << "CREATED COPY <Dog>" << std::endl;
 }
 
 Dog& Dog::operator=(const Dog& obj) {
 	_type = obj._type;
-	std::cout << "Copy assignment operator of " << _type << " called" << std::endl;
+	std::cout << "COPY ASSIGNMENT OPERATOR <Dog>" << std::endl;
 	return *this;
 }
 

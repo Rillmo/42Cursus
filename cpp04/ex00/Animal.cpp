@@ -5,12 +5,12 @@ Animal::Animal() :_type("Animal") {
 }
 
 Animal::Animal(const Animal& obj) :_type(obj._type) {
-	std::cout << "Copy constructor of " << _type << " called" << std::endl;
+	std::cout << "CREATED COPY <Animal>" << std::endl;
 }
 
 Animal& Animal::operator=(const Animal& obj) {
 	_type = obj._type;
-	std::cout << "Copy assignment operator of " << _type << " called" << std::endl;
+	std::cout << "COPY ASSIGNMENT OPERATOR <Animal>" << std::endl;
 	return *this;
 }
 
