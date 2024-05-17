@@ -8,12 +8,14 @@ Dog::Dog() {
 
 Dog::Dog(const Dog& obj) {
 	this->_type = obj.getType();
+	delete _brain;
 	this->_brain = new Brain(obj.getBrain());
 	std::cout << "CREATED COPY <Dog>" << std::endl;
 }
 
 Dog& Dog::operator=(const Dog& obj) {
 	_type = obj.getType();
+	delete _brain;
 	_brain = new Brain(obj.getBrain());
 	std::cout << "COPY ASSIGNMENT OPERATOR <Dog>" << std::endl;
 	return *this;

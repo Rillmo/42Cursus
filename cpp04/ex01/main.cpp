@@ -16,7 +16,7 @@ int main() {
 	delete j;
 	delete i;
 
-	// atexit(check_leak);
+	atexit(check_leak);
 
 	std::cout << "==========================================" << std::endl;
 
@@ -31,12 +31,11 @@ int main() {
 	std::cout << "==========================================" << std::endl;
 
 	Dog* dog1 = new Dog();
-	Dog dog2;
 
 	dog1->getBrain().setIdeas("play");
 	dog1->getBrain().showIdeas();
 
-	dog2 = *dog1;
+	Dog dog2 = *dog1;
 	dog2.getBrain().setIdeas("eat");
 	
 	dog1->getBrain().showIdeas();
