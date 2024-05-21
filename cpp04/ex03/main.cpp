@@ -9,7 +9,8 @@ void check_leak() {
 
 int main()
 {
-	atexit(check_leak);
+	// atexit(check_leak);
+
 	IMateriaSource* src = new MateriaSource();
 	AMateria *tmp1;
 	tmp1 = new Ice();
