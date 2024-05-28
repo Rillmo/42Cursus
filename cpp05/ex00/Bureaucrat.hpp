@@ -7,11 +7,11 @@ class Bureaucrat {
 	private:
 		const std::string _name;
 		int _grade;
+		Bureaucrat& operator=(const Bureaucrat& obj);
 	public:
 		/* Orthodox canonical form */
 		Bureaucrat();
 		Bureaucrat(const Bureaucrat& obj);
-		Bureaucrat& operator=(const Bureaucrat& obj);
 		~Bureaucrat();
 		/* ----------------------- */
 		Bureaucrat(std::string name, int grade);
@@ -26,5 +26,7 @@ class Bureaucrat {
 			const char* what() const throw();
 		};
 };
+
+std::ostream& operator<<(std::ostream &out, Bureaucrat &obj);
 
 #endif
