@@ -4,7 +4,8 @@
 Bureaucrat::Bureaucrat() : _name(""), _grade(1) {}
 Bureaucrat::Bureaucrat(const Bureaucrat& obj) : _name(obj._name), _grade(obj._grade) {}
 Bureaucrat& Bureaucrat::operator=(const Bureaucrat& obj) { (void)obj; return *this; }
-Bureaucrat::~Bureaucrat() {}
+Bureaucrat::~Bureaucrat() {
+}
 /* ----------------------- */
 
 Bureaucrat::Bureaucrat(std::string name, int grade) : _name(name), _grade(grade) {

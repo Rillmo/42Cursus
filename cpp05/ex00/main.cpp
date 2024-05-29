@@ -15,9 +15,12 @@ int main() {
 
 	try {
 		test1.downGrade();
+		std::cout << test1 << std::endl;
 	} catch (const std::exception& e) {
 		std::cerr << e.what() << std::endl;
 	}
+
+	// test1.downGrade(); // will be terminated due to uncaught exception ...
 
 	try {
 		test2.upGrade();
