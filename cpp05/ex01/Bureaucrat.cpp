@@ -3,7 +3,10 @@
 /* Orthodox canonical form */
 Bureaucrat::Bureaucrat() : _name(""), _grade(1) {}
 Bureaucrat::Bureaucrat(const Bureaucrat& obj) : _name(obj._name), _grade(obj._grade) {}
-Bureaucrat& Bureaucrat::operator=(const Bureaucrat& obj) { (void)obj; return *this; }
+Bureaucrat& Bureaucrat::operator=(const Bureaucrat& obj) {
+	_grade = obj._grade;
+	return *this;
+}
 Bureaucrat::~Bureaucrat() {
 }
 /* ----------------------- */
@@ -46,4 +49,14 @@ const char* Bureaucrat::GradeTooLowException::what(void) const throw() {
 std::ostream& operator<<(std::ostream &out, Bureaucrat &obj) {
 	out << obj.getName() << ", bureaucrat grade " << obj.getGrade();
 	return out;
+}
+
+void Bureaucrat::signForm(Form& form) {
+	try {
+		form.beSigned(*this);
+		std::cout << _name << " signed " << form.getName() << std::endl;
+	} catch (const std::exception& e) {
+		std::cerr << _name << " couldn't sign " << form.getName() \
+		<< " because grade is too low" << std::endl;
+	}
 }

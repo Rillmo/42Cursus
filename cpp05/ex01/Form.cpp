@@ -4,15 +4,18 @@
 Form::Form() : _name(""), _isSigned(false), _gradeToSign(150), _gradeToExcute(150) {}
 Form::Form(const Form& obj) : _name(obj._name), _isSigned(obj._isSigned),\
 _gradeToSign(obj._gradeToSign), _gradeToExcute(obj._gradeToExcute) {}
-Form& Form::operator=(const Form& obj) { (void)obj; return *this; }
+Form& Form::operator=(const Form& obj) { 
+	_isSigned = obj._isSigned;
+	return *this;
+}
 Form::~Form() {}
 /* ----------------------- */
 
 Form::Form(std::string name, int gradeToSign, int gradeToExcute)
 : _name(name), _gradeToSign(gradeToSign), _gradeToExcute(gradeToExcute) {
-	if (gradeToSign < 1 || gradeToExcute < 1)
+	if (_gradeToSign < 1 || _gradeToExcute < 1)
 		throw Form::GradeTooHighException();
-	if (gradeToSign > 150 || gradeToSign > 150)
+	if (_gradeToSign > 150 || _gradeToExcute > 150)
 		throw Form::GradeTooLowException();
 }
 
@@ -37,7 +40,6 @@ void Form::beSigned(const Bureaucrat& bur) {
 		throw Form::GradeTooLowException();
 }
 
-
 const char* Form::GradeTooHighException::what() const throw() {
 	return "Grade too high : Form";
 }
@@ -47,7 +49,9 @@ const char* Form::GradeTooLowException::what() const throw() {
 }
 
 std::ostream& operator<<(std::ostream& out, Form& obj) {
-	out << obj << ", Form grade (" << obj.getGradeToSign() \
-	<< "/" << obj.getGradeToExcute() << ") (toSign/toExcute)";
+	out << obj.getName() << ", Form grade (" << obj.getGradeToSign() \
+	<< "/" << obj.getGradeToExcute() \
+	<< "/" << std::boolalpha << obj.getIsSigned() \
+	<< ") (toSign/toExcute/isSigned)";
 	return out;
 }
