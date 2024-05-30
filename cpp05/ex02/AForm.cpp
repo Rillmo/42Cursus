@@ -38,6 +38,7 @@ int AForm::getGradeToExcute() const {
 void AForm::beSigned(const Bureaucrat& bur) {
 	if (bur.getGrade() > _gradeToSign)
 		throw AForm::GradeTooLowException();
+	_isSigned = true;
 }
 
 const char* AForm::GradeTooHighException::what() const throw() {
