@@ -7,9 +7,9 @@ class Bureaucrat {
 	private:
 		const std::string _name;
 		int _grade;
+		/* Orthodox canonical form */
 		Bureaucrat& operator=(const Bureaucrat& obj);
 	public:
-		/* Orthodox canonical form */
 		Bureaucrat();
 		Bureaucrat(const Bureaucrat& obj);
 		~Bureaucrat();
