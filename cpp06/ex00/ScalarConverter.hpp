@@ -7,11 +7,13 @@
 
 class ScalarConverter {
 	private:
+		/* Orthodox Canonical Form */
 		ScalarConverter();
 	public:
 		ScalarConverter(const ScalarConverter& obj);
 		ScalarConverter& operator=(const ScalarConverter& obj);
 		~ScalarConverter();
+		/* ----------------------- */
 		static void convert(const std::string& input);
 };
 

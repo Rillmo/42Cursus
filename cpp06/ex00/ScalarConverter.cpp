@@ -1,5 +1,12 @@
 #include "ScalarConverter.hpp"
 
+/* Orthodox Canonical Form */
+ScalarConverter::ScalarConverter() {}
+ScalarConverter::ScalarConverter(const ScalarConverter& obj) {(void)obj;}
+ScalarConverter& ScalarConverter::operator=(const ScalarConverter& obj) {(void)obj; return *this;}
+ScalarConverter::~ScalarConverter() {}
+/* ----------------------- */
+
 void ScalarConverter::convert(const std::string& input) {
 	double val;
 	char* end;
