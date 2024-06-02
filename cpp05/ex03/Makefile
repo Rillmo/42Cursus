@@ -3,12 +3,13 @@ SRCS = 	Bureaucrat.cpp \
 		ShrubberyCreationForm.cpp \
 		RobotomyRequestForm.cpp \
 		PresidentialPardonForm.cpp \
+		Intern.cpp \
 		main.cpp
 
 OBJS =	$(addprefix objects/, $(SRCS:.cpp=.o))
 
 CPPFLAG = c++ -Wall -Wextra -Werror -std=c++98
-NAME =	ex02
+NAME =	ex03
 
 COLOR_GREEN=\033[0;32m
 COLOR_RED=\033[0;31m
