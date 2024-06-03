@@ -5,7 +5,7 @@ Base::~Base() {}
 Base* generate() {
 	int random;
 
-	std::srand(std::time(nullptr));
+	std::srand(std::time(0));
 	random = std::rand();
 	if (random % 3 == 0)
 		return new A();
