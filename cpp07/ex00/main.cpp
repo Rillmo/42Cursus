@@ -1,28 +1,20 @@
 #include "whatever.hpp"
-#include <iostream>
 
 int main() {
-	std::string a, b;
+	int a = 2;
+	int b = 3;
 
-	a = "a";
-	b = "b";
-	std::cout << "A : " << a << std::endl;
-	std::cout << "B : " << b << std::endl;
-	swap(&a, &b);
-	std::cout << "A : " << a << std::endl;
-	std::cout << "B : " << b << std::endl;
-	std::cout << "==============================" << std::endl;
+	::swap( a, b );
+	std::cout << "a = " << a << ", b = " << b << std::endl;
+	std::cout << "min( a, b ) = " << ::min( a, b ) << std::endl;
+	std::cout << "max( a, b ) = " << ::max( a, b ) << std::endl;
+	
+	std::string c = "chaine1";
+	std::string d = "chaine2";
+	::swap(c, d);
+	std::cout << "c = " << c << ", d = " << d << std::endl;
+	std::cout << "min( c, d ) = " << ::min( c, d ) << std::endl;
+	std::cout << "max( c, d ) = " << ::max( c, d ) << std::endl;
 
-	int c, d;
-	c = 2;
-	d = 3;
-	std::cout << "C : " << c << std::endl;
-	std::cout << "D : " << d << std::endl;
-	std::cout << "MIN : " << min(c, d) << std::endl;
-	std::cout << "==============================" << std::endl;
-
-	std::cout << "C : " << c << std::endl;
-	std::cout << "D : " << d << std::endl;
-	std::cout << "MAX : " << max(c, d) << std::endl;
-	std::cout << "==============================" << std::endl;
+	return 0;
 }
