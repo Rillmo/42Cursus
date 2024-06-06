@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-#include <set>
+#include <deque>
 #include <stack>
 #include "easyfind.hpp"
 
@@ -20,16 +20,16 @@ int main() {
 		std::cerr << e.what() << std::endl;
 	}
 
-	/* set */
-	std::set<int> set;
+	/* deque */
+	std::deque<int> dq;
 
-	set.insert(10);
-	set.insert(20);
-	set.insert(30);
-	set.insert(40);
+	dq.push_back(10);
+	dq.push_back(20);
+	dq.push_back(40);
+	dq.push_back(40);
 	
 	try {
-		std::cout << easyfind(vec, 10) << std::endl;
+		std::cout << easyfind(dq, 40) << std::endl;
 	} catch(std::exception &e) {
 		std::cerr << e.what() << std::endl;
 	}
