@@ -2,6 +2,9 @@
 #define SPAN_HPP
 
 #include <vector>
+#include <iostream>
+#include <algorithm>
+#include <limits>
 
 class Span
 {
@@ -18,7 +21,11 @@ class Span
 		int shortestSpan();
 		int longestSpan();
 		void fill(int num);
+		void display();
 		class TooManyElemException : public std::exception {
+			const char* what() const throw();
+		};
+		class NotEnoughElemException : public std::exception {
 			const char* what() const throw();
 		};
 };
