@@ -1,6 +1,14 @@
 #include "MutantStack.hpp"
 #include <iostream>
 
+/*
+0
+737
+5
+3
+5
+*/
+
 int main()
 {
 	MutantStack<int> mstack;
@@ -19,9 +27,10 @@ int main()
 	++it;
 	--it;
 	while (it != ite) {
-		std::cout << *it << std::endl;
+		std::cout << *it << " ";
+		std::cout << *ite << std::endl;
 		++it;
 	}
-	// std::stack<int> s(mstack);
-	return 0;
+	std::stack<int> s(mstack);
+	std::cout << s.top() << std::endl;
 }
