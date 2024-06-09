@@ -99,14 +99,13 @@ BitcoinExchange::BitcoinExchange(std::ifstream& file) {
 	}
 }
 BitcoinExchange::BitcoinExchange(BitcoinExchange& btc) {
-	(void)btc;
+	_db = btc._db;
 }
 BitcoinExchange& BitcoinExchange::operator=(BitcoinExchange& btc) {
-	(void)btc;
+	_db = btc._db;
 	return *this;
 }
-BitcoinExchange::~BitcoinExchange() {
-}
+BitcoinExchange::~BitcoinExchange() {}
 
 void BitcoinExchange::displayDB() {
 	std::map<std::string, float>::iterator it;
