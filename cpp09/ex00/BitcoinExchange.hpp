@@ -8,6 +8,8 @@
 #include <iostream>
 #include <exception>
 #include <stdexcept>
+#include <typeinfo>
+#include <utility>
 
 class BitcoinExchange
 {
@@ -19,20 +21,31 @@ class BitcoinExchange
 		BitcoinExchange(BitcoinExchange& btc);
 		BitcoinExchange& operator=(BitcoinExchange& btc);
 		~BitcoinExchange();
+		void displayDB();
+		double calculatePrice(std::string date, float value);
 };
 
 template <typename T>
 T strToDigit(std::string str) {
 	char* end;
-	double d;
+	double f;
 	T res;
+	std::string type;
 
-	d = std::strtod(str.c_str(), &end);
+	if (typeid(T) == typeid(int))
+		type = "INT";
+	else if (typeid(T) == typeid(float))
+		type = "FLOAT";
+	else
+		throw std::invalid_argument("INVALID TYPE");
+	f = std::strtof(str.c_str(), &end);
 	if (*end != 0)
-		throw std::invalid_argument("INT REQUIRED : " + str);
-	res = static_cast<T>(d);
-	if (res != d)
-		throw std::invalid_argument("INT REQUIRED : " + str);
+		throw std::invalid_argument(type + " REQUIRED : " + str);
+	if (type == "INT" && (f < -2147483648 || f > 2147483647))
+		throw std::invalid_argument(type + " REQUIRED : " + str);
+	res = static_cast<T>(f);
+	if (type == "INT" && res != f)
+		throw std::invalid_argument(type + " REQUIRED : " + str);
 	return res;
 }
 

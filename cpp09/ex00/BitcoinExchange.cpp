@@ -6,7 +6,7 @@ int isLeapYear(int year) {
     return 0;
 }
 
-void isValidDate(std::string date) {
+std::string isValidDate(std::string date) {
 	std::stringstream ss(date);
 	std::string tmp;
 	int year;
@@ -32,10 +32,35 @@ void isValidDate(std::string date) {
 		if (m30[i] == month && day > 30)
 			throw std::invalid_argument("INVALID DAY : " + date);
 	}
+	return date;
 }
 
-void isValidValue(std::string val) {
-	strToDigit<float>(val);
+float isValidValue(std::string val) {
+	float res;
+
+	res = strToDigit<float>(val);
+	if (res < 0 || res > 1000)
+		throw std::invalid_argument("INVALID VALUE : " + val);
+	return res;
+}
+
+float isValidPrice(std::string price) {
+	float res;
+
+	res = strToDigit<float>(price);
+	if (res < 0)
+		throw std::invalid_argument("INVALID PRICE : " + price);
+	return res;
+}
+
+double BitcoinExchange::calculatePrice(std::string date, float value) {
+	std::map<std::string, float>::iterator it;
+
+	it = _db.find(date);
+	if (it != _db.end())
+		return value * it->second;
+	it = _db.upper_bound(date);
+	return (--it)->second * value;
 }
 
 BitcoinExchange::BitcoinExchange() {}
@@ -43,17 +68,34 @@ BitcoinExchange::BitcoinExchange(std::ifstream& file) {
 	std::string line;
 	std::string date;
 	std::string price;
+	std::string value;
+	float valueFloat;
+	std::ifstream dbfile("data.csv", std::ios::in);
 
-	std::getline(file, line);
+	std::getline(dbfile, line);
 	if (line.compare("date,exchange_rate") != 0)
 		throw std::invalid_argument("INVALID HEADER STRING");
-	while (std::getline(file, line)) {
+	while (std::getline(dbfile, line)) {
 		std::stringstream ss(line);
 		std::getline(ss, date, ',');
 		std::getline(ss, price);
-		isValidDate(date);
-		isValidValue(price);
-		std::cout << date << " | " << price << std::endl;
+		_db.insert(std::make_pair(isValidDate(date), isValidPrice(price)));
+	}
+	std::getline(file, line);
+	if (line.compare("date | value") != 0)
+		throw std::invalid_argument("INVALID HEADER STRING");
+	while (std::getline(file, line)) {
+		std::stringstream ss(line);
+		std::getline(ss, date, ' ');
+		std::getline(ss, value, ' ');
+		std::getline(ss, value, ' ');
+		try {
+			date = isValidDate(date);
+			valueFloat = isValidValue(value);
+			std::cout << date << " => " << valueFloat << " = " << calculatePrice(date, valueFloat) << std::endl;
+		} catch (const std::exception& e) {
+			std::cerr << "Error: " << e.what() << std::endl;
+		}
 	}
 }
 BitcoinExchange::BitcoinExchange(BitcoinExchange& btc) {
@@ -64,5 +106,12 @@ BitcoinExchange& BitcoinExchange::operator=(BitcoinExchange& btc) {
 	return *this;
 }
 BitcoinExchange::~BitcoinExchange() {
+}
 
+void BitcoinExchange::displayDB() {
+	std::map<std::string, float>::iterator it;
+
+	std::cout << "<DATABASE>" << std::endl;
+	for (it = _db.begin(); it != _db.end(); it++)
+		std::cout << it->first << "  " << it->second << std::endl;
 }
