@@ -1,4 +1,4 @@
-SRCS = 	 \
+SRCS = 	PmergeMe.cpp \
 		main.cpp
 
 OBJS =	$(addprefix objects/, $(SRCS:.cpp=.o))

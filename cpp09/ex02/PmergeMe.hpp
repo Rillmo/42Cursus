@@ -3,17 +3,24 @@
 
 #include <iostream>
 #include <vector>
+#include <stdexcept>
+#include <utility>
+#include <algorithm>
 
-class PMerge {
+class PmergeMe {
 	private:
+		std::vector<int> _jacobsthal;
 		std::vector<int> _vec;
-		PMerge();
+		int _oddRemain;
+		PmergeMe();
 	public:
-		PMerge(int seq[], int size);
-		PMerge(const PMerge& pm);
-		PMerge& operator=(const PMerge& pm);
-		~PMerge();
-		void displayVector();
+		PmergeMe(int argc, char** argv);
+		PmergeMe(const PmergeMe& pm);
+		PmergeMe& operator=(const PmergeMe& pm);
+		~PmergeMe();
+		void sort();
 };
+
+std::vector<int> getJacobsthalNumber(int n);
 
 #endif
