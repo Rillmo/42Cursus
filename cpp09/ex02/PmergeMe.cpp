@@ -70,6 +70,21 @@ std::vector<int> getJacobsthalNumber(int n) {
 	return res;
 }
 
+std::size_t binarySearch(const std::vector<int>& vec, std::size_t low, std::size_t high, int target) {
+	std::size_t mid = (low + high) / 2;
+
+	if (mid == 0 && low == high)
+		return mid;
+	if (low >= high)
+		throw std::out_of_range("BINARY SEARCH FAILED");
+	if (vec[mid] < target && vec[mid-1] > target)
+		return mid;
+	else if (vec[mid] < target)
+		return binarySearch(vec, target, mid, high);
+	else
+		return binarySearch(vec, target, low, mid);
+}
+
 void PmergeMe::sort() {
 	std::size_t i;
 	std::vector< std::pair<int, int> > pairs;
@@ -104,10 +119,13 @@ void PmergeMe::sort() {
 	// - 현재 인덱스가 jacob이면 현재 인덱스부터 뒤로 삽입 (삽입된 pair는 삭제처리??)
 	// 		- 삽입시에는 이진탐색 사용
 	// - 현재 인덱스가 jacob이 아니면 넘어감
-	int j;
+	std::size_t j;
 	int lastInsert = 0;
 	int end = 0;
+	int k;
 	i = 2;
+	std::size_t idx;
+	std::cout << "insertion & binary search" << std::endl;
 	while (1) {
 		j = _jacobsthal.at(i);
 		// 만약 jacob이 마지막 인덱스보다 크면 마지막 인덱스부터 삽입하며, 현재 반복을 마지막으로 한다.
@@ -120,9 +138,16 @@ void PmergeMe::sort() {
 			end = 1;
 		}
 		// 뒤로 삽입(이진탐색)
-		for (int k=j; k>lastInsert; k--) {
-			// 이진탐색
+		// std::cout << "j: " << j << " last: " << lastInsert << std::endl;
+		for (k=j; k>lastInsert; k--) {
+			// 이진탐색(삽입할 인덱스를 찾는다)
+			std::cout << k << " " << pairs[k-1].second << std::endl;
+			idx = binarySearch(res, 0, k-1, pairs[k-1].second);
+			std::cout << idx << " ";
+			// 해당 위치에 삽입
 		}
+		std::cout << std::endl;
+		lastInsert = j;
 		if (end)
 			break;
 		i++;
