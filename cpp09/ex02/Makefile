@@ -3,7 +3,7 @@ SRCS = 	PmergeMe.cpp \
 
 OBJS =	$(addprefix objects/, $(SRCS:.cpp=.o))
 
-CPPFLAG = c++ -Wall -Wextra -Werror -std=c++98 -fsanitize=address
+CPPFLAG = c++ -Wall -Wextra -Werror -std=c++98 -fsanitize=address -g
 NAME =	PmergeMe
 
 COLOR_GREEN=\033[0;32m
