@@ -2,7 +2,7 @@
 
 PmergeMe::PmergeMe() {}
 
-PmergeMe::PmergeMe(int argc, char** argv) :_oddRemain(-1) {
+PmergeMe::PmergeMe(int argc, char** argv) {
 	double dnum;
 	char* end;
 
@@ -17,18 +17,23 @@ PmergeMe::PmergeMe(int argc, char** argv) :_oddRemain(-1) {
 		_vec.push_back(static_cast<int>(dnum));
 	}
 	_jacobsthal = getJacobsthalNumber(_vec.size()/2+1);
+	_vorigin = _vec;
 }
 
 PmergeMe::PmergeMe(const PmergeMe& pm) {
 	_vec.clear();
-	for (std::size_t i=0; i<pm._vec.size(); i++)
-		_vec.push_back(pm._vec.at(i));
+	for (std::size_t i=0; i<pm._vec.size(); i++) {
+		_vec.push_back(pm._vec[i]);
+		_vorigin.push_back(pm._vorigin[i]);
+	}
 }
 
 PmergeMe& PmergeMe::operator=(const PmergeMe& pm) {
 	_vec.clear();
-	for (std::size_t i=0; i<pm._vec.size(); i++)
-		_vec.push_back(pm._vec.at(i));
+	for (std::size_t i=0; i<pm._vec.size(); i++) {
+		_vec.push_back(pm._vec[i]);
+		_vorigin.push_back(pm._vorigin[i]);
+	}
 	return *this;
 }
 
@@ -42,13 +47,15 @@ void displayVector(const std::vector<int> vec) {
 	std::cout << std::endl;
 }
 
-void displayPairVector(std::vector< std::pair<int, int> > pvec, int oddRemain) {
-	std::vector< std::pair<int, int> >::iterator it;
+std::vector<int>& PmergeMe::getVec() {
+	return _vec;
+}
+
+void displayPairVector(std::vector< std::pair<long, long> > pvec) {
+	std::vector< std::pair<long, long> >::iterator it;
 
 	for (it=pvec.begin(); it!=pvec.end(); it++)
 		std::cout << "(" << it->first << "," << it->second << ") ";
-	if (oddRemain != -1)
-		std::cout << "( ," << oddRemain << ")";
 	std::cout << std::endl;
 }
 
@@ -62,94 +69,98 @@ std::vector<int> getJacobsthalNumber(int n) {
 	now = 1;
 	i = 2;
 	while (now <= n) {
-		now = res.at(i-1) + 2 * res.at(i-2);
+		now = res[i-1] + 2 * res[i-2];
 		res.push_back(now);
 		i++;
 	}
-	displayVector(res);
+	// displayVector(res);
 	return res;
 }
 
 std::size_t binarySearch(const std::vector<int>& vec, std::size_t low, std::size_t high, int target) {
 	std::size_t mid = (low + high) / 2;
 
-	if (mid == 0 && low == high)
-		return mid;
-	if (low >= high)
+	std::cout << "mid : " << mid << std::endl;
+	if (low > high)
 		throw std::out_of_range("BINARY SEARCH FAILED");
-	if (vec[mid] < target && vec[mid-1] > target)
+	if (target < vec[mid] && (mid == 0 || vec[mid-1] < target))
 		return mid;
-	else if (vec[mid] < target)
-		return binarySearch(vec, target, mid, high);
+	else if (target > vec[mid])
+		return binarySearch(vec, mid+1, high, target);
 	else
-		return binarySearch(vec, target, low, mid);
+		return binarySearch(vec, low, mid, target);
 }
 
-void PmergeMe::sort() {
+void PmergeMe::binaryInsertion(std::vector<int>& mainchain, std::vector<int>& subchain) {
 	std::size_t i;
-	std::vector< std::pair<int, int> > pairs;
-	std::vector<int> res;
-	
-	// divide vectors to pairs
-	for (i=0; i<_vec.size(); i+=2) {
-		if (i == _vec.size()-1)
-			_oddRemain = _vec.at(i);
-		else
-			pairs.push_back(std::make_pair(_vec.at(i), _vec.at(i+1)));
-	}
-	displayPairVector(pairs, _oddRemain);
-
-	// sort every each pairs in descending order
-	for (i=0; i<pairs.size(); i++) {
-		if (pairs.at(i).first < pairs.at(i).second)
-			std::swap(pairs.at(i).first, pairs.at(i).second);
-	}
-	displayPairVector(pairs, _oddRemain);
-
-	// sort all pairs in ascending order based on first elem
-	std::sort(pairs.begin(), pairs.end());
-	displayPairVector(pairs, _oddRemain);
-
-	// add every first elem to result vector
-	for (i=0; i<pairs.size(); i++)
-		res.push_back(pairs.at(i).first);
-	displayVector(res);
-
-	// insert seconde elem to result vector
-	// - 현재 인덱스가 jacob이면 현재 인덱스부터 뒤로 삽입 (삽입된 pair는 삭제처리??)
-	// 		- 삽입시에는 이진탐색 사용
-	// - 현재 인덱스가 jacob이 아니면 넘어감
-	std::size_t j;
-	int lastInsert = 0;
+	std::size_t j, k, lastInsert;
 	int end = 0;
-	int k;
+	std::vector<int>::iterator pos;
+
+	// std::cout << "--binaryInsertion--" << std::endl;
+	// displayVector(mainchain);
+	lastInsert = 0;
 	i = 2;
-	std::size_t idx;
-	std::cout << "insertion & binary search" << std::endl;
-	while (1) {
-		j = _jacobsthal.at(i);
-		// 만약 jacob이 마지막 인덱스보다 크면 마지막 인덱스부터 삽입하며, 현재 반복을 마지막으로 한다.
-		if (j > pairs.size()-1 && _oddRemain == -1) {	// 짝수인경우 (남은수 없음)
-			j = pairs.size()-1;
+	while (!end) {
+		j = _jacobsthal[i];
+		if (j > subchain.size()) {
+			j = subchain.size();
 			end = 1;
 		}
-		if (j > pairs.size() && _oddRemain != -1) {		// 홀수인경우 (남은수 있음)
-			j = pairs.size();
-			end = 1;
-		}
-		// 뒤로 삽입(이진탐색)
-		// std::cout << "j: " << j << " last: " << lastInsert << std::endl;
+		// std::cout << "range:" << lastInsert << "~" << j << " ";
 		for (k=j; k>lastInsert; k--) {
-			// 이진탐색(삽입할 인덱스를 찾는다)
-			std::cout << k << " " << pairs[k-1].second << std::endl;
-			idx = binarySearch(res, 0, k-1, pairs[k-1].second);
-			std::cout << idx << " ";
-			// 해당 위치에 삽입
+			pos = std::lower_bound(mainchain.begin(), mainchain.begin()+k-1, subchain.at(k-1));
+			// std::cout << "(" << k-1 << "/" << *pos << ") ";
+			if (*pos < subchain[k-1])
+				mainchain.insert(pos+1, subchain[k-1]);
+			else
+				mainchain.insert(pos, subchain[k-1]);
+			// displayVector(mainchain);
 		}
-		std::cout << std::endl;
 		lastInsert = j;
-		if (end)
-			break;
 		i++;
 	}
+	// displayVector(mainchain);
+}
+
+void PmergeMe::sort(std::vector<int>& vec) {
+	std::size_t i;
+	std::vector< std::pair<long, long> > pairs;
+	std::vector<int> mainchain;
+	std::vector<int> subchain;
+
+	// vector를 둘씩 짝지어 pair로 나눈다.
+	for (i=0; i<vec.size(); i+=2) {
+		if (i == vec.size()-1)
+			pairs.push_back(std::make_pair(LONG_MAX, vec[i]));
+		else
+			pairs.push_back(std::make_pair(vec[i], vec[i+1]));
+	}
+	// std::cout << "step01 : to pair" << std::endl;
+
+	// 각 pair들의 내부 요소를 내림차순 정렬한다.
+	for (i=0; i<pairs.size(); i++) {
+		if (pairs[i].first < pairs[i].second)
+			std::swap(pairs[i].first, pairs[i].second);
+	}
+	// std::cout << "step02 : swap in descending order" << std::endl;
+
+	// 각 pair들의 첫번째 요소들을 기준으로 pair들을 오름차순 정렬한다.
+	// 이때 정렬은 재귀적으로 수행한다.
+	for (i=0; i<pairs.size(); i++) {
+		if (pairs[i].first <= INT_MAX)
+			mainchain.push_back(pairs[i].first);
+		subchain.push_back(pairs[i].second);
+	}
+	// std::cout << "=====sort=====" << std::endl;
+	// displayVector(mainchain);
+	if (mainchain.size() > 1)
+		sort(mainchain);
+	if (_vmainchain.size() != 0)
+		mainchain = _vmainchain;
+	// 이제 이진탐색을 기반으로 삽입정렬을 수행한다.
+	binaryInsertion(mainchain, subchain);
+	_vmainchain = mainchain;
+	_vec = _vmainchain;
+	// displayVector(_vmainchain);
 }

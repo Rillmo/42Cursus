@@ -5,8 +5,8 @@ int main(int argc, char** argv) {
 	try {
 		PmergeMe pm(argc, argv);
 
-		pm.sort();
-		// pm.displayVector();
+		pm.sort(pm.getVec());
+		displayVector(pm.getVec());
 	} catch (const std::exception& e) {
 		std::cerr << "Error: " << e.what() << std::endl;
 	}

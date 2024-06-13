@@ -11,15 +11,20 @@ class PmergeMe {
 	private:
 		std::vector<int> _jacobsthal;
 		std::vector<int> _vec;
-		int _oddRemain;
+		std::vector<int> _vorigin;
+		std::vector<int> _vmainchain;
 		PmergeMe();
 	public:
 		PmergeMe(int argc, char** argv);
 		PmergeMe(const PmergeMe& pm);
 		PmergeMe& operator=(const PmergeMe& pm);
 		~PmergeMe();
-		void sort();
+		void sort(std::vector<int>& vec);
+		std::vector<int>& getVec();
+		void binaryInsertion(std::vector<int>& mainchain, std::vector<int>& subchain);
 };
+
+void displayVector(const std::vector<int> vec);
 
 std::vector<int> getJacobsthalNumber(int n);
 
