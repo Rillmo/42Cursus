@@ -84,13 +84,50 @@ std::vector<int> getJacobsthalNumber(int n) {
 	return res;
 }
 
+void displayPairVector(std::vector< std::pair<int, int> > pvec) {
+	std::vector< std::pair<int, int> >::iterator it;
+
+	for (it=pvec.begin(); it!=pvec.end(); it++)
+		std::cout << "(" << it->first << "," << it->second << ") ";
+	std::cout << std::endl;
+}
+
+void setSubchainIdx(std::vector<int>& subchainIdx, std::vector<int>& subchain) {
+	std::size_t i;
+
+	for(i=0; i<subchain.size(); i++) {
+		if (subchain.size() % 2 == 0 && i == subchain.size()-1)
+			subchainIdx.push_back(subchainIdx[i-1] + 1);
+		else
+			subchainIdx.push_back(2*i + 1);
+	}
+}
+
+void setMainchainIdx(std::vector<int>& mainchainIdx, std::vector<int>& mainchain) {
+	std::size_t i;
+
+	for (i=0; i<mainchain.size(); i++) {
+		mainchainIdx.push_back(i * 2);
+	}
+}
+
 /* VECTOR */
-void PmergeMe::binaryInsertion(std::vector<int>& mainchain, std::vector<int>& subchain) {
+std::vector<int>* PmergeMe::binaryInsertion(std::vector<int>& mainchain, std::vector<int>& subchain) {
 	std::size_t i;
 	std::size_t j, k, lastInsert;
 	int end = 0;
+	int idx;
 	std::vector<int>::iterator pos;
+	std::vector< std::pair<int,int> > tmp;
+	std::vector<int> *log = new std::vector<int>();
+	std::vector<int> subchainIdx;
+	std::vector<int> mainchainIdx;
 
+	setSubchainIdx(subchainIdx, subchain);
+	setMainchainIdx(mainchainIdx, mainchain);
+	// mainchain의 인덱스를 순서대로 log에 저장
+	for (i=0; i<mainchainIdx.size(); i++)
+		log->push_back(mainchainIdx[i]);
 	lastInsert = 0;
 	i = 2;
 	while (!end) {
@@ -99,20 +136,22 @@ void PmergeMe::binaryInsertion(std::vector<int>& mainchain, std::vector<int>& su
 			j = subchain.size();
 			end = 1;
 		}
-		std::cout << "pos: ";
 		for (k=j; k>lastInsert; k--) {
 			pos = std::lower_bound(mainchain.begin(), mainchain.begin()+k-1, subchain.at(k-1));
-			std::cout << *pos << " ";
-			if (*pos < subchain[k-1])
+			idx = std::distance(mainchain.begin(), pos);
+			if (*pos < subchain[k-1]) {
 				mainchain.insert(pos+1, subchain[k-1]);
-			else
+				log->insert(log->begin()+idx+1, subchainIdx[k-1]);
+			}
+			else {
 				mainchain.insert(pos, subchain[k-1]);
+				log->insert(log->begin()+idx, subchainIdx[k-1]);
+			}
 		}
 		lastInsert = j;
 		i++;
 	}
-		std::cout << std::endl;
-	display(mainchain);
+	return log;
 }
 
 /* VECTOR */
@@ -121,6 +160,7 @@ void PmergeMe::sort(std::vector<int>& vec) {
 	std::vector< std::pair<long, long> > pairs;
 	std::vector<int> mainchain;
 	std::vector<int> subchain;
+	std::vector<int> *log;
 
 	// vector를 둘씩 짝지어 pair로 나눈다.
 	for (i=0; i<vec.size(); i+=2) {
@@ -148,8 +188,13 @@ void PmergeMe::sort(std::vector<int>& vec) {
 	if (_vmainchain.size() != 0)
 		mainchain = _vmainchain;
 	// 이제 이진탐색을 기반으로 삽입정렬을 수행한다.
-	binaryInsertion(mainchain, subchain);
+	// 이때, 정렬된 mainchain의 인덱스 변화 기록(log)를 받는다.
+	log = binaryInsertion(mainchain, subchain);
 	_vmainchain = mainchain;
+	// 서브체인을 정렬된 메인체인의 log에 맞게 재배치한다.
+	for (i=0; i<log->size(); i++) {
+		
+	}
 	_vec = _vmainchain;
 }
 

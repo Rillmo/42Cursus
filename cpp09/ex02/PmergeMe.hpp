@@ -26,7 +26,7 @@ class PmergeMe {
 		std::vector<int>& getVec();
 		std::vector<int>& getVorigin();
 		void sort(std::vector<int>& vec);
-		void binaryInsertion(std::vector<int>& mainchain, std::vector<int>& subchain);
+		std::vector<int>* binaryInsertion(std::vector<int>& mainchain, std::vector<int>& subchain);
 		std::deque<int>& getDeq();
 		std::deque<int>& getDorigin();
 		void sort(std::deque<int>& deq);
