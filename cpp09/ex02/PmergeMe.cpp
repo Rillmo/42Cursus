@@ -17,7 +17,7 @@ PmergeMe::PmergeMe(int argc, char** argv) {
 		_vec.push_back(static_cast<int>(dnum));
 		_deq.push_back(static_cast<int>(dnum));
 	}
-	_jacobsthal = getJacobsthalNumber(_vec.size()/2+1);
+	_jacobsthal = getJacobsthalNumber(_vec.size()*2);
 	_vorigin = _vec;
 	_dorigin = _deq;
 }
@@ -81,118 +81,149 @@ std::vector<int> getJacobsthalNumber(int n) {
 		res.push_back(now);
 		i++;
 	}
+	display(res);
 	return res;
 }
 
-void displayPairVector(std::vector< std::pair<int, int> > pvec) {
-	std::vector< std::pair<int, int> >::iterator it;
+void displayPairVector(std::vector< std::pair<long, long> > pvec) {
+	std::vector< std::pair<long, long> >::iterator it;
 
 	for (it=pvec.begin(); it!=pvec.end(); it++)
 		std::cout << "(" << it->first << "," << it->second << ") ";
 	std::cout << std::endl;
 }
 
-void setSubchainIdx(std::vector<int>& subchainIdx, std::vector<int>& subchain) {
+void setIdxpairs(std::vector<int> log, std::vector< std::pair<long,long> >& idxpairs) {
 	std::size_t i;
 
-	for(i=0; i<subchain.size(); i++)
-			subchainIdx.push_back(2*i);
+	for (i=0; i<log.size(); i+=2) {
+		if (i == log.size()-1)
+			idxpairs.push_back(std::make_pair(-1, log[i]));
+		else
+			idxpairs.push_back(std::make_pair(log[i], log[i+1]));
+	}
+	std::cout << "idxpairs";
+	displayPairVector(idxpairs);
 }
 
-void setMainchainIdx(std::vector<int>& mainchainIdx, std::vector<int>& mainchain) {
-	std::size_t i;
+std::size_t binarySearch(std::vector< std::pair<long,long> > pairs, std::size_t low, std::size_t high, int target) {
+	std::size_t mid;
 
-	for (i=0; i<mainchain.size(); i++) {
-		mainchainIdx.push_back(i * 2 + 1);
+	mid = (low + high) / 2;
+	if (low == high)
+		return mid;
+	if (mid != 0 && pairs[mid-1].first < target && pairs[mid].first > target)
+		return mid;
+	if (pairs[mid].first < target) {
+		if (mid == pairs.size()-1)
+			return mid+1;
+		return binarySearch(pairs, mid+1, high, target);
+	}
+	else {
+		if (mid == 0)
+			return 0;
+		return binarySearch(pairs, low, mid, target);
 	}
 }
 
 /* VECTOR */
-std::vector<int>* PmergeMe::binaryInsertion(std::vector<int>& mainchain, std::vector<int>& subchain) {
+void PmergeMe::binaryInsertion(std::vector< std::pair<long,long> > pairs, std::vector<int>& log, std::vector<int>& mainchain) {
 	std::size_t i;
 	std::size_t j, k, lastInsert;
-	int end = 0;
-	int idx;
-	std::vector<int>::iterator pos;
-	std::vector< std::pair<int,int> > tmp;
-	std::vector<int> *log = new std::vector<int>();
-	std::vector<int> subchainIdx;
-	std::vector<int> mainchainIdx;
+	int end = 0, target;
+	std::size_t idx;
+	std::vector< std::pair<long,long> > idxpairs;
 
 	std::cout << "binaryInsertion" << std::endl;
-	setSubchainIdx(subchainIdx, subchain);
-	setMainchainIdx(mainchainIdx, mainchain);
-	// mainchain의 인덱스를 순서대로 log에 저장
-	for (i=0; i<mainchainIdx.size(); i++)
-		log->push_back(mainchainIdx[i]);
+	// 1. log를 기준으로 inxpairs를 세팅
+	setIdxpairs(log, idxpairs);
 	lastInsert = 0;
 	i = 2;
 	while (!end) {
+		// 야곱스탈 수열의 i항을 가져온다.
 		j = _jacobsthal[i];
-		if (j > subchain.size()) {
-			j = subchain.size();
+		if (j > pairs.size()) {
+			j = pairs.size();
 			end = 1;
 		}
+		// 야곱스탈 수 -> 마지막 삽입 인덱스 순으로 이진삽입
 		for (k=j; k>lastInsert; k--) {
-			pos = std::lower_bound(mainchain.begin(), mainchain.begin()+k-1, subchain.at(k-1));
-			idx = std::distance(mainchain.begin(), pos);
-			if (*pos < subchain[k-1]) {
-				mainchain.insert(pos+1, subchain[k-1]);
-				log->insert(log->begin()+idx+1, subchainIdx[k-1]);
-			}
-			else {
-				mainchain.insert(pos, subchain[k-1]);
-				log->insert(log->begin()+idx, subchainIdx[k-1]);
-			}
-			display(mainchain);
+			if (pairs[k-1].second == -1)
+				continue;
+			target = pairs[k-1].second;
+			idx = binarySearch(pairs, 0, k-1, target);
+			std::cout << "target:" << target << " range(0," << k-1 << ") idx:" << idx << std::endl;
+			pairs[k-1].second = -1;
+			pairs.insert(pairs.begin()+idx, std::make_pair(target, -1));
+			idxpairs.insert(idxpairs.begin()+idx, std::make_pair(idxpairs[k-1].second, -1));
+			displayPairVector(pairs);
+			displayPairVector(idxpairs);
 		}
 		lastInsert = j;
 		i++;
 	}
-	display(mainchain);
+	// idxpairs를 기준으로 log를 재배치한다.
+	log.clear();
+	for (i=0; i<idxpairs.size(); i++) {
+		if (idxpairs[i].first != -1)
+			log.push_back(idxpairs[i].first);
+	}
+	// pairs를 기준으로 mainchain도 재배치한다.
+	mainchain.clear();
+	for (i=0; i<pairs.size(); i++) {
+		if (pairs[i].first < INT_MAX)
+			mainchain.push_back(pairs[i].first);
+	}
 	std::cout << "==========\n";
-	return log;
 }
 
 /*
-	1. 하나의 수열을 둘씩 짝지어 쪼갠다.
+	1. pair로 쪼갠다.
+		0  1  2  3  4  5		0  1  2
+		59 69 74 77 43 92	->	59 74 43
+								69 77 92
 	2. 재귀 레이어를 내려가며 짝이 1개일때까지 쪼갠다.
-		2-1. 각 pair들의 내부를 내림차순 swap한다.
-			0  1  2  3  4  5		0  1  2  3  4  5
-			59 69 74 77 43 92   ->	69 59 77 74 92 43
-		2-2. pair로 쪼갠다.
+		2-1. 전체 수열의 log를 만든다.
+			0  1  2			0  1  2
+			59 74 43	->  0  2  4
+			69 77 92		1  3  5
+		2-2. 각 pair들의 내부를 내림차순 swap한다.
 			0  1  2
-			69 77 92
-			59 74 43
+			69 77 92	
+			59 74 43   
 		2-3. 1개일때까지 2-1~2-2 반복
-		    0  1  2			0  1  2			0		1
-			69 77 92  -> 	77 69 92   ->	(77,74)	X
-			59 74 43		74 59 43		(69,59) (92,43)
+			0  1  2			0  1  2			0	1
+			69 77 92  -> 	77 69 92   ->	77	X
+			59 74 43		74 59 43		69 	92
+			0  1  2			1  0  2
 	3. 쪼개진 짝을 이진삽입으로 다시 합친다. ([idx순서배열]과 [pair] 필요)
 		3-1. 이때 pair는 아래와 같다.
 			0  1  2
 			69 77 92
-	      	59 74 43
+			59 74 43
 		3-2. 이 pair들을 이진삽입한다.
 			0  1  2			0  1  2  3			0  1  2  3  4			0  1  2  3  4  5
 			69 77 92   ->	59 69 77 92   ->	43 59 69 77 92   -> 	43 59 69 74 77 92
 	      	59 74 43		X  59 74 43			X  X  59 74 43			X  X  59 X  74 43
 		3-3. 이진삽입과 동시에 정렬되는 인덱스의 변화를 기준으로 [idx순서배열]도 바꾼다.
-			3-3-1. [idx순서배열]을 mainchain만 추출한다.
-			0  1  2		0  1  2  3  4  5
-			0  2  4  ->	1  0  3  2  5  4   ->	
+			0  1  2	 3  4  5		0  1  2			0  1  2  3		0  1  2  3  4		0  1  2  3  4  5
+			1  0  3  2  5  4   ->	1  3  5   -> 	0  1  3  5	->	4  0  1  3  5	->	4  0  1  2  3  5
+									0  2  4			X  0  2  4		X  X  0  2  4		X  X  0  X  2  4
+		3-4. 완성된 pair에서 mainchain 추출해 _vmainchain에 저장하고, [idx순서배열]도 _vlog에 저장한다.
+			_vmainchain :	43 59 69 74 77 92
+			_vlog : 		4  0  1  2  3  5
+	4. _vlog로 기존의 pair를 재배치한다.
 */
 
 /* VECTOR */
 void PmergeMe::sort(std::vector<int>& vec) {
 	std::size_t i;
 	std::vector< std::pair<long, long> > pairs;
+	std::vector< std::pair<long, long> > tmpPairs;
 	std::vector<int> mainchain;
-	std::vector<int> subchain;
-	std::vector<int> *log;
-	std::vector<int> tmp;
+	std::vector<int> log;
 
-	// vector를 둘씩 짝지어 pair로 나눈다.
+	// 1. vector를 둘씩 짝지어 pair로 만든다.
 	for (i=0; i<vec.size(); i+=2) {
 		if (i == vec.size()-1)
 			pairs.push_back(std::make_pair(LONG_MAX, vec[i]));
@@ -200,46 +231,58 @@ void PmergeMe::sort(std::vector<int>& vec) {
 			pairs.push_back(std::make_pair(vec[i], vec[i+1]));
 	}
 
-	// 각 pair들의 내부 요소를 내림차순 정렬한다.
-	for (i=0; i<pairs.size(); i++) {
-		if (pairs[i].first < pairs[i].second)
-			std::swap(pairs[i].first, pairs[i].second);
+	// 2-1. 전체 수열 기준으로 log 생성.
+	for (i=0; i<vec.size(); i++) {
+		log.push_back(i);
 	}
+	// std::cout << "log ";
+	// display(log);
 
-	// 각 pair들의 첫번째 요소들을 기준으로 pair들을 오름차순 정렬한다.
-	// 이때 정렬은 재귀적으로 수행한다.
+	// 2-2. 각 pair들의 내부 요소를 내림차순 swap한다.
+	for (std::size_t j=0, i=0; i<pairs.size(); i++, j+=2) {
+		if (pairs[i].first < pairs[i].second) {
+			std::swap(pairs[i].first, pairs[i].second);
+			std::swap(log[j], log[j+1]);
+		}
+	}
+	std::cout << "log ";
+	display(log);
+
+	// 3. 각 pair들의 첫번째 요소들을 기준으로 pair들을 오름차순 정렬한다. (재귀)
 	for (i=0; i<pairs.size(); i++) {
 		if (pairs[i].first <= INT_MAX)
 			mainchain.push_back(pairs[i].first);
-		subchain.push_back(pairs[i].second);
 	}
+	displayPairVector(pairs);
 	if (mainchain.size() > 1)
 		sort(mainchain);
-	if (_vmainchain.size() != 0 && _vlog.size() != 0) {
+	// 하위 deps에서 저장했던 _vmainchain과 _vlog를 가져온다.
+	if (_vmainchain.size() != 0) {
 		mainchain = _vmainchain;
-		tmp = subchain;
-		subchain.clear();
-		std::cout << "log ";
-		for (i=0; i<_vlog.size(); i++) {
-			subchain.push_back(tmp[_vlog[i]]);
-			std::cout << tmp[_vlog[i]] << " ";
-		}
-		std::cout << std::endl;
 	}
+	// _vlog를 기반으로 pair들을 재배치한다.
+	if (_vlog.size() != 0) {
+		tmpPairs = pairs;
+		pairs.clear();
+		std::cout << "_vlog: ";
+		display(_vlog);
+		std::cout << "tmpPairs: ";
+		displayPairVector(tmpPairs);
+		for (i=0; i<_vlog.size(); i++) {
+			pairs.push_back(tmpPairs[_vlog[i]]);
+		}
+		std::cout << "주목! ";
+		displayPairVector(pairs);
+	}
+	// 3-1. 이제 이진탐색을 기반으로 삽입정렬을 수행한다.
+	binaryInsertion(pairs, log, mainchain);
+	// 3-2. 삽입정렬이 끝나면, mainchin을 _vmainchain에 저장한다.
+	std::cout << "3-1: ";
+	display(log);
 	display(mainchain);
-	display(subchain);
-	// 이제 이진탐색을 기반으로 삽입정렬을 수행한다.
-	// 이때, 정렬된 mainchain의 인덱스 변화 기록(log)를 받는다.
-	log = binaryInsertion(mainchain, subchain);
 	_vmainchain = mainchain;
-	_vlog = *log;
+	_vlog = log;
 	display(_vlog);
-	delete log;
-	// 서브체인을 정렬된 메인체인의 log에 맞게 재배치한다.
-	// _vmainchain.clear();
-	// for (i=0; i<log->size(); i++) {
-	// 	// _vsubchain.push_back(subchain[log->at(i)]);
-	// }
 	_vec = _vmainchain;
 }
 
