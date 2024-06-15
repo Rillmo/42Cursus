@@ -95,19 +95,15 @@ void displayPairVector(std::vector< std::pair<int, int> > pvec) {
 void setSubchainIdx(std::vector<int>& subchainIdx, std::vector<int>& subchain) {
 	std::size_t i;
 
-	for(i=0; i<subchain.size(); i++) {
-		if (subchain.size() % 2 == 0 && i == subchain.size()-1)
-			subchainIdx.push_back(subchainIdx[i-1] + 1);
-		else
-			subchainIdx.push_back(2*i + 1);
-	}
+	for(i=0; i<subchain.size(); i++)
+			subchainIdx.push_back(2*i);
 }
 
 void setMainchainIdx(std::vector<int>& mainchainIdx, std::vector<int>& mainchain) {
 	std::size_t i;
 
 	for (i=0; i<mainchain.size(); i++) {
-		mainchainIdx.push_back(i * 2);
+		mainchainIdx.push_back(i * 2 + 1);
 	}
 }
 
@@ -123,6 +119,7 @@ std::vector<int>* PmergeMe::binaryInsertion(std::vector<int>& mainchain, std::ve
 	std::vector<int> subchainIdx;
 	std::vector<int> mainchainIdx;
 
+	std::cout << "binaryInsertion" << std::endl;
 	setSubchainIdx(subchainIdx, subchain);
 	setMainchainIdx(mainchainIdx, mainchain);
 	// mainchain의 인덱스를 순서대로 log에 저장
@@ -147,12 +144,44 @@ std::vector<int>* PmergeMe::binaryInsertion(std::vector<int>& mainchain, std::ve
 				mainchain.insert(pos, subchain[k-1]);
 				log->insert(log->begin()+idx, subchainIdx[k-1]);
 			}
+			display(mainchain);
 		}
 		lastInsert = j;
 		i++;
 	}
+	display(mainchain);
+	std::cout << "==========\n";
 	return log;
 }
+
+/*
+	1. 하나의 수열을 둘씩 짝지어 쪼갠다.
+	2. 재귀 레이어를 내려가며 짝이 1개일때까지 쪼갠다.
+		2-1. 각 pair들의 내부를 내림차순 swap한다.
+			0  1  2  3  4  5		0  1  2  3  4  5
+			59 69 74 77 43 92   ->	69 59 77 74 92 43
+		2-2. pair로 쪼갠다.
+			0  1  2
+			69 77 92
+			59 74 43
+		2-3. 1개일때까지 2-1~2-2 반복
+		    0  1  2			0  1  2			0		1
+			69 77 92  -> 	77 69 92   ->	(77,74)	X
+			59 74 43		74 59 43		(69,59) (92,43)
+	3. 쪼개진 짝을 이진삽입으로 다시 합친다. ([idx순서배열]과 [pair] 필요)
+		3-1. 이때 pair는 아래와 같다.
+			0  1  2
+			69 77 92
+	      	59 74 43
+		3-2. 이 pair들을 이진삽입한다.
+			0  1  2			0  1  2  3			0  1  2  3  4			0  1  2  3  4  5
+			69 77 92   ->	59 69 77 92   ->	43 59 69 77 92   -> 	43 59 69 74 77 92
+	      	59 74 43		X  59 74 43			X  X  59 74 43			X  X  59 X  74 43
+		3-3. 이진삽입과 동시에 정렬되는 인덱스의 변화를 기준으로 [idx순서배열]도 바꾼다.
+			3-3-1. [idx순서배열]을 mainchain만 추출한다.
+			0  1  2		0  1  2  3  4  5
+			0  2  4  ->	1  0  3  2  5  4   ->	
+*/
 
 /* VECTOR */
 void PmergeMe::sort(std::vector<int>& vec) {
@@ -161,6 +190,7 @@ void PmergeMe::sort(std::vector<int>& vec) {
 	std::vector<int> mainchain;
 	std::vector<int> subchain;
 	std::vector<int> *log;
+	std::vector<int> tmp;
 
 	// vector를 둘씩 짝지어 pair로 나눈다.
 	for (i=0; i<vec.size(); i+=2) {
@@ -185,16 +215,31 @@ void PmergeMe::sort(std::vector<int>& vec) {
 	}
 	if (mainchain.size() > 1)
 		sort(mainchain);
-	if (_vmainchain.size() != 0)
+	if (_vmainchain.size() != 0 && _vlog.size() != 0) {
 		mainchain = _vmainchain;
+		tmp = subchain;
+		subchain.clear();
+		std::cout << "log ";
+		for (i=0; i<_vlog.size(); i++) {
+			subchain.push_back(tmp[_vlog[i]]);
+			std::cout << tmp[_vlog[i]] << " ";
+		}
+		std::cout << std::endl;
+	}
+	display(mainchain);
+	display(subchain);
 	// 이제 이진탐색을 기반으로 삽입정렬을 수행한다.
 	// 이때, 정렬된 mainchain의 인덱스 변화 기록(log)를 받는다.
 	log = binaryInsertion(mainchain, subchain);
 	_vmainchain = mainchain;
+	_vlog = *log;
+	display(_vlog);
+	delete log;
 	// 서브체인을 정렬된 메인체인의 log에 맞게 재배치한다.
-	for (i=0; i<log->size(); i++) {
-		
-	}
+	// _vmainchain.clear();
+	// for (i=0; i<log->size(); i++) {
+	// 	// _vsubchain.push_back(subchain[log->at(i)]);
+	// }
 	_vec = _vmainchain;
 }
 

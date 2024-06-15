@@ -14,6 +14,7 @@ class PmergeMe {
 		std::vector<int> _vec;
 		std::vector<int> _vorigin;
 		std::vector<int> _vmainchain;
+		std::vector<int> _vlog;
 		std::deque<int> _deq;
 		std::deque<int> _dorigin;
 		std::deque<int> _dmainchain;
