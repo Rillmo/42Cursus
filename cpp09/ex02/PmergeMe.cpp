@@ -177,7 +177,8 @@ void PmergeMe::binaryInsertion(std::vector< std::vector<int> >&vec, int depth) {
 		// 1-2. target 설정
 		targetIdx = now.size()/2;
 		target = now[targetIdx];
-		// 1-3. target부터 끝까지 추출
+		// 1-3. target부터 끝까지 추출해 newvec에 저장
+		newvec.clear();
 		for (jt=now.begin()+targetIdx; jt!=now.end(); jt++) {
 			newvec.push_back(*jt);
 		}
@@ -192,11 +193,14 @@ void PmergeMe::binaryInsertion(std::vector< std::vector<int> >&vec, int depth) {
 		// 1-6. 삽입
 		vec.insert(vec.begin()+idx, newvec);
 	}
+	// 2. 남아있던 remain 삽입
+	// targetIdx = 
+	// idx = binarySearch(vec, 0, tar)
 	displayV(vec);
 	std::cout << "------- BI END -------\n";
 }
 
-/* VECTOR binary search */
+/* VECTOR binary search <--- 고장남!! */
 std::size_t PmergeMe::binarySearch(const std::vector< std::vector<int> >& vec, std::size_t low, std::size_t high, int target) {
 	std::size_t mid;
 
