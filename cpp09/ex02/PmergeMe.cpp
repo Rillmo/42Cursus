@@ -108,8 +108,8 @@ void PmergeMe::sort() {
 		newvec.push_back(_vec[i]);
 		vec.push_back(newvec);
 	}
-	std::cout << "------- 1. initialize -------\n";
-	displayV(vec);
+	// std::cout << "------- 1. initialize -------\n";
+	// displayV(vec);
 	fordJohnson(vec, 1);
 	// 2. 결과를 다시 1차원 벡터로 변경
 	_vec.clear();
@@ -124,7 +124,7 @@ void PmergeMe::fordJohnson(std::vector< std::vector<int> >& vec, int depth) {
 	std::vector<int>::iterator jt;
 	std::vector<int> remain;
 
-	std::cout << "------- 2. next depth... ------\n";
+	// std::cout << "------- 2. next depth... ------\n";
 	// 2. mainchain 벡터에 subchain 을 내부 내림차순으로 넣는다.
 	for (it=vec.begin(); it!=vec.end(); it++) {
 		std::vector<int>& now = *it;
@@ -132,8 +132,8 @@ void PmergeMe::fordJohnson(std::vector< std::vector<int> >& vec, int depth) {
 			for (jt=now.begin(); jt!=now.end(); jt++)
 				remain.push_back(*jt);
 			vec.erase(it);
-			std::cout << "remain: ";
-			display(remain, true);
+			// std::cout << "remain: ";
+			// display(remain, true);
 			break;
 		}
 		std::vector<int>& next = *(it+1);
@@ -150,14 +150,14 @@ void PmergeMe::fordJohnson(std::vector< std::vector<int> >& vec, int depth) {
 			vec.erase(it);
 		}
 	}
-	displayV(vec);
+	// displayV(vec);
 	it = vec.begin();
 	if (it+1 != vec.end() && it->size() == (it+1)->size())
 		fordJohnson(vec, depth*2);
 
-	std::cout << "------ 3. binary insertion -------\n";
+	// std::cout << "------ 3. binary insertion -------\n";
 	// 3. 이진삽입 실시!
-	displayV(vec);
+	// displayV(vec);
 	binaryInsertion(vec, remain, depth);
 }
 
@@ -186,42 +186,42 @@ void PmergeMe::binaryInsertion(std::vector< std::vector<int> >&vec, std::vector<
 		}
 		// 1-4. now에서 target~end 까지 삭제
 		now.erase(now.begin()+targetIdx, now.end());
-		std::cout << "newvec: ";
-		display(newvec, true);
-		std::cout << "vec: ";
-		displayV(vec);
+		// std::cout << "newvec: ";
+		// display(newvec, true);
+		// std::cout << "vec: ";
+		// displayV(vec);
 		// 1-5. 이진탐색으로 삽입할 인덱스 설정
-		std::cout << "=====[basic bs]=====\n";
+		// std::cout << "=====[basic bs]=====\n";
 		idx = binarySearch(vec, 0, i, target);
-		std::cout << "idx: " << idx;
-		std::cout << "\n========================\n";
+		// std::cout << "idx: " << idx;
+		// std::cout << "\n========================\n";
 		// 1-6. 삽입
 		vec.insert(vec.begin()+idx, newvec);
 	}
 	// 2. 남아있던 remain 삽입
 	if (remain.size() != 0) {
 		// 2-1. 이진탐색으로 삽입할 인덱스 설정
-		std::cout << "=====[remain bs]=====\n";
+		// std::cout << "=====[remain bs]=====\n";
 		target = remain[0];
 		idx = binarySearch(vec, 0, vec.size()-1, target);
-		std::cout << "idx: " << idx;
-		std::cout << "\n========================\n";
+		// std::cout << "idx: " << idx;
+		// std::cout << "\n========================\n";
 		// 2-2. 삽입
 		newvec.clear();
 		newvec = remain;
 		vec.insert(vec.begin()+idx, newvec);
 	}
-	displayV(vec);
-	std::cout << "---------------------------------\n";
+	// displayV(vec);
+	// std::cout << "---------------------------------\n";
 }
 
 /* VECTOR binary search */
 std::size_t PmergeMe::binarySearch(std::vector< std::vector<int> >& vec, std::size_t low, std::size_t high, int target) {
 	std::size_t mid;
 
-	std::cout << "vec: ";
-	displayV(vec);
-	std::cout << "target: " << target << " " << low << "~" << high << " \n";
+	// std::cout << "vec: ";
+	// displayV(vec);
+	// std::cout << "target: " << target << " " << low << "~" << high << " \n";
 
 	// 벡터 1개인경우 예외처리
 	if (vec.size() == 1)
