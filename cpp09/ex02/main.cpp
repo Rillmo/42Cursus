@@ -6,7 +6,7 @@ int main(int argc, char** argv) {
 		PmergeMe pm(argc, argv);
 
 		clock_t vstart = clock();
-		pm.sort(pm.getVec());
+		pm.sort();
 		clock_t vend = clock();
 		// clock_t dstart = clock();
 		// pm.sort(pm.getDeq());

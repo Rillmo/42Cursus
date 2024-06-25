@@ -13,8 +13,6 @@ class PmergeMe {
 		std::vector<int> _jacobsthal;
 		std::vector<int> _vec;
 		std::vector<int> _vorigin;
-		std::vector<int> _vmainchain;
-		std::vector<int> _vlog;
 		std::deque<int> _deq;
 		std::deque<int> _dorigin;
 		std::deque<int> _dmainchain;
@@ -26,10 +24,10 @@ class PmergeMe {
 		~PmergeMe();
 		std::vector<int>& getVec();
 		std::vector<int>& getVorigin();
-		void sort(std::vector<int>& vec);
+		void sort();
 		void fordJohnson(std::vector< std::vector<int> >& vec, int depth);
-		void binaryInsertion(std::vector< std::vector<int> >& vec, int depth);
-		std::size_t binarySearch(const std::vector< std::vector<int> >& vec, std::size_t low, std::size_t high, int target);
+		void binaryInsertion(std::vector< std::vector<int> >& vec, std::vector<int>& remain, int depth);
+		std::size_t binarySearch(std::vector< std::vector<int> >& vec, std::size_t low, std::size_t high, int target);
 		std::deque<int>& getDeq();
 		std::deque<int>& getDorigin();
 		void sort(std::deque<int>& deq);

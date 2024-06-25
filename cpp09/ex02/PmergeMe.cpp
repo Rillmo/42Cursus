@@ -20,8 +20,6 @@ PmergeMe::PmergeMe(int argc, char** argv) {
 	_jacobsthal = getJacobsthalNumber(_vec.size()/2+1);
 	_vorigin = _vec;
 	_dorigin = _deq;
-	for (std::size_t i=0; i<_vorigin.size(); i++)
-		_vlog.push_back(i);
 }
 
 PmergeMe::PmergeMe(const PmergeMe& pm) {
@@ -100,19 +98,24 @@ void displayV(std::vector< std::vector<int> >& vec) {
 }
 
 /* VECTOR sort */
-void PmergeMe::sort(std::vector<int>& vec) {
+void PmergeMe::sort() {
 	std::size_t i;
-	std::vector< std::vector<int> > pairs;
+	std::vector< std::vector<int> > vec;
 
-	// 1. 전부다 mainchain 벡터로 만든다.
-	for (i=0; i<vec.size(); i++) {
+	// 1. 전부다 2차원 벡터로 만든다.
+	for (i=0; i<_vec.size(); i++) {
 		std::vector<int> newvec;
-		newvec.push_back(vec[i]);
-		pairs.push_back(newvec);
+		newvec.push_back(_vec[i]);
+		vec.push_back(newvec);
 	}
 	std::cout << "------- 1. initialize -------\n";
-	displayV(pairs);
-	fordJohnson(pairs, 1);
+	displayV(vec);
+	fordJohnson(vec, 1);
+	// 2. 결과를 다시 1차원 벡터로 변경
+	_vec.clear();
+	for (i=0; i<vec.size(); i++) {
+		_vec.push_back(vec[i].at(0));
+	}
 }
 
 /* VECTOR ford-johnson */
@@ -155,21 +158,20 @@ void PmergeMe::fordJohnson(std::vector< std::vector<int> >& vec, int depth) {
 	std::cout << "------ 3. binary insertion -------\n";
 	// 3. 이진삽입 실시!
 	displayV(vec);
-	binaryInsertion(vec, depth);
+	binaryInsertion(vec, remain, depth);
 }
 
 /* VECTOR bianry insertion */
-void PmergeMe::binaryInsertion(std::vector< std::vector<int> >&vec, int depth) {
+void PmergeMe::binaryInsertion(std::vector< std::vector<int> >&vec, std::vector<int>& remain, int depth) {
 	std::vector< std::vector<int> >::iterator it;
 	std::vector<int>::iterator jt;
 	std::vector<int> newvec;
 	int target;
 	std::size_t targetIdx;
-	std::size_t idx;
+	std::size_t i, idx;
 
-	std::cout << "------ BI START (" << depth << ") ------\n";
 	// 1. 모든 벡터들에 대해 실시
-	for (it=vec.begin(); it!=vec.end(); it++) {
+	for (it=vec.begin(), i=0; it!=vec.end(); it++, i++) {
 		// 1-1. 현재 벡터 설정
 		std::vector<int>& now = *it;
 		if (now.size() != static_cast<std::size_t>(depth*2))
@@ -189,25 +191,41 @@ void PmergeMe::binaryInsertion(std::vector< std::vector<int> >&vec, int depth) {
 		std::cout << "vec: ";
 		displayV(vec);
 		// 1-5. 이진탐색으로 삽입할 인덱스 설정
-		idx = binarySearch(vec, 0, targetIdx, target);
+		std::cout << "=====[basic bs]=====\n";
+		idx = binarySearch(vec, 0, i, target);
+		std::cout << "idx: " << idx;
+		std::cout << "\n========================\n";
 		// 1-6. 삽입
 		vec.insert(vec.begin()+idx, newvec);
 	}
 	// 2. 남아있던 remain 삽입
-	// targetIdx = 
-	// idx = binarySearch(vec, 0, tar)
+	if (remain.size() != 0) {
+		// 2-1. 이진탐색으로 삽입할 인덱스 설정
+		std::cout << "=====[remain bs]=====\n";
+		target = remain[0];
+		idx = binarySearch(vec, 0, vec.size()-1, target);
+		std::cout << "idx: " << idx;
+		std::cout << "\n========================\n";
+		// 2-2. 삽입
+		newvec.clear();
+		newvec = remain;
+		vec.insert(vec.begin()+idx, newvec);
+	}
 	displayV(vec);
-	std::cout << "------- BI END -------\n";
+	std::cout << "---------------------------------\n";
 }
 
-/* VECTOR binary search <--- 고장남!! */
-std::size_t PmergeMe::binarySearch(const std::vector< std::vector<int> >& vec, std::size_t low, std::size_t high, int target) {
+/* VECTOR binary search */
+std::size_t PmergeMe::binarySearch(std::vector< std::vector<int> >& vec, std::size_t low, std::size_t high, int target) {
 	std::size_t mid;
+
+	std::cout << "vec: ";
+	displayV(vec);
+	std::cout << "target: " << target << " " << low << "~" << high << " \n";
 
 	// 벡터 1개인경우 예외처리
 	if (vec.size() == 1)
 		return 0;
-	return 1;
 	// 1. start와 end의 중간값 설정
 	mid = (low+high) / 2;
 	if (low == high)
