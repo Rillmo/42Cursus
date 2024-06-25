@@ -27,7 +27,9 @@ class PmergeMe {
 		std::vector<int>& getVec();
 		std::vector<int>& getVorigin();
 		void sort(std::vector<int>& vec);
-		void binaryInsertion(std::vector< std::pair<long,long> > pairs, std::vector<int>& log, std::vector<int>& mainchain);
+		void fordJohnson(std::vector< std::vector<int> >& vec, int depth);
+		void binaryInsertion(std::vector< std::vector<int> >& vec, int depth);
+		std::size_t binarySearch(const std::vector< std::vector<int> >& vec, std::size_t low, std::size_t high, int target);
 		std::deque<int>& getDeq();
 		std::deque<int>& getDorigin();
 		void sort(std::deque<int>& deq);
@@ -35,12 +37,13 @@ class PmergeMe {
 };
 
 template <typename T>
-void display(T& container) {
+void display(T& container, bool endl) {
 	typename T::iterator it;
 
 	for (it=container.begin(); it!=container.end(); it++)
 		std::cout << *it << " ";
-	std::cout << std::endl;
+	if (endl)
+		std::cout << std::endl;
 }
 
 std::vector<int> getJacobsthalNumber(int n);
