@@ -46,5 +46,6 @@ void display(T& container, bool endl) {
 }
 
 std::vector<int> getJacobsthalNumber(std::size_t n);
+void insert(std::vector< std::vector<int> >& vec, std::size_t insertIdx, std::vector< std::vector<int> >::iterator& cur);
 
 #endif

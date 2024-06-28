@@ -156,87 +156,67 @@ void PmergeMe::fordJohnson(std::vector< std::vector<int> >& vec, int depth) {
 
 	std::cout << "------ 3. binary insertion -------\n";
 	// 3. 이진삽입 실시!
-	// displayV(vec);
+	displayV(vec);
 	binaryInsertion(vec, remain, depth);
 }
-
-/*
-	* * *     *
-	1 2 3 4 5 6 7 8 9 0
-	k=1 : (0)1
-	k=2 : (1)2
-	k=3 : (1)2
-	k=4 : (1)2
-	k=5 : (2)3
-	k=6 : (2)3
-	k=7 : (3)3
-	k=8 : (4)3
-	k=9 : (4)3
-	k=10: (5)4
-	k=11: (5)4
-	결론 => t(k) = t(k/2) + 1 (k > 2)
-	k = n + 1
-*/
 
 /* VECTOR bianry insertion */
 void PmergeMe::binaryInsertion(std::vector< std::vector<int> >&vec, std::vector<int>& remain, int depth) {
 	std::vector< std::vector<int> >::iterator it;
-	std::vector<int>::iterator jt;
-	std::vector<int> newvec;
-	int target;
-	std::size_t targetIdx;
 	std::size_t i, idx;
 	bool end_flag = true;
 
+	(void)remain;
 	it = vec.begin();
 	i = 0;
-	// 1. 이진삽입
+
+	// 0. i=0 먼저 맨앞에 삽입
+	insert(vec, 0, it);
+	it++;
+	i++;
+	std::cout << "inserted 0" << std::endl;
+
+	// 1. vec 이진삽입
 	while (end_flag) {
+		displayV(vec);
 		// 1-1. 최대비교횟수 다를때까지(또는 벡터 끝까지) 앞으로 이동
-		while (it != vec.end() || std::log2(i) == std::log2(i+1)) {
+		while (i < vec.size()-1 && static_cast<int>(std::log2(i)) == static_cast<int>(std::log2(i+1))) {
 			i++;
 			it++;
 		}
-		if (it == vec.end())
+		if (i == vec.size()-1) {
+			std::cout << "break\n";
 			end_flag = false;
-		// 1-2. 최대비교횟수가 다르면서 삽입 불필요한 원소까지(또는 벡터 처음까지) 뒤로 이동하면서 이진삽입
-		while (i > 0 || (std::log2(i) == std::log2(i-1))) {
-			std::cout << i << " ";
-			// 2-1. 현재 벡터 설정
-			std::vector<int>& now = *it;
-			if (now.size() != static_cast<std::size_t>(depth*2))
-				continue;
-			// 2-2. target 설정
-			targetIdx = now.size()/2;
-			target = now[targetIdx];
-			// 2-3. target부터 끝까지 추출해 newvec에 저장
-			newvec.clear();
-			for (jt=now.begin()+targetIdx; jt!=now.end(); jt++) {
-				newvec.push_back(*jt);
-			}
-			// 2-4. now에서 target~end 까지 삭제
-			now.erase(now.begin()+targetIdx, now.end());
-			// 2-5. 이진탐색으로 삽입할 인덱스 설정
-			idx = binarySearch(vec, 0, i, target);
-			// 2-6. 삽입
-			vec.insert(vec.begin()+idx, newvec);
-			i--;
 		}
-		std::cout << std::endl;
+		std::cout << "depth: " << depth << std::endl;
+		end_flag = false;
+		// 1-2. 최대비교횟수가 다르면서 삽입 불필요한 원소까지(또는 벡터 처음까지) 뒤로 이동하면서 이진삽입
+		std::cout << "foward ";
+		std::cout << i << std::endl << "back ";
+		while (i > 0 && (std::ceil(std::log2(i)) == std::ceil(std::log2(i-1)))) {
+			if (it->size() == static_cast<std::size_t>(depth*2)) {
+				idx = binarySearch(vec, 0, i, it->at(0));
+				insert(vec, idx, it);
+			}
+			i--;
+			it--;
+		}
+		std::cout << i << std::endl;
+		displayV(vec);
 	}
-	// 2. 남아있던 remain 삽입
-	if (remain.size() != 0) {
-		// 2-1. 이진탐색으로 삽입할 인덱스 설정
-		// std::cout << "=====[remain bs]=====\n";
-		target = remain[0];
-		idx = binarySearch(vec, 0, vec.size()-1, target);
-		// std::cout << "idx: " << idx;
-		// std::cout << "\n========================\n";
-		// 2-2. 삽입
-		newvec.clear();
-		newvec = remain;
-		vec.insert(vec.begin()+idx, newvec);
-	}
+	// // 2. 남아있던 remain 삽입
+	// if (remain.size() != 0) {
+	// 	// 2-1. 이진탐색으로 삽입할 인덱스 설정
+	// 	// std::cout << "=====[remain bs]=====\n";
+	// 	target = remain[0];
+	// 	idx = binarySearch(vec, 0, vec.size()-1, target);
+	// 	// std::cout << "idx: " << idx;
+	// 	// std::cout << "\n========================\n";
+	// 	// 2-2. 삽입
+	// 	newvec.clear();
+	// 	newvec = remain;
+	// 	vec.insert(vec.begin()+idx, newvec);
+	// }
 	// displayV(vec);
 	// std::cout << "---------------------------------\n";
 }
@@ -257,7 +237,6 @@ std::size_t PmergeMe::binarySearch(std::vector< std::vector<int> >& vec, std::si
 	if (low == high)
 		return mid;
 	// 2. mid 인덱스 위치의 벡터의 0번 인덱스와 비교
-	// 2-1. target이 작은경우
 	if (mid != 0 && vec.at(mid-1).at(0) <= target && target <= vec.at(mid).at(0))
 		return mid;
 
@@ -267,4 +246,24 @@ std::size_t PmergeMe::binarySearch(std::vector< std::vector<int> >& vec, std::si
 		return binarySearch(vec, mid+1, high, target);
 	} else
 		return binarySearch(vec, low, mid, target);
+}
+
+/* VECTOR insert */
+void insert(std::vector< std::vector<int> >& vec, std::size_t insertIdx, std::vector< std::vector<int> >::iterator& cur) {
+	int target;
+	std::size_t targetIdx;
+	std::vector<int> newvec;
+	std::vector<int>::iterator it;
+
+	// 1. 현재 벡터 설정
+	std::vector<int>&now = *cur;
+	targetIdx = now.size() / 2;
+	target = now[targetIdx];
+	// 2. target부터 끝까지 추출
+	for (it=now.begin()+targetIdx; it!=now.end(); it++)
+		newvec.push_back(*it);
+	// 3. now에서 target~end까지 삭제
+	now.erase(now.begin()+targetIdx, now.end());
+	// 4. 삽입
+	vec.insert(vec.begin()+insertIdx, newvec);
 }
