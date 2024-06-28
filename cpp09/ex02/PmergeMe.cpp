@@ -6,7 +6,7 @@ PmergeMe::PmergeMe(int argc, char** argv) {
 	double dnum;
 	char* end;
 
-	if (argc < 2)
+	if (argc < 3)
 		throw std::invalid_argument("INVAILD ARGUMENT NUMBER");
 	for (int i=1; i<argc; i++) {
 		dnum = std::strtod(argv[i], &end);
@@ -67,17 +67,16 @@ std::deque<int>& PmergeMe::getDorigin() {
 	return _dorigin;
 }
 
-std::vector<int> getJacobsthalNumber(int n) {
+std::vector<int> getJacobsthalNumber(std::size_t n) {
 	std::vector<int> res;
 	int now;
 	std::size_t i;
 
 	res.push_back(0);
 	res.push_back(1);
-	now = 1;
 	i = 2;
-	while (now <= n) {
-		now = res[i-1] + 2 * res[i-2];
+	while (i <= n) {
+		now = res[i/2] + 1;
 		res.push_back(now);
 		i++;
 	}
@@ -124,7 +123,7 @@ void PmergeMe::fordJohnson(std::vector< std::vector<int> >& vec, int depth) {
 	std::vector<int>::iterator jt;
 	std::vector<int> remain;
 
-	// std::cout << "------- 2. next depth... ------\n";
+	std::cout << "------- 2. next depth... ------\n";
 	// 2. mainchain 벡터에 subchain 을 내부 내림차순으로 넣는다.
 	for (it=vec.begin(); it!=vec.end(); it++) {
 		std::vector<int>& now = *it;
@@ -132,8 +131,8 @@ void PmergeMe::fordJohnson(std::vector< std::vector<int> >& vec, int depth) {
 			for (jt=now.begin(); jt!=now.end(); jt++)
 				remain.push_back(*jt);
 			vec.erase(it);
-			// std::cout << "remain: ";
-			// display(remain, true);
+			std::cout << "remain: ";
+			display(remain, true);
 			break;
 		}
 		std::vector<int>& next = *(it+1);
@@ -150,16 +149,34 @@ void PmergeMe::fordJohnson(std::vector< std::vector<int> >& vec, int depth) {
 			vec.erase(it);
 		}
 	}
-	// displayV(vec);
+	displayV(vec);
 	it = vec.begin();
 	if (it+1 != vec.end() && it->size() == (it+1)->size())
 		fordJohnson(vec, depth*2);
 
-	// std::cout << "------ 3. binary insertion -------\n";
+	std::cout << "------ 3. binary insertion -------\n";
 	// 3. 이진삽입 실시!
 	// displayV(vec);
 	binaryInsertion(vec, remain, depth);
 }
+
+/*
+	* * *     *
+	1 2 3 4 5 6 7 8 9 0
+	k=1 : (0)1
+	k=2 : (1)2
+	k=3 : (1)2
+	k=4 : (1)2
+	k=5 : (2)3
+	k=6 : (2)3
+	k=7 : (3)3
+	k=8 : (4)3
+	k=9 : (4)3
+	k=10: (5)4
+	k=11: (5)4
+	결론 => t(k) = t(k/2) + 1 (k > 2)
+	k = n + 1
+*/
 
 /* VECTOR bianry insertion */
 void PmergeMe::binaryInsertion(std::vector< std::vector<int> >&vec, std::vector<int>& remain, int depth) {
@@ -169,34 +186,43 @@ void PmergeMe::binaryInsertion(std::vector< std::vector<int> >&vec, std::vector<
 	int target;
 	std::size_t targetIdx;
 	std::size_t i, idx;
+	bool end_flag = true;
 
-	// 1. 모든 벡터들에 대해 실시
-	for (it=vec.begin(), i=0; it!=vec.end(); it++, i++) {
-		// 1-1. 현재 벡터 설정
-		std::vector<int>& now = *it;
-		if (now.size() != static_cast<std::size_t>(depth*2))
-			continue;
-		// 1-2. target 설정
-		targetIdx = now.size()/2;
-		target = now[targetIdx];
-		// 1-3. target부터 끝까지 추출해 newvec에 저장
-		newvec.clear();
-		for (jt=now.begin()+targetIdx; jt!=now.end(); jt++) {
-			newvec.push_back(*jt);
+	it = vec.begin();
+	i = 0;
+	// 1. 이진삽입
+	while (end_flag) {
+		// 1-1. 최대비교횟수 다를때까지(또는 벡터 끝까지) 앞으로 이동
+		while (it != vec.end() || std::log2(i) == std::log2(i+1)) {
+			i++;
+			it++;
 		}
-		// 1-4. now에서 target~end 까지 삭제
-		now.erase(now.begin()+targetIdx, now.end());
-		// std::cout << "newvec: ";
-		// display(newvec, true);
-		// std::cout << "vec: ";
-		// displayV(vec);
-		// 1-5. 이진탐색으로 삽입할 인덱스 설정
-		// std::cout << "=====[basic bs]=====\n";
-		idx = binarySearch(vec, 0, i, target);
-		// std::cout << "idx: " << idx;
-		// std::cout << "\n========================\n";
-		// 1-6. 삽입
-		vec.insert(vec.begin()+idx, newvec);
+		if (it == vec.end())
+			end_flag = false;
+		// 1-2. 최대비교횟수가 다르면서 삽입 불필요한 원소까지(또는 벡터 처음까지) 뒤로 이동하면서 이진삽입
+		while (i > 0 || (std::log2(i) == std::log2(i-1))) {
+			std::cout << i << " ";
+			// 2-1. 현재 벡터 설정
+			std::vector<int>& now = *it;
+			if (now.size() != static_cast<std::size_t>(depth*2))
+				continue;
+			// 2-2. target 설정
+			targetIdx = now.size()/2;
+			target = now[targetIdx];
+			// 2-3. target부터 끝까지 추출해 newvec에 저장
+			newvec.clear();
+			for (jt=now.begin()+targetIdx; jt!=now.end(); jt++) {
+				newvec.push_back(*jt);
+			}
+			// 2-4. now에서 target~end 까지 삭제
+			now.erase(now.begin()+targetIdx, now.end());
+			// 2-5. 이진탐색으로 삽입할 인덱스 설정
+			idx = binarySearch(vec, 0, i, target);
+			// 2-6. 삽입
+			vec.insert(vec.begin()+idx, newvec);
+			i--;
+		}
+		std::cout << std::endl;
 	}
 	// 2. 남아있던 remain 삽입
 	if (remain.size() != 0) {

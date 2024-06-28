@@ -7,6 +7,7 @@
 #include <stdexcept>
 #include <utility>
 #include <algorithm>
+#include <cmath>
 
 class PmergeMe {
 	private:
@@ -44,6 +45,6 @@ void display(T& container, bool endl) {
 		std::cout << std::endl;
 }
 
-std::vector<int> getJacobsthalNumber(int n);
+std::vector<int> getJacobsthalNumber(std::size_t n);
 
 #endif
