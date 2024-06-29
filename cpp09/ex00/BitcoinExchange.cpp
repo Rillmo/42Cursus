@@ -38,6 +38,8 @@ std::string isValidDate(std::string date) {
 float isValidValue(std::string val) {
 	float res;
 
+	if (val.size() == 0)
+		throw std::invalid_argument("INVALID VALUE : none");
 	res = strToDigit<float>(val);
 	if (res < 0 || res > 1000)
 		throw std::invalid_argument("INVALID VALUE : " + val);

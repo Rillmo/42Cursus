@@ -17,7 +17,6 @@ PmergeMe::PmergeMe(int argc, char** argv) {
 		_vec.push_back(static_cast<int>(dnum));
 		_deq.push_back(static_cast<int>(dnum));
 	}
-	_jacobsthal = getJacobsthalNumber(_vec.size()/2+1);
 	_vorigin = _vec;
 	_dorigin = _deq;
 }
@@ -59,14 +58,6 @@ std::vector<int>& PmergeMe::getVorigin() {
 	return _vorigin;
 }
 
-std::deque<int>& PmergeMe::getDeq() {
-	return _deq;
-}
-
-std::deque<int>& PmergeMe::getDorigin() {
-	return _dorigin;
-}
-
 std::vector<int> getJacobsthalNumber(std::size_t n) {
 	std::vector<int> res;
 	int now;
@@ -97,23 +88,37 @@ void displayV(std::vector< std::vector<int> >& vec) {
 }
 
 /* VECTOR sort */
-void PmergeMe::sort() {
+void PmergeMe::sort(int type) {
 	std::size_t i;
 	std::vector< std::vector<int> > vec;
+	std::deque< std::deque<int> > deq;
 
-	// 1. 전부다 2차원 벡터로 만든다.
-	for (i=0; i<_vec.size(); i++) {
-		std::vector<int> newvec;
-		newvec.push_back(_vec[i]);
-		vec.push_back(newvec);
-	}
-	// std::cout << "------- 1. initialize -------\n";
-	// displayV(vec);
-	fordJohnson(vec, 1);
-	// 2. 결과를 다시 1차원 벡터로 변경
-	_vec.clear();
-	for (i=0; i<vec.size(); i++) {
-		_vec.push_back(vec[i].at(0));
+	if (type == VEC) {
+		// 1. 전부다 2차원 벡터로 만든다.
+		for (i=0; i<_vec.size(); i++) {
+			std::vector<int> newvec;
+			newvec.push_back(_vec[i]);
+			vec.push_back(newvec);
+		}
+		fordJohnson(vec, 1);
+		// 2. 결과를 다시 1차원 벡터로 변경
+		_vec.clear();
+		for (i=0; i<vec.size(); i++) {
+			_vec.push_back(vec[i].at(0));
+		}
+	} else {
+		// 1. 전부다 2차원 덱으로 만든다.
+		for (i=0; i<_deq.size(); i++) {
+			std::deque<int> newdeq;
+			newdeq.push_back(_deq[i]);
+			deq.push_back(newdeq);
+		}
+		fordJohnson(deq, 1);
+		// 2. 결과를 다시 1차원 덱으로 변경
+		_deq.clear();
+		for (i=0; i<deq.size(); i++) {
+			_deq.push_back(deq[i].at(0));
+		}
 	}
 }
 
@@ -123,7 +128,6 @@ void PmergeMe::fordJohnson(std::vector< std::vector<int> >& vec, int depth) {
 	std::vector<int>::iterator jt;
 	std::vector<int> remain;
 
-	std::cout << "------- 2. next depth... ------\n";
 	// 2. mainchain 벡터에 subchain 을 내부 내림차순으로 넣는다.
 	for (it=vec.begin(); it!=vec.end(); it++) {
 		std::vector<int>& now = *it;
@@ -131,8 +135,6 @@ void PmergeMe::fordJohnson(std::vector< std::vector<int> >& vec, int depth) {
 			for (jt=now.begin(); jt!=now.end(); jt++)
 				remain.push_back(*jt);
 			vec.erase(it);
-			std::cout << "remain: ";
-			display(remain, true);
 			break;
 		}
 		std::vector<int>& next = *(it+1);
@@ -149,14 +151,10 @@ void PmergeMe::fordJohnson(std::vector< std::vector<int> >& vec, int depth) {
 			vec.erase(it);
 		}
 	}
-	displayV(vec);
 	it = vec.begin();
 	if (it+1 != vec.end() && it->size() == (it+1)->size())
 		fordJohnson(vec, depth*2);
-
-	std::cout << "------ 3. binary insertion -------\n";
-	// 3. 이진삽입 실시!
-	displayV(vec);
+	// 3. 이진삽입
 	binaryInsertion(vec, remain, depth);
 }
 
@@ -170,103 +168,78 @@ void PmergeMe::binaryInsertion(std::vector< std::vector<int> >&vec, std::vector<
 	i = 0;
 
 	// 0. i=0 먼저 맨앞에 삽입
-	insert(vec, 0, it, false);
-	it++;
-	i++;
-	std::cout << "inserted 0" << std::endl;
+	insert(vec, 0, *it, false);
+	it++; i++;
 
 	// 1. vec 이진삽입
 	while (!end_flag) {
-		displayV(vec);
 		// 1-1. 최대비교횟수 다를때까지(또는 벡터 끝까지) 앞으로 이동
-		std::cout << "t" << (int)std::log2(i) << " ";
-		while (i < vec.size()-1) {
-			i++;
-			it++;
-			if ((int)std::log2(i) != (int)std::log2(i+1))
+		while (i < vec.size()) {
+			i++; it++;
+			if (it + 1 == vec.end() || (int)std::log2(i) != (int)std::log2(i+1))
 				break;
 		}
-		std::cout << std::endl;
-		if (i == vec.size()-1) {
-			std::cout << "break\n";
+		if (i == vec.size())
 			end_flag = true;
-		}
-		std::cout << "depth: " << depth << std::endl;
+
 		// 1-2. 최대비교횟수가 다르면서 삽입 불필요한 원소까지(또는 벡터 처음까지) 뒤로 이동하면서 이진삽입
-		std::cout << "foward ";
-		std::cout << i << std::endl << "back ";
 		while (i > 0) {
-			std::cout << "i:"<< i <<" size: " << it->size() << std::endl;
-			if (it->size() == static_cast<std::size_t>(depth*2)) {
+			if (it != vec.end() && it->size() == static_cast<std::size_t>(depth*2)) {
 				idx = binarySearch(vec, 0, i, it->at(it->size()/2), false);
-				std::cout << "idx: " << idx << std::endl;
-				insert(vec, idx, it, false);
+				insert(vec, idx, *it, false);
 			} else {
-				i--;
-				it--;
+				i--; it--;
 				if (it->size() != static_cast<std::size_t>(depth*2) && (int)std::log2(i) != (int)std::log2(i-1))
 					break;
 			}
 		}
-		std::cout << i << std::endl;
 		// 1-3. 다시 앞으로 밀기
 		while (i < vec.size()-1 && it->size() != static_cast<std::size_t>(depth*2)) {
+			// std::cout << i << " ";
 			it++; i++;
 		}
-		displayV(vec);
 	}
-	// // 2. 남아있던 remain 삽입
+	// 2. 남아있던 remain 삽입
 	if (remain.size() != 0) {
-		*it = remain;
-		std::cout << "**********remain insert : ";
-		display(remain, true);
-		idx = binarySearch(vec, 0, vec.size()-1, remain[0], true);
-		std::cout << "idx: " << idx << std::endl;
-		insert(vec, idx, it, true);
-		std::cout << "******************\n";
+		idx = binarySearch(vec, 0, vec.size(), remain[0], true);
+		insert(vec, idx, remain, true);
 	}
-	displayV(vec);
 }
 
 /* VECTOR binary search */
 std::size_t PmergeMe::binarySearch(std::vector< std::vector<int> >& vec, std::size_t low, std::size_t high, int target, bool remain) {
 	std::size_t mid;
 
-	// std::cout << "vec: ";
-	// displayV(vec);
-	// std::cout << "target: " << target << " " << low << "~" << high << " \n";
-
 	// 벡터 1개인경우 예외처리
 	if (vec.size() == 1)
 		return 0;
-	// 1. start와 end의 중간값 설정
+	// 1. low와 high 중간값 설정
 	mid = (low+high) / 2;
-	if ((remain && low > high) || (!remain && low == high))
+	if (target > vec.at(mid).at(0) && mid == vec.size()-1)
+		return mid+1;
+	if (low == high)
 		return mid;
 	// 2. mid 인덱스 위치의 벡터의 0번 인덱스와 비교
 	if (mid != 0 && vec.at(mid-1).at(0) <= target && target <= vec.at(mid).at(0))
 		return mid;
 	// 3. 재귀
 	if (target > vec.at(mid).at(0)) {
-		if (mid == vec.size()-1)
-			return mid+1;
 		return binarySearch(vec, mid+1, high, target, remain);
 	} else
 		return binarySearch(vec, low, mid, target, remain);
 }
 
 /* VECTOR insert */
-void insert(std::vector< std::vector<int> >& vec, std::size_t insertIdx, std::vector< std::vector<int> >::iterator& cur, bool remain) {
+void insert(std::vector< std::vector<int> >& vec, std::size_t insertIdx, std::vector<int>& now, bool remain) {
 	std::size_t targetIdx;
 	std::vector<int> newvec;
 	std::vector<int>::iterator it;
 
-	// 1. 현재 벡터 설정
-	std::vector<int>&now = *cur;
 	// 2. remain 삽입인 경우
 	if (remain) {
-		display(now, true);
-		vec.insert(vec.begin()+insertIdx, now);
+		newvec = now;
+		now.clear();
+		vec.insert(vec.begin()+insertIdx, newvec);
 		return ;
 	}
 	targetIdx = now.size() / 2;
@@ -278,3 +251,5 @@ void insert(std::vector< std::vector<int> >& vec, std::size_t insertIdx, std::ve
 	// 5. 삽입
 	vec.insert(vec.begin()+insertIdx, newvec);
 }
+
+

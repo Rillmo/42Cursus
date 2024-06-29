@@ -9,14 +9,16 @@
 #include <algorithm>
 #include <cmath>
 
+enum type {
+	VEC, DEQ
+};
+
 class PmergeMe {
 	private:
-		std::vector<int> _jacobsthal;
 		std::vector<int> _vec;
 		std::vector<int> _vorigin;
 		std::deque<int> _deq;
 		std::deque<int> _dorigin;
-		std::deque<int> _dmainchain;
 		PmergeMe();
 	public:
 		PmergeMe(int argc, char** argv);
@@ -25,14 +27,15 @@ class PmergeMe {
 		~PmergeMe();
 		std::vector<int>& getVec();
 		std::vector<int>& getVorigin();
-		void sort();
+		void sort(int type);
 		void fordJohnson(std::vector< std::vector<int> >& vec, int depth);
 		void binaryInsertion(std::vector< std::vector<int> >& vec, std::vector<int>& remain, int depth);
 		std::size_t binarySearch(std::vector< std::vector<int> >& vec, std::size_t low, std::size_t high, int target, bool remain);
 		std::deque<int>& getDeq();
 		std::deque<int>& getDorigin();
-		void sort(std::deque<int>& deq);
-		void binaryInsertion(std::deque<int>& mainchain, std::deque<int>& subchain);
+		void fordJohnson(std::deque< std::deque<int> >& vec, int depth);
+		void binaryInsertion(std::deque< std::deque<int> >& vec, std::deque<int>& remain, int depth);
+		std::size_t binarySearch(std::deque< std::deque<int> >& vec, std::size_t low, std::size_t high, int target, bool remain);
 };
 
 template <typename T>
@@ -45,7 +48,7 @@ void display(T& container, bool endl) {
 		std::cout << std::endl;
 }
 
-std::vector<int> getJacobsthalNumber(std::size_t n);
-void insert(std::vector< std::vector<int> >& vec, std::size_t insertIdx, std::vector< std::vector<int> >::iterator& cur, bool remain);
+void insert(std::vector< std::vector<int> >& vec, std::size_t insertIdx, std::vector<int>& now, bool remain);
+std::deque< std::deque<int> >::iterator  insert(std::deque< std::deque<int> >& vec, std::size_t insertIdx, std::deque<int>& now, bool remain);
 
 #endif

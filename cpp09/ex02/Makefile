@@ -1,4 +1,4 @@
-SRCS = 	PmergeMe.cpp \
+SRCS = 	PmergeMeVec.cpp PmergeMeDeq.cpp \
 		main.cpp
 
 OBJS =	$(addprefix objects/, $(SRCS:.cpp=.o))
