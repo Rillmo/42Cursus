@@ -62,6 +62,8 @@ double BitcoinExchange::calculatePrice(std::string date, float value) {
 	if (it != _db.end())
 		return value * it->second;
 	it = _db.upper_bound(date);
+	if (it == _db.begin())
+		return value * _db.begin()->second;
 	return (--it)->second * value;
 }
 
