@@ -28,7 +28,7 @@ class PmergeMe {
 		void sort();
 		void fordJohnson(std::vector< std::vector<int> >& vec, int depth);
 		void binaryInsertion(std::vector< std::vector<int> >& vec, std::vector<int>& remain, int depth);
-		std::size_t binarySearch(std::vector< std::vector<int> >& vec, std::size_t low, std::size_t high, int target);
+		std::size_t binarySearch(std::vector< std::vector<int> >& vec, std::size_t low, std::size_t high, int target, bool remain);
 		std::deque<int>& getDeq();
 		std::deque<int>& getDorigin();
 		void sort(std::deque<int>& deq);
@@ -46,6 +46,6 @@ void display(T& container, bool endl) {
 }
 
 std::vector<int> getJacobsthalNumber(std::size_t n);
-void insert(std::vector< std::vector<int> >& vec, std::size_t insertIdx, std::vector< std::vector<int> >::iterator& cur);
+void insert(std::vector< std::vector<int> >& vec, std::size_t insertIdx, std::vector< std::vector<int> >::iterator& cur, bool remain);
 
 #endif

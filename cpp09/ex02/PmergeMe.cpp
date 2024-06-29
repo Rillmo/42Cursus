@@ -166,19 +166,17 @@ void PmergeMe::binaryInsertion(std::vector< std::vector<int> >&vec, std::vector<
 	std::size_t i, idx;
 	bool end_flag = false;
 
-	(void)remain;
 	it = vec.begin();
 	i = 0;
 
 	// 0. i=0 먼저 맨앞에 삽입
-	insert(vec, 0, it);
+	insert(vec, 0, it, false);
 	it++;
 	i++;
 	std::cout << "inserted 0" << std::endl;
 
 	// 1. vec 이진삽입
-	// int j=0;
-	while (1) {
+	while (!end_flag) {
 		displayV(vec);
 		// 1-1. 최대비교횟수 다를때까지(또는 벡터 끝까지) 앞으로 이동
 		std::cout << "t" << (int)std::log2(i) << " ";
@@ -200,9 +198,9 @@ void PmergeMe::binaryInsertion(std::vector< std::vector<int> >&vec, std::vector<
 		while (i > 0) {
 			std::cout << "i:"<< i <<" size: " << it->size() << std::endl;
 			if (it->size() == static_cast<std::size_t>(depth*2)) {
-				idx = binarySearch(vec, 0, i, it->at(it->size()/2));
+				idx = binarySearch(vec, 0, i, it->at(it->size()/2), false);
 				std::cout << "idx: " << idx << std::endl;
-				insert(vec, idx, it);
+				insert(vec, idx, it, false);
 			} else {
 				i--;
 				it--;
@@ -216,23 +214,22 @@ void PmergeMe::binaryInsertion(std::vector< std::vector<int> >&vec, std::vector<
 			it++; i++;
 		}
 		displayV(vec);
-		if (end_flag)
-			break;
 	}
 	// // 2. 남아있던 remain 삽입
-	// if (remain.size() != 0) {
-	// 	*it = remain;
-	// 	std::cout << "**********remain insert : ";
-	// 	display(remain, true);
-	// 	idx = binarySearch(vec, 0, vec.size()-1, remain[remain.size()/2]);
-	// 	std::cout << "idx: " << idx << std::endl;
-	// 	insert(vec, idx, it);
-	// }
-	// displayV(vec);
+	if (remain.size() != 0) {
+		*it = remain;
+		std::cout << "**********remain insert : ";
+		display(remain, true);
+		idx = binarySearch(vec, 0, vec.size()-1, remain[0], true);
+		std::cout << "idx: " << idx << std::endl;
+		insert(vec, idx, it, true);
+		std::cout << "******************\n";
+	}
+	displayV(vec);
 }
 
 /* VECTOR binary search */
-std::size_t PmergeMe::binarySearch(std::vector< std::vector<int> >& vec, std::size_t low, std::size_t high, int target) {
+std::size_t PmergeMe::binarySearch(std::vector< std::vector<int> >& vec, std::size_t low, std::size_t high, int target, bool remain) {
 	std::size_t mid;
 
 	// std::cout << "vec: ";
@@ -244,34 +241,40 @@ std::size_t PmergeMe::binarySearch(std::vector< std::vector<int> >& vec, std::si
 		return 0;
 	// 1. start와 end의 중간값 설정
 	mid = (low+high) / 2;
-	if (low == high)
+	if ((remain && low > high) || (!remain && low == high))
 		return mid;
 	// 2. mid 인덱스 위치의 벡터의 0번 인덱스와 비교
 	if (mid != 0 && vec.at(mid-1).at(0) <= target && target <= vec.at(mid).at(0))
 		return mid;
-
+	// 3. 재귀
 	if (target > vec.at(mid).at(0)) {
 		if (mid == vec.size()-1)
 			return mid+1;
-		return binarySearch(vec, mid+1, high, target);
+		return binarySearch(vec, mid+1, high, target, remain);
 	} else
-		return binarySearch(vec, low, mid, target);
+		return binarySearch(vec, low, mid, target, remain);
 }
 
 /* VECTOR insert */
-void insert(std::vector< std::vector<int> >& vec, std::size_t insertIdx, std::vector< std::vector<int> >::iterator& cur) {
+void insert(std::vector< std::vector<int> >& vec, std::size_t insertIdx, std::vector< std::vector<int> >::iterator& cur, bool remain) {
 	std::size_t targetIdx;
 	std::vector<int> newvec;
 	std::vector<int>::iterator it;
 
 	// 1. 현재 벡터 설정
 	std::vector<int>&now = *cur;
+	// 2. remain 삽입인 경우
+	if (remain) {
+		display(now, true);
+		vec.insert(vec.begin()+insertIdx, now);
+		return ;
+	}
 	targetIdx = now.size() / 2;
-	// 2. target부터 끝까지 추출
+	// 3. target부터 끝까지 추출
 	for (it=now.begin()+targetIdx; it!=now.end(); it++)
 		newvec.push_back(*it);
-	// 3. now에서 target~end까지 삭제
+	// 4. now에서 target~end까지 삭제
 	now.erase(now.begin()+targetIdx, now.end());
-	// 4. 삽입
+	// 5. 삽입
 	vec.insert(vec.begin()+insertIdx, newvec);
 }
