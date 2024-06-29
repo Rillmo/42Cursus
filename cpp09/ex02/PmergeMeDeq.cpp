@@ -77,7 +77,7 @@ void PmergeMe::binaryInsertion(std::deque< std::deque<int> >&deq, std::deque<int
 		// 1-1. 최대비교횟수 다를때까지(또는 벡터 끝까지) 앞으로 이동
 		while (i < deq.size()) {
 			i++; it++;
-			if (it+1 == deq.end() || (int)std::log2(i) != (int)std::log2(i+1))
+			if (it+1 == deq.end() || (int)log2(i) != (int)log2(i+1))
 				break;
 		}
 		if (i == deq.size())
@@ -91,7 +91,7 @@ void PmergeMe::binaryInsertion(std::deque< std::deque<int> >&deq, std::deque<int
 				it = deq.begin() + i;
 			} else {
 				i--; it--;
-				if (it->size() != static_cast<std::size_t>(depth*2) && (int)std::log2(i) != (int)std::log2(i-1))
+				if (it->size() != static_cast<std::size_t>(depth*2) && (int)log2(i) != (int)log2(i-1))
 					break;
 			}
 		}

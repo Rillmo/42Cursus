@@ -163,6 +163,7 @@ void PmergeMe::binaryInsertion(std::vector< std::vector<int> >&vec, std::vector<
 	std::vector< std::vector<int> >::iterator it;
 	std::size_t i, idx;
 	bool end_flag = false;
+	double test;
 
 	it = vec.begin();
 	i = 0;
@@ -176,7 +177,8 @@ void PmergeMe::binaryInsertion(std::vector< std::vector<int> >&vec, std::vector<
 		// 1-1. 최대비교횟수 다를때까지(또는 벡터 끝까지) 앞으로 이동
 		while (i < vec.size()) {
 			i++; it++;
-			if (it + 1 == vec.end() || (int)std::log2(i) != (int)std::log2(i+1))
+			test = i;
+			if (it + 1 == vec.end() || (int)log2(test) != (int)log2(test+1))
 				break;
 		}
 		if (i == vec.size())
@@ -189,7 +191,7 @@ void PmergeMe::binaryInsertion(std::vector< std::vector<int> >&vec, std::vector<
 				insert(vec, idx, *it, false);
 			} else {
 				i--; it--;
-				if (it->size() != static_cast<std::size_t>(depth*2) && (int)std::log2(i) != (int)std::log2(i-1))
+				if (it->size() != static_cast<std::size_t>(depth*2) && (int)log2(i) != (int)log2(i-1))
 					break;
 			}
 		}

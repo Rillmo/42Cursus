@@ -10,6 +10,7 @@
 #include <stdexcept>
 #include <typeinfo>
 #include <utility>
+#include <cstdlib>
 
 class BitcoinExchange
 {
@@ -38,7 +39,7 @@ T strToDigit(std::string str) {
 		type = "FLOAT";
 	else
 		throw std::invalid_argument("INVALID TYPE");
-	f = std::strtof(str.c_str(), &end);
+	f = std::strtod(str.c_str(), &end);
 	if (*end != 0)
 		throw std::invalid_argument(type + " REQUIRED : " + str);
 	if (type == "INT" && (f < -2147483648 || f > 2147483647))
