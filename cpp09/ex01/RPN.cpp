@@ -56,6 +56,8 @@ void RPN::calculate() {
 					_stack.push(n2 * n1);
 					break;
 				case '/':
+					if (n1 == 0)
+						throw std::invalid_argument("DIVIDE 0 ERROR");
 					_stack.push(n2 / n1);
 					break;
 				default:
